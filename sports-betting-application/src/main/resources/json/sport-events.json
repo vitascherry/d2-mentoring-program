@@ -1,0 +1,159 @@
+[
+  {
+    "id": 1,
+    "name": "Football event",
+    "type": "FootballSportEvent",
+    "title": "Southampton v Bournemoth",
+    "start": "27 Oct 2016 19:00",
+    "end": "27 Oct 2016 21:00",
+    "bets": [
+      {
+        "id": 1,
+        "type": "WinnerBet",
+        "description": null,
+        "outcomes": [
+          {
+            "id": 1,
+            "value": "Southampton",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": "30 September 2016 18:59",
+                "odd": 4
+              },
+              {
+                "id": 2,
+                "from": "30 September 2016 19:00",
+                "to": null,
+                "odd": 5
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "value": "Bournemoth",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": "30 September 2016 18:59",
+                "odd": 1.7
+              },
+              {
+                "id": 2,
+                "from": "30 September 2016 19:00",
+                "to": null,
+                "odd": 1.5
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "value": "Draw",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": "30 September 2016 18:59",
+                "odd": 3
+              },
+              {
+                "id": 2,
+                "from": "30 September 2016 19:00",
+                "to": null,
+                "odd": 3.5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "GoalsBet",
+        "description": null,
+        "outcomes": [
+          {
+            "id": 1,
+            "value": "0",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.75
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "value": "1",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.25
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "value": ">=2",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.05
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "ScoresBet",
+        "description": "scores of Victor Wanyama",
+        "outcomes": [
+          {
+            "id": 1,
+            "value": "0",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.75
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "value": "1",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.25
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "value": ">=2",
+            "odds": [
+              {
+                "id": 1,
+                "from": "27 September 2016 19:00",
+                "to": null,
+                "odd": 1.05
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
