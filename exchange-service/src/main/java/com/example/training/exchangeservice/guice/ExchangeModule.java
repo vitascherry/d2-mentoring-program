@@ -2,8 +2,10 @@ package com.example.training.exchangeservice.guice;
 
 import com.example.training.common.guice.ObjectMapperModule;
 import com.example.training.common.guice.XmlMapperModule;
+import com.example.training.common.service.DateTimeService;
 import com.example.training.exchangeservice.client.ExchangeRateClient;
 import com.example.training.exchangeservice.domain.ExchangeRate;
+import com.example.training.exchangeservice.handler.ExchangeConsoleHandler;
 import com.example.training.exchangeservice.provider.RemoteExchangeRateEntityProvider;
 import com.example.training.exchangeservice.repository.ExchangeRateRepository;
 import com.example.training.exchangeservice.repository.impl.RemoteExchangeRateRepository;
@@ -34,9 +36,17 @@ public class ExchangeModule extends AbstractModule {
     protected void configure() {
         install(new ObjectMapperModule());
         install(new XmlMapperModule());
+        install(new ExchangeDateTimeModule());
 
         bind(ExchangeRateService.class).to(RemoteExchangeRateService.class);
         bind(ExchangeRateRepository.class).to(RemoteExchangeRateRepository.class);
+    }
+
+    @Singleton
+    @Provides
+    public ExchangeConsoleHandler exchangeConsoleHandlerProvider(ExchangeRateService exchangeRateService,
+                                                                 DateTimeService dateTimeService) {
+        return new ExchangeConsoleHandler(exchangeRateService, dateTimeService);
     }
 
     @Singleton

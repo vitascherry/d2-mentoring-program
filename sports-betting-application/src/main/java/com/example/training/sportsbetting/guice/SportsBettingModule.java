@@ -1,7 +1,8 @@
 package com.example.training.sportsbetting.guice;
 
-import com.example.training.common.guice.ObjectMapperModule;
+import com.example.training.common.guice.DecimalModule;
 import com.example.training.common.reader.CsvReader;
+import com.example.training.sportsbetting.handler.SportsBettingConsoleHandler;
 import com.example.training.sportsbetting.provider.MockBetProvider;
 import com.example.training.sportsbetting.provider.MockOutcomeOddProvider;
 import com.example.training.sportsbetting.provider.MockOutcomeProvider;
@@ -14,15 +15,24 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
+import java.text.DecimalFormat;
+
 public class SportsBettingModule extends AbstractModule {
 
     @Override
     protected void configure() {
         install(new SportsBettingCsvReaderModule());
-        install(new ObjectMapperModule());
+        install(new DecimalModule());
 
         bind(SportEventService.class).to(MockSportEventService.class);
         bind(SportEventRepository.class).to(MockSportEventRepository.class);
+    }
+
+    @Singleton
+    @Provides
+    public SportsBettingConsoleHandler sportsBettingConsoleHandlerProvider(SportEventService sportEventService,
+                                                                           DecimalFormat decimalFormatter) {
+        return new SportsBettingConsoleHandler(sportEventService, decimalFormatter);
     }
 
     @Singleton

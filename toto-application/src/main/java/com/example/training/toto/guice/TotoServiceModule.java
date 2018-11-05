@@ -2,7 +2,7 @@ package com.example.training.toto.guice;
 
 import com.example.training.common.reader.CsvReader;
 import com.example.training.common.service.DateTimeService;
-import com.example.training.toto.controller.TotoController;
+import com.example.training.toto.handler.TotoConsoleHandler;
 import com.example.training.toto.provider.RoundMockEntityProvider;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.repository.impl.MockTotoRepository;
@@ -29,10 +29,10 @@ public class TotoServiceModule extends AbstractModule {
 
     @Singleton
     @Provides
-    public TotoController totoControllerProvider(DecimalFormat decimalFormatter,
-                                                 DateTimeService dateTimeService,
-                                                 TotoService totoService) {
-        return TotoController.builder()
+    public TotoConsoleHandler totoConsoleHandlerProvider(DecimalFormat decimalFormatter,
+                                                         DateTimeService dateTimeService,
+                                                         TotoService totoService) {
+        return TotoConsoleHandler.builder()
                 .decimalFormatter(decimalFormatter)
                 .dateTimeService(dateTimeService)
                 .totoService(totoService)

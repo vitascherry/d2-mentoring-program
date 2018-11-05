@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Admin extends User {
 
     private List<AdminGroup> groups;

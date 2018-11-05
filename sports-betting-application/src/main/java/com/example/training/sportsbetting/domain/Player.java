@@ -5,9 +5,10 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.util.Currency;
+import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Player extends User {
 
     private String name;
@@ -19,4 +20,6 @@ public class Player extends User {
     private Currency currency;
 
     private LocalDate dateOfBirth;
+
+    private List<Wager> wagers;
 }

@@ -1,12 +1,13 @@
 package com.example.training.sportsbetting.domain;
 
-import com.example.training.sportsbetting.domain.helper.DecimalDomainEntityIdentifier;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class User extends IdentifiableDomainEntity<DecimalDomainEntityIdentifier> {
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
 
     private String email;
 
