@@ -28,6 +28,11 @@ public class ConsoleHandler {
         System.out.println();
     }
 
+    protected String readNextLine(String message, Object... params) {
+        print(message, params);
+        return SCANNER.nextLine();
+    }
+
     protected String readWithRetry(Pattern pattern, String message, String errorMessage) {
         while (true) {
             try {
@@ -35,6 +40,7 @@ public class ConsoleHandler {
                 return read(pattern);
             } catch (NoSuchElementException e) {
                 printWithLineBreak(errorMessage);
+            } finally {
                 flush();
             }
         }
