@@ -20,6 +20,7 @@ public class App implements Guicified {
         App app = new App();
         app.consoleHandler.printGreetings();
         app.consoleHandler.printAllBetsWithPossibleOutcomes();
+        app.consoleHandler.calculateWagerForUserOutcomes();
         app.consoleHandler.printGoodbye();
     }
 }

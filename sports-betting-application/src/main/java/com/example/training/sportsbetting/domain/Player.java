@@ -3,6 +3,7 @@ package com.example.training.sportsbetting.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Player extends User {
 
     private String accountNumber;
 
-    private int balance;
+    private BigDecimal balance;
 
     private Currency currency;
 
