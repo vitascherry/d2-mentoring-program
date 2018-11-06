@@ -4,9 +4,7 @@ import com.example.training.common.guice.Guicified;
 import com.example.training.common.guice.annotation.WithModules;
 import com.example.training.sportsbetting.guice.SportsBettingModule;
 import com.example.training.sportsbetting.handler.SportsBettingConsoleHandler;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @WithModules(SportsBettingModule.class)
 public class App implements Guicified {
 
@@ -18,9 +16,6 @@ public class App implements Guicified {
 
     public static void main(String[] args) {
         App app = new App();
-        app.consoleHandler.printGreetings();
-        app.consoleHandler.printAllBetsWithPossibleOutcomes();
-        app.consoleHandler.calculateWagerForUserOutcomes();
-        app.consoleHandler.printGoodbye();
+        app.consoleHandler.handle(args);
     }
 }

@@ -1,9 +1,9 @@
 package com.example.training.sportsbetting.guice;
 
-import com.example.training.common.guice.CsvReaderModule;
+import com.example.training.common.guice.CsvSchemaModule;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-public class SportsBettingCsvReaderModule extends CsvReaderModule {
+public class SportsBettingCsvSchemaModule extends CsvSchemaModule {
 
     @Override
     protected void bindCsvSchema() {

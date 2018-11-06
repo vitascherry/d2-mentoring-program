@@ -8,6 +8,9 @@ import com.example.training.sportsbetting.repository.SportsBettingRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
 
 @AllArgsConstructor
 public class MockSportsBettingRepository implements SportsBettingRepository {
@@ -22,6 +25,6 @@ public class MockSportsBettingRepository implements SportsBettingRepository {
 
     @Override
     public List<Outcome> findSportEventResults(SportEvent sportEvent) {
-        return resultsProvider.getEntity(sportEvent.getIdentifier());
+        return Optional.ofNullable(resultsProvider.getEntity(sportEvent.getIdentifier())).orElse(emptyList());
     }
 }

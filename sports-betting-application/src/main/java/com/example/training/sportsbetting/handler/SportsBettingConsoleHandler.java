@@ -1,13 +1,15 @@
 package com.example.training.sportsbetting.handler;
 
-import com.example.training.common.handler.ConsoleHandler;
+import com.example.training.common.handler.Handler;
+import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.REPLFunction;
+import com.example.training.common.handler.Reader;
 import com.example.training.sportsbetting.domain.Bet;
 import com.example.training.sportsbetting.domain.BetType;
 import com.example.training.sportsbetting.domain.Outcome;
 import com.example.training.sportsbetting.domain.SportEvent;
 import com.example.training.sportsbetting.service.SportsBettingService;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -19,50 +21,57 @@ import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Currency.getInstance;
 
-@AllArgsConstructor
-public class SportsBettingConsoleHandler extends ConsoleHandler {
+public class SportsBettingConsoleHandler extends Handler {
 
     private final SportsBettingService sportsBettingService;
     private final DecimalFormat decimalFormatter;
 
-    public void printGreetings() {
-        printWithLineBreak("Welcome, dear Player!");
-        printWithLineBreak("It's Sports Betting Game");
-        printWithLineBreak("Look, what sport events did we prepare for you!");
-
-        printLineBreak();
+    @Builder
+    public SportsBettingConsoleHandler(Printer printer, Reader reader,
+                                       SportsBettingService sportsBettingService, DecimalFormat decimalFormatter) {
+        super(printer, reader);
+        this.sportsBettingService = sportsBettingService;
+        this.decimalFormatter = decimalFormatter;
     }
 
-    public void printAllBetsWithPossibleOutcomes() {
-        printWithLineBreak("Listing all bets with possible outcomes...");
+    private void printGreetings() {
+        printer.println("Welcome, dear Player!");
+        printer.println("It's Sports Betting Game");
+        printer.println("Look, what sport events did we prepare for you!");
+
+        printer.println();
+    }
+
+    private void printAllBetsWithPossibleOutcomes() {
+        printer.println("Listing all bets with possible outcomes...");
         decimalFormatter.applyPattern("###,###.##");
         decimalFormatter.setGroupingUsed(false);
 
         sportsBettingService.getSportEvents().forEach(sportEvent -> {
-            printWithLineBreak("#%s. %s", sportEvent.getIdentifier().getId(), sportEvent.getTitle());
+            printer.println("#%s. %s", sportEvent.getIdentifier().getId(), sportEvent.getTitle());
 
             sportEvent.getBets().forEach(bet -> {
-                printWithLineBreak("    #%s. %s", bet.getIdentifier().getId(),
+                printer.println("    #%s. %s", bet.getIdentifier().getId(),
                         bet.getDescription() != null ? bet.getDescription() : bet.getType().name());
 
                 bet.getOutcomes().forEach(outcome ->
-                        printWithLineBreak("        #%s. outcome: %s, odd: %s", outcome.getIdentifier().getId(),
+                        printer.println("        #%s. outcome: %s, odd: %s", outcome.getIdentifier().getId(),
                                 outcome.getValue(), getLatestOdd(outcome.getOdds())
                                         .map(decimalFormatter::format)
                                         .orElse("-")));
             });
         });
 
-        printLineBreak();
+        printer.println();
     }
 
-    public void calculateWagerForUserOutcomes() {
-        printWithLineBreak("Let's start the Sports Betting game!");
-        printWithLineBreak("You can bet on sport events by choosing one possible outcome of a bet " +
+    private void calculateWagerForUserOutcomes() {
+        printer.println("Let's start the Sports Betting game!");
+        printer.println("You can bet on sport events by choosing one possible outcome of a bet " +
                 "and specifying the amount you wish to wager");
 
         final List<SportEvent> possibleSportEvents = sportsBettingService.getSportEvents();
-        SportEvent sportEvent = new REPLFunction<String, SportEvent>()
+        SportEvent sportEvent = new REPLFunction<String, SportEvent>(printer, reader)
                 .withLoop()
                 .withMessage("Please, choose the sport's event name: ")
                 .withFilter(title -> possibleSportEvents.stream()
@@ -72,14 +81,15 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
                 .withCondition(title -> possibleSportEvents.stream()
                         .map(SportEvent::getTitle)
                         .anyMatch(title1 -> title1.equals(title)))
-                .withErrorMessage("Not found any sport events with title '%s'")
+                .withBadMessage("Not found any sport events with title '%s'")
                 .eval();
 
         final List<Bet> possibleBets = sportEvent.getBets();
-        Bet bet = new REPLFunction<BetType, Bet>()
+        Bet bet = new REPLFunction<BetType, Bet>(printer, reader)
                 .withLoop()
                 .withMessage("Please, choose bet type: ")
                 .withParser(BetType::valueOf)
+                .withErrorMessage("Please specify bet type in proper format!")
                 .withFilter(type -> possibleBets.stream()
                         .filter(bet1 -> bet1.getType().equals(type))
                         .findFirst()
@@ -87,11 +97,11 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
                 .withCondition(type -> possibleBets.stream()
                         .map(Bet::getType)
                         .anyMatch(type1 -> type1.equals(type)))
-                .withErrorMessage("Not found any bets with bet type '%s'")
+                .withBadMessage("Not found any bets with bet type '%s'")
                 .eval();
 
         final List<Outcome> possibleOutcomes = bet.getOutcomes();
-        Outcome outcome = new REPLFunction<String, Outcome>()
+        Outcome outcome = new REPLFunction<String, Outcome>(printer, reader)
                 .withLoop()
                 .withMessage("Please, choose outcome: ")
                 .withFilter(value -> possibleOutcomes.stream()
@@ -101,16 +111,16 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
                 .withCondition(value -> possibleOutcomes.stream()
                         .map(Outcome::getValue)
                         .anyMatch(value1 -> value1.equals(value)))
-                .withErrorMessage("Not found any outcomes with value '%s'")
+                .withBadMessage("Not found any outcomes with value '%s'")
                 .eval();
 
         BigDecimal odd = getLatestOdd(outcome.getOdds())
                 .map(BigDecimal::valueOf)
                 .orElse(ZERO);
         decimalFormatter.applyPattern("###,###.##");
-        printWithLineBreak("The odd is %s", decimalFormatter.format(odd));
+        printer.println("The odd is %s", decimalFormatter.format(odd));
 
-        BigDecimal betPrice = new REPLFunction<BigDecimal, BigDecimal>()
+        BigDecimal betPrice = new REPLFunction<BigDecimal, BigDecimal>(printer, reader)
                 .withLoop()
                 .withMessage("How much do you want to bet? ")
                 .withParser(unchecked((String text) -> {
@@ -124,15 +134,23 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
 
         List<Outcome> sportEventResults = sportsBettingService.getSportEventResults(sportEvent);
         if (sportEventResults.contains(outcome)) {
-            printWithLineBreak("Congrats! You won %s", decimalFormatter.format(betPrice.multiply(odd)));
+            printer.println("Congrats! You won %s", decimalFormatter.format(betPrice.multiply(odd)));
         } else {
-            printWithLineBreak("Oh! You've missed! Better luck next time, mate.");
+            printer.println("Oh! You've missed! Better luck next time, mate.");
         }
 
-        printLineBreak();
+        printer.println();
     }
 
-    public void printGoodbye() {
-        printWithLineBreak("Thank you for using our app!");
+    private void printGoodbye() {
+        printer.println("Thank you for using our app!");
+    }
+
+    @Override
+    public void handle(String[] args) {
+        printGreetings();
+        printAllBetsWithPossibleOutcomes();
+        calculateWagerForUserOutcomes();
+        printGoodbye();
     }
 }
