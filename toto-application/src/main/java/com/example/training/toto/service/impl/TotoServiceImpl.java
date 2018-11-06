@@ -1,13 +1,6 @@
 package com.example.training.toto.service.impl;
 
-import com.example.training.toto.domain.BetResult;
-import com.example.training.toto.domain.Distribution;
-import com.example.training.toto.domain.Hit;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.toto.domain.Price;
-import com.example.training.toto.domain.Round;
-import com.example.training.toto.domain.Wager;
+import com.example.training.toto.domain.*;
 import com.example.training.toto.exception.RoundNotFoundException;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.service.TotoService;
@@ -29,9 +22,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static com.example.training.toto.domain.Outcome.DRAW;
-import static com.example.training.toto.domain.Outcome.FIRST;
-import static com.example.training.toto.domain.Outcome.SECOND;
+import static com.example.training.toto.domain.Outcome.*;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.comparing;
 import static java.util.function.Function.identity;
@@ -83,9 +74,14 @@ public class TotoServiceImpl implements TotoService {
     }
 
     @Override
-    public Round getRoundByDate(final LocalDate date) throws RoundNotFoundException {
+    public Round getRound(final LocalDate date) {
         return totoRepository.getRoundByDate(date)
                 .orElseThrow(() -> new RoundNotFoundException(date));
+    }
+
+    @Override
+    public boolean hasRound(LocalDate date) {
+        return totoRepository.getRoundByDate(date).isPresent();
     }
 
     @Override

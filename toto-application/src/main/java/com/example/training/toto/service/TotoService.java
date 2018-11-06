@@ -12,7 +12,9 @@ public interface TotoService {
 
     List<Distribution> getDistributions();
 
-    Round getRoundByDate(LocalDate date) throws RoundNotFoundException;
+    Round getRound(LocalDate date);
+
+    boolean hasRound(LocalDate date);
 
     BetResult calculateWager(Wager wager);
 }

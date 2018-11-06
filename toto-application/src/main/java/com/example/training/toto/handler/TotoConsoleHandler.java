@@ -1,108 +1,115 @@
 package com.example.training.toto.handler;
 
-import com.example.training.common.handler.ConsoleHandler;
+import com.example.training.common.handler.Handler;
+import com.example.training.common.handler.Printer;
+import com.example.training.common.handler.REPLFunction;
+import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
-import com.example.training.toto.domain.BetResult;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.toto.domain.Price;
-import com.example.training.toto.domain.Round;
-import com.example.training.toto.domain.Wager;
-import com.example.training.toto.exception.RoundNotFoundException;
+import com.example.training.toto.domain.*;
 import com.example.training.toto.service.TotoService;
 import lombok.Builder;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
+import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 import static java.util.Arrays.stream;
-import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
-@Builder
-public class TotoConsoleHandler extends ConsoleHandler {
-
-    private static final Pattern DATE_PATTERN = Pattern.compile("\\d\\d\\d\\d.\\d\\d.\\d\\d.");
-    private static final Pattern OUTCOMES_PATTERN = Pattern.compile("[12X]{14}", CASE_INSENSITIVE);
-    private static final Scanner SCANNER = new Scanner(System.in);
+public class TotoConsoleHandler extends Handler {
 
     private final DecimalFormat decimalFormatter;
     private final DateTimeService dateTimeService;
     private final TotoService totoService;
 
-    public void printGreetings() {
-        printWithLineBreak("Hi, user!");
-        printWithLineBreak("Welcome to my sport betting game.");
-        printWithLineBreak("Loading data from database...");
-        printWithLineBreak("Testing...");
-        printLineBreak();
+    @Builder
+    public TotoConsoleHandler(Printer printer, Reader reader, DecimalFormat decimalFormatter,
+                              DateTimeService dateTimeService, TotoService totoService) {
+        super(printer, reader);
+        this.decimalFormatter = decimalFormatter;
+        this.dateTimeService = dateTimeService;
+        this.totoService = totoService;
     }
 
-    public void printLargestPriceEver() {
-        printWithLineBreak("Printing the largest price ever recorded...");
+    private void printGreetings() {
+        printer.println("Hi, user!");
+        printer.println("Welcome to my sport betting game.");
+        printer.println("Loading data from database...");
+        printer.println("Testing...");
+        printer.println();
+    }
+
+    private void printLargestPriceEver() {
+        printer.println("Printing the largest price ever recorded...");
 
         Price price = totoService.getLargestPrice();
-        decimalFormatter.applyPattern("###,### " + price.getCurrency());
-        printWithLineBreak(decimalFormatter.format(price.getAmount()));
+        decimalFormatter.applyPattern("###,###.## " + price.getCurrency());
+        printer.println("The largest price is: %s", decimalFormatter.format(price.getAmount()));
 
-        printLineBreak();
+        printer.println();
     }
 
-    public void printFullDistribution() {
-        printWithLineBreak("Printing the correct distribution of the 1/2/X results of each round...");
+    private void printFullDistribution() {
+        printer.println("Printing the correct distribution of the results of each round...");
 
         decimalFormatter.applyPattern("00.00 %");
         totoService.getDistributions().forEach(distribution ->
-                printWithLineBreak("team #1 won: %s, team #2 won: %s, draw: %s",
+                printer.println("team #1 won: %s, team #2 won: %s, draw: %s",
                         decimalFormatter.format(distribution.getFirst()),
                         decimalFormatter.format(distribution.getSecond()),
                         decimalFormatter.format(distribution.getDraw()))
         );
 
-        printLineBreak();
+        printer.println();
     }
 
-    public void calculateAndPrintWager() {
-        printWithLineBreak("Calculate and print the hits and amount for the specified wager...");
+    private void calculateAndPrintWager() {
+        printer.println("Calculate and print the hits and amount for the specified wager...");
 
-        Round round = getExistingRound();
-        OutcomeSet outcomeSet = getOutcomeSet();
+        Round round = new REPLFunction<LocalDate, Round>(printer, reader)
+                .withLoop()
+                .withMessage("Enter date (%s): ", DATE_FORMAT)
+                .withParser(dateTimeService::parse)
+                .withErrorMessage("The date should be in proper format!")
+                .withCondition(totoService::hasRound)
+                .withBadMessage("Not found any round on '%s'")
+                .withFilter(totoService::getRound)
+                .eval();
+
+        OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
+                .withLoop()
+                .withMessage("Enter outcomes (%s): ", join("|", Outcome.values(), Outcome::getValue))
+                .withParser(text -> stream(text.split(""))
+                        .map(Outcome::fromValue)
+                        .filter(Objects::nonNull)
+                        .toArray(Outcome[]::new))
+                .withErrorMessage("Could not parse '%s' as an array")
+                .withCondition(outcomes -> outcomes.length == 14)
+                .withBadMessage("Outcomes count should be 14!")
+                .withFilter(OutcomeSet::new)
+                .eval();
+
         BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));
 
         decimalFormatter.applyPattern("###,### " + betResult.getPrice().getCurrency());
-        printWithLineBreak("Result: hits: %d, amount: %s", betResult.getHits().size(),
+        printer.println("Result: hits: %d, amount: %s", betResult.getHits().size(),
                 decimalFormatter.format(betResult.getPrice().getAmount()));
 
-        printLineBreak();
+        printer.println();
     }
 
-    public void printGoodbye() {
-        printWithLineBreak("Thank you for using my app");
-        printWithLineBreak("Good luck!");
+    private void printGoodbye() {
+        printer.println("Thank you for using my app");
+        printer.println("Good luck!");
     }
 
-    private Round getExistingRound() {
-        while (true) {
-            try {
-                String dateString = readWithRetry(DATE_PATTERN, String.format("Enter date (%s): ", DATE_FORMAT),
-                        "Please enter date in proper format!");
-                LocalDate date = dateTimeService.parse(dateString);
-                return totoService.getRoundByDate(date);
-            } catch (RoundNotFoundException e) {
-                printWithLineBreak("Not found any round on %s", dateTimeService.format(e.getDate()));
-            }
-        }
-    }
-
-    private OutcomeSet getOutcomeSet() {
-        String outcomesString = readWithRetry(OUTCOMES_PATTERN, "Enter outcomes (1/2/X): ",
-                "Please enter outcomes in proper format!");
-        return new OutcomeSet(
-                stream(outcomesString.split(""))
-                        .map(Outcome::fromValue)
-                        .toArray(Outcome[]::new)
-        );
+    @Override
+    public void handle(String[] args) {
+        printGreetings();
+        printLargestPriceEver();
+        printFullDistribution();
+        calculateAndPrintWager();
+        printGoodbye();
     }
 }

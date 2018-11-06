@@ -1,5 +1,8 @@
 package com.example.training.toto.guice;
 
+import com.example.training.common.guice.*;
+import com.example.training.common.handler.Printer;
+import com.example.training.common.handler.Reader;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.common.service.DateTimeService;
 import com.example.training.toto.handler.TotoConsoleHandler;
@@ -16,12 +19,24 @@ import lombok.Getter;
 import java.text.DecimalFormat;
 
 @Getter
-public class TotoServiceModule extends AbstractModule {
+public class TotoModule extends AbstractModule {
 
     @Override
     protected void configure() {
         install(new TotoDateTimeModule());
-        install(new TotoCsvReaderModule());
+        install(new PrinterModule());
+        install(new ReaderModule());
+
+        DecimalModule decimalModule = new DecimalModule();
+        install(decimalModule);
+
+        CsvSchemaModule csvSchemaModule = new TotoCsvSchemaModule();
+        install(csvSchemaModule);
+
+        CsvMapperModule csvMapperModule = new TotoCsvMapperModule(decimalModule);
+        install(csvMapperModule);
+
+        install(new CsvReaderModule(csvSchemaModule, csvMapperModule));
 
         bind(TotoService.class).to(TotoServiceImpl.class);
         bind(TotoRepository.class).to(MockTotoRepository.class);
@@ -29,10 +44,11 @@ public class TotoServiceModule extends AbstractModule {
 
     @Singleton
     @Provides
-    public TotoConsoleHandler totoConsoleHandlerProvider(DecimalFormat decimalFormatter,
-                                                         DateTimeService dateTimeService,
-                                                         TotoService totoService) {
+    public TotoConsoleHandler totoConsoleHandlerProvider(Printer printer, Reader reader, DecimalFormat decimalFormatter,
+                                                         DateTimeService dateTimeService, TotoService totoService) {
         return TotoConsoleHandler.builder()
+                .printer(printer)
+                .reader(reader)
                 .decimalFormatter(decimalFormatter)
                 .dateTimeService(dateTimeService)
                 .totoService(totoService)
