@@ -1,6 +1,7 @@
 package com.example.training.sportsbetting.handler;
 
 import com.example.training.common.handler.ConsoleHandler;
+import com.example.training.common.handler.REPLFunction;
 import com.example.training.sportsbetting.domain.Bet;
 import com.example.training.sportsbetting.domain.BetType;
 import com.example.training.sportsbetting.domain.Outcome;
@@ -11,15 +12,11 @@ import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static com.example.training.common.util.CurrencyUtils.parseCurrencyCode;
 import static com.example.training.common.util.ExceptionUtils.unchecked;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
-import static java.util.Collections.emptyList;
 import static java.util.Currency.getInstance;
 
 @AllArgsConstructor
@@ -65,37 +62,47 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
                 "and specifying the amount you wish to wager");
 
         final List<SportEvent> possibleSportEvents = sportsBettingService.getSportEvents();
-        SportEvent sportEvent = readValue("Please, choose the sport's event name: ", x -> x, possibleSportEvents,
-                (events, title) -> events.stream()
+        SportEvent sportEvent = new REPLFunction<String, SportEvent>()
+                .withLoop()
+                .withMessage("Please, choose the sport's event name: ")
+                .withFilter(title -> possibleSportEvents.stream()
                         .filter(event -> event.getTitle().equals(title))
                         .findFirst()
-                        .orElse(null),
-                title -> possibleSportEvents.stream()
+                        .orElse(null))
+                .withCondition(title -> possibleSportEvents.stream()
                         .map(SportEvent::getTitle)
-                        .anyMatch(title1 -> title1.equals(title)),
-                "Not found any sport events with title '%s'");
+                        .anyMatch(title1 -> title1.equals(title)))
+                .withErrorMessage("Not found any sport events with title '%s'")
+                .eval();
 
         final List<Bet> possibleBets = sportEvent.getBets();
-        Bet bet = readValue("Please, choose bet type: ", BetType::valueOf, possibleBets,
-                (bets, type) -> bets.stream()
+        Bet bet = new REPLFunction<BetType, Bet>()
+                .withLoop()
+                .withMessage("Please, choose bet type: ")
+                .withParser(BetType::valueOf)
+                .withFilter(type -> possibleBets.stream()
                         .filter(bet1 -> bet1.getType().equals(type))
                         .findFirst()
-                        .orElse(null),
-                type -> possibleBets.stream()
+                        .orElse(null))
+                .withCondition(type -> possibleBets.stream()
                         .map(Bet::getType)
-                        .anyMatch(type1 -> type1.equals(type)),
-                "Not found any bets with bet type '%s'");
+                        .anyMatch(type1 -> type1.equals(type)))
+                .withErrorMessage("Not found any bets with bet type '%s'")
+                .eval();
 
         final List<Outcome> possibleOutcomes = bet.getOutcomes();
-        Outcome outcome = readValue("Please, choose outcome: ", x -> x, possibleOutcomes,
-                (outcomes, value) -> outcomes.stream()
+        Outcome outcome = new REPLFunction<String, Outcome>()
+                .withLoop()
+                .withMessage("Please, choose outcome: ")
+                .withFilter(value -> possibleOutcomes.stream()
                         .filter(outcome1 -> outcome1.getValue().equals(value))
                         .findFirst()
-                        .orElse(null),
-                value -> possibleOutcomes.stream()
+                        .orElse(null))
+                .withCondition(value -> possibleOutcomes.stream()
                         .map(Outcome::getValue)
-                        .anyMatch(value1 -> value1.equals(value)),
-                "Not found any outcomes with value '%s'");
+                        .anyMatch(value1 -> value1.equals(value)))
+                .withErrorMessage("Not found any outcomes with value '%s'")
+                .eval();
 
         BigDecimal odd = getLatestOdd(outcome.getOdds())
                 .map(BigDecimal::valueOf)
@@ -103,18 +110,17 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
         decimalFormatter.applyPattern("###,###.##");
         printWithLineBreak("The odd is %s", decimalFormatter.format(odd));
 
-        BigDecimal betPrice = readValue("How much do you want to bet? ",
-                unchecked((String text) -> (BigDecimal) decimalFormatter.parse(text))
-                        .compose(unchecked((String text) -> {
-                            String currencyCode = parseCurrencyCode(text);
-                            decimalFormatter.setCurrency(getInstance(currencyCode));
-                            decimalFormatter.applyPattern("###,###.## " + currencyCode);
-                            return text;
-                        })),
-                emptyList(),
-                (emptyList, value) -> value,
-                value -> true,
-                "Please, specify an amount with a 3-letter currency code!");
+        BigDecimal betPrice = new REPLFunction<BigDecimal, BigDecimal>()
+                .withLoop()
+                .withMessage("How much do you want to bet? ")
+                .withParser(unchecked((String text) -> {
+                    String currencyCode = parseCurrencyCode(text);
+                    decimalFormatter.setCurrency(getInstance(currencyCode));
+                    decimalFormatter.applyPattern("###,###.## " + currencyCode);
+                    return text;
+                }).andThen(unchecked((String text) -> (BigDecimal) decimalFormatter.parse(text))))
+                .withErrorMessage("Please, specify an amount with a 3-letter currency code!")
+                .eval();
 
         List<Outcome> sportEventResults = sportsBettingService.getSportEventResults(sportEvent);
         if (sportEventResults.contains(outcome)) {
@@ -124,20 +130,6 @@ public class SportsBettingConsoleHandler extends ConsoleHandler {
         }
 
         printLineBreak();
-    }
-
-    private <T, R> T readValue(String message, Function<String, R> parser, List<T> data, BiFunction<List<T>, R, T> filter,
-                               Predicate<R> predicate, String errorMessage) {
-        while (true) {
-            String text = readNextLine(message);
-            final R value = parser.apply(text);
-
-            if (predicate.test(value)) {
-                return filter.apply(data, value);
-            }
-
-            printWithLineBreak(errorMessage, text);
-        }
     }
 
     public void printGoodbye() {
