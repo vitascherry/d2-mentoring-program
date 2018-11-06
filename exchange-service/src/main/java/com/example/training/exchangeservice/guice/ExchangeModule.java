@@ -1,11 +1,12 @@
 package com.example.training.exchangeservice.guice;
 
-import com.example.training.common.guice.ObjectMapperModule;
-import com.example.training.common.guice.XmlMapperModule;
+import com.example.training.common.guice.*;
+import com.example.training.common.handler.Printer;
+import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
 import com.example.training.exchangeservice.client.ExchangeRateClient;
 import com.example.training.exchangeservice.domain.ExchangeRate;
-import com.example.training.exchangeservice.handler.ExchangeConsoleHandler;
+import com.example.training.exchangeservice.handler.ExchangeHandler;
 import com.example.training.exchangeservice.provider.RemoteExchangeRateEntityProvider;
 import com.example.training.exchangeservice.repository.ExchangeRateRepository;
 import com.example.training.exchangeservice.repository.impl.RemoteExchangeRateRepository;
@@ -22,6 +23,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.example.training.exchangeservice.constant.ExchangeConstants.CONNECTION_TIMEOUT_MILLIS;
@@ -34,9 +36,12 @@ public class ExchangeModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        install(new PrinterModule());
+        install(new ReaderModule());
         install(new ObjectMapperModule());
         install(new XmlMapperModule());
         install(new ExchangeDateTimeModule());
+        install(new DecimalModule());
 
         bind(ExchangeRateService.class).to(RemoteExchangeRateService.class);
         bind(ExchangeRateRepository.class).to(RemoteExchangeRateRepository.class);
@@ -44,9 +49,16 @@ public class ExchangeModule extends AbstractModule {
 
     @Singleton
     @Provides
-    public ExchangeConsoleHandler exchangeConsoleHandlerProvider(ExchangeRateService exchangeRateService,
-                                                                 DateTimeService dateTimeService) {
-        return new ExchangeConsoleHandler(exchangeRateService, dateTimeService);
+    public ExchangeHandler exchangeHandlerProvider(Printer printer, Reader reader,
+                                                   ExchangeRateService exchangeRateService,
+                                                   DateTimeService dateTimeService, DecimalFormat decimalFormatter) {
+        return ExchangeHandler.builder()
+                .printer(printer)
+                .reader(reader)
+                .exchangeRateService(exchangeRateService)
+                .dateTimeService(dateTimeService)
+                .decimalFormatter(decimalFormatter)
+                .build();
     }
 
     @Singleton
