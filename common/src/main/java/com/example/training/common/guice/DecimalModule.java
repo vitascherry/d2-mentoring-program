@@ -1,12 +1,14 @@
 package com.example.training.common.guice;
 
 import com.google.inject.AbstractModule;
+import lombok.Getter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import static java.math.RoundingMode.HALF_EVEN;
 
+@Getter
 public class DecimalModule extends AbstractModule {
 
     protected DecimalFormatSymbols decimalFormatSymbols;

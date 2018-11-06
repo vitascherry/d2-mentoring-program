@@ -1,36 +1,38 @@
 package com.example.training.common.handler;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.RequiredArgsConstructor;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-@Log4j2
-public class REPLFunction<R, T> extends ConsoleHandler {
+@RequiredArgsConstructor
+public class REPLFunction<R, T> {
 
-    private boolean looped;
+    private final Printer printer;
 
-    private String message;
+    private final Reader reader;
 
-    private Function<String, R> parser;
+    private boolean looped = false;
 
-    private final Function<String, R> defaultParser = (String s) -> (R) s;
+    private String message = "Enter value: ";
 
-    private Function<R, T> filter;
+    private Function<String, R> parser = (String s) -> (R) s;
 
-    private final Function<R, T> defaultFilter = (R r) -> (T) r;
+    private Function<R, T> filter = (R r) -> (T) r;
 
-    private Predicate<R> condition;
+    private Predicate<R> condition = (R r) -> true;
 
-    private String errorMessage;
+    private String errorMessage = "Invalid input!";
+
+    private String badMessage = "Invalid value %s";
 
     public REPLFunction<R, T> withLoop() {
         this.looped = true;
         return this;
     }
 
-    public REPLFunction<R, T> withMessage(String message) {
-        this.message = message;
+    public REPLFunction<R, T> withMessage(String message, Object... args) {
+        this.message = String.format(message, args);
         return this;
     }
 
@@ -49,29 +51,39 @@ public class REPLFunction<R, T> extends ConsoleHandler {
         return this;
     }
 
+    public REPLFunction<R, T> withBadMessage(String badMessage) {
+        this.badMessage = badMessage;
+        return this;
+    }
+
     public REPLFunction<R, T> withErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
     public T eval() {
-        String text = readNextLine(message != null ? message : "Enter value: ");
+        String text;
         R value = null;
 
         do {
             try {
-                value = parser != null ? parser.apply(text) : defaultParser.apply(text);
+                printer.print(message);
+                text = reader.read();
+                value = parser.apply(text);
+
             } catch (Exception e) {
-                log.error("Error occurred while evaluating REPL function. ErrorMessage: ", e);
-                printWithLineBreak(errorMessage, text);
+                printer.println(errorMessage);
+                continue;
+
             }
-            if (condition == null || condition.test(value)) {
+
+            if (condition.test(value)) {
                 break;
             }
-            printWithLineBreak(errorMessage, text);
+            printer.println(badMessage, text);
 
         } while (looped);
 
-        return filter != null ? filter.apply(value) : defaultFilter.apply(value);
+        return filter.apply(value);
     }
 }
