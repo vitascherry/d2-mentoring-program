@@ -36,9 +36,12 @@ public class ExchangeHandler extends Handler {
     private void printCurrentExchangeRates() {
         printer.println("Testing NBU API...");
 
-        printer.println("Exchange rates for %s", dateTimeService.format(LocalDate.now()));
+        printer.printf("Exchange rates for %s", dateTimeService.format(LocalDate.now()));
+        printer.println();
         decimalFormatter.applyPattern("###,###.##### " + SYSTEM_CURRENCY_CODE);
-        printer.println("USD: %s", decimalFormatter.format(exchangeRateService.getCurrentRate(getInstance("USD"))));
+        printer.printf("USD: %s", decimalFormatter.format(exchangeRateService.getCurrentRate(getInstance("USD"))));
+        printer.println();
+
         printer.println();
     }
 
