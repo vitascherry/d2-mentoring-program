@@ -5,7 +5,13 @@ import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.REPLFunction;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
-import com.example.training.toto.domain.*;
+import com.example.training.toto.domain.BetResult;
+import com.example.training.toto.domain.Distribution;
+import com.example.training.toto.domain.Outcome;
+import com.example.training.toto.domain.OutcomeSet;
+import com.example.training.toto.domain.Price;
+import com.example.training.toto.domain.Round;
+import com.example.training.toto.domain.Wager;
 import com.example.training.toto.service.TotoService;
 import lombok.Builder;
 
@@ -45,7 +51,8 @@ public class TotoConsoleHandler extends Handler {
 
         Price price = totoService.getLargestPrice();
         decimalFormatter.applyPattern("###,###.## " + price.getCurrency());
-        printer.println("The largest price is: %s", decimalFormatter.format(price.getAmount()));
+        printer.printf("The largest price is: %s", decimalFormatter.format(price.getAmount()));
+        printer.println();
 
         printer.println();
     }
@@ -54,12 +61,13 @@ public class TotoConsoleHandler extends Handler {
         printer.println("Printing the correct distribution of the results of each round...");
 
         decimalFormatter.applyPattern("00.00 %");
-        totoService.getDistributions().forEach(distribution ->
-                printer.println("team #1 won: %s, team #2 won: %s, draw: %s",
-                        decimalFormatter.format(distribution.getFirst()),
-                        decimalFormatter.format(distribution.getSecond()),
-                        decimalFormatter.format(distribution.getDraw()))
-        );
+        for (Distribution distribution : totoService.getDistributions()) {
+            printer.printf("team #1 won: %s, team #2 won: %s, draw: %s",
+                    decimalFormatter.format(distribution.getFirst()),
+                    decimalFormatter.format(distribution.getSecond()),
+                    decimalFormatter.format(distribution.getDraw()));
+            printer.println();
+        }
 
         printer.println();
     }
@@ -93,8 +101,9 @@ public class TotoConsoleHandler extends Handler {
         BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));
 
         decimalFormatter.applyPattern("###,### " + betResult.getPrice().getCurrency());
-        printer.println("Result: hits: %d, amount: %s", betResult.getHits().size(),
+        printer.printf("Result: hits: %d, amount: %s", betResult.getHits().size(),
                 decimalFormatter.format(betResult.getPrice().getAmount()));
+        printer.println();
 
         printer.println();
     }
