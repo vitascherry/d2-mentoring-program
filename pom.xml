@@ -99,6 +99,11 @@
                 <version>${log4j.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
@@ -108,13 +113,13 @@
                 <groupId>com.example.training</groupId>
                 <artifactId>common</artifactId>
                 <version>1.0</version>
-				<scope>compile</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.example.training</groupId>
                 <artifactId>exchange-service</artifactId>
                 <version>1.0</version>
-				<scope>compile</scope>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -159,6 +164,10 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
