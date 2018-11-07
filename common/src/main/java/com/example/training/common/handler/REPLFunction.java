@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class REPLFunction<R, T> {
@@ -15,6 +16,8 @@ public class REPLFunction<R, T> {
     private boolean looped = false;
 
     private String message = "Enter value: ";
+
+    private Pattern pattern = null;
 
     private Function<String, R> parser = (String s) -> (R) s;
 
@@ -33,6 +36,16 @@ public class REPLFunction<R, T> {
 
     public REPLFunction<R, T> withMessage(String message, Object... args) {
         this.message = String.format(message, args);
+        return this;
+    }
+
+    public REPLFunction<R, T> withPattern(String pattern) {
+        this.pattern = Pattern.compile(pattern);
+        return this;
+    }
+
+    public REPLFunction<R, T> withPattern(Pattern pattern) {
+        this.pattern = pattern;
         return this;
     }
 
@@ -68,7 +81,7 @@ public class REPLFunction<R, T> {
         do {
             try {
                 printer.print(message);
-                text = reader.read();
+                text = reader.read(pattern);
                 value = parser.apply(text);
 
             } catch (Exception e) {
@@ -80,7 +93,8 @@ public class REPLFunction<R, T> {
             if (condition.test(value)) {
                 break;
             }
-            printer.println(badMessage, text);
+            printer.printf(badMessage, text);
+            printer.println();
 
         } while (looped);
 

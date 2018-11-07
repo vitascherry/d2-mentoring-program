@@ -12,16 +12,16 @@ public class Reader {
         this.scanner = new Scanner(in);
     }
 
-    public String read() {
-        return scanner.nextLine();
-    }
-
     public String read(Pattern pattern) {
-        return scanner.next(pattern);
+        return pattern != null ? scanner.next(pattern) : read();
     }
 
     public String read(String regex) {
-        return scanner.next(regex);
+        return regex != null ? scanner.next(regex) : read();
+    }
+
+    public String read() {
+        return scanner.nextLine();
     }
 
     public void flush() {

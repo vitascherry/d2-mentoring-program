@@ -13,19 +13,15 @@ public class Printer {
         out.println(message);
     }
 
-    public void println(String message, Object... params) {
-        out.println(String.format(message, params));
-    }
-
     public void println() {
         out.println();
     }
 
-    public void print(String message) {
-        out.print(message);
+    public void printf(String message, Object... params) {
+        out.print(String.format(message, params));
     }
 
-    public void print(String message, Object... params) {
-        out.print(String.format(message, params));
+    public void print(String message) {
+        out.print(message);
     }
 }
