@@ -47,28 +47,33 @@ public class SportsBettingConsoleHandler extends Handler {
         decimalFormatter.applyPattern("###,###.##");
         decimalFormatter.setGroupingUsed(false);
 
-        sportsBettingService.getSportEvents().forEach(sportEvent -> {
-            printer.println("#%s. %s", sportEvent.getIdentifier().getId(), sportEvent.getTitle());
+        for (SportEvent sportEvent : sportsBettingService.getSportEvents()) {
+            printer.printf("#%s. %s", sportEvent.getIdentifier().getId(), sportEvent.getTitle());
+            printer.println();
 
-            sportEvent.getBets().forEach(bet -> {
-                printer.println("    #%s. %s", bet.getIdentifier().getId(),
+            for (Bet bet : sportEvent.getBets()) {
+                printer.printf("    #%s. %s", bet.getIdentifier().getId(),
                         bet.getDescription() != null ? bet.getDescription() : bet.getType().name());
+                printer.println();
 
-                bet.getOutcomes().forEach(outcome ->
-                        printer.println("        #%s. outcome: %s, odd: %s", outcome.getIdentifier().getId(),
-                                outcome.getValue(), getLatestOdd(outcome.getOdds())
-                                        .map(decimalFormatter::format)
-                                        .orElse("-")));
-            });
-        });
+                for (Outcome outcome : bet.getOutcomes()) {
+                    printer.printf("        #%s. outcome: %s, odd: %s", outcome.getIdentifier().getId(),
+                            outcome.getValue(), getLatestOdd(outcome.getOdds())
+                                    .map(decimalFormatter::format)
+                                    .orElse("-"));
+                    printer.println();
+                }
+            }
+        }
 
         printer.println();
     }
 
     private void calculateWagerForUserOutcomes() {
         printer.println("Let's start the Sports Betting game!");
-        printer.println("You can bet on sport events by choosing one possible outcome of a bet " +
-                "and specifying the amount you wish to wager");
+        printer.print("You can bet on sport events by choosing one possible outcome of a bet ");
+        printer.print("and specifying the amount you wish to wager");
+        printer.println();
 
         final List<SportEvent> possibleSportEvents = sportsBettingService.getSportEvents();
         SportEvent sportEvent = new REPLFunction<String, SportEvent>(printer, reader)
@@ -118,7 +123,8 @@ public class SportsBettingConsoleHandler extends Handler {
                 .map(BigDecimal::valueOf)
                 .orElse(ZERO);
         decimalFormatter.applyPattern("###,###.##");
-        printer.println("The odd is %s", decimalFormatter.format(odd));
+        printer.printf("The odd is %s", decimalFormatter.format(odd));
+        printer.println();
 
         BigDecimal betPrice = new REPLFunction<BigDecimal, BigDecimal>(printer, reader)
                 .withLoop()
@@ -134,7 +140,8 @@ public class SportsBettingConsoleHandler extends Handler {
 
         List<Outcome> sportEventResults = sportsBettingService.getSportEventResults(sportEvent);
         if (sportEventResults.contains(outcome)) {
-            printer.println("Congrats! You won %s", decimalFormatter.format(betPrice.multiply(odd)));
+            printer.printf("Congrats! You won %s", decimalFormatter.format(betPrice.multiply(odd)));
+            printer.println();
         } else {
             printer.println("Oh! You've missed! Better luck next time, mate.");
         }
