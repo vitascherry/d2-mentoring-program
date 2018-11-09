@@ -1,6 +1,7 @@
 package com.example.training.toto.guice;
 
 import com.example.training.common.guice.*;
+import com.example.training.common.handler.Handler;
 import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.reader.CsvReader;
@@ -38,6 +39,7 @@ public class TotoModule extends AbstractModule {
 
         install(new CsvReaderModule(csvSchemaModule, csvMapperModule));
 
+        bind(Handler.class).to(TotoConsoleHandler.class);
         bind(TotoService.class).to(TotoServiceImpl.class);
         bind(TotoRepository.class).to(MockTotoRepository.class);
     }

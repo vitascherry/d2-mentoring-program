@@ -12,6 +12,7 @@
         <module>sports-betting-application</module>
         <module>common</module>
         <module>exchange-service</module>
+        <module>password-cracker</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -22,6 +23,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <lombok.version>1.16.14</lombok.version>
         <guice.version>4.1.0</guice.version>
+        <guava.version>21.0</guava.version>
         <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
         <apache.httpcomponents.version>4.5.3</apache.httpcomponents.version>
         <junit.version>4.12</junit.version>
@@ -42,6 +44,11 @@
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
                 <version>${guice.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>

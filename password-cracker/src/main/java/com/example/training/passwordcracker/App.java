@@ -1,12 +1,12 @@
-package com.example.training.toto;
+package com.example.training.passwordcracker;
 
 import com.example.training.common.guice.Guicified;
 import com.example.training.common.guice.annotation.WithModules;
 import com.example.training.common.handler.Handler;
-import com.example.training.toto.guice.TotoModule;
+import com.example.training.passwordcracker.guice.HashCalculatorModule;
 import com.google.inject.Injector;
 
-@WithModules(TotoModule.class)
+@WithModules(HashCalculatorModule.class)
 public class App implements Guicified {
 
     private Handler consoleHandler;

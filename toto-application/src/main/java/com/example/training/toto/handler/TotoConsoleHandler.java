@@ -82,7 +82,7 @@ public class TotoConsoleHandler extends Handler {
                 .withErrorMessage("The date should be in proper format!")
                 .withCondition(totoService::hasRound)
                 .withBadMessage("Not found any round on '%s'")
-                .withFilter(totoService::getRound)
+                .withMapper(totoService::getRound)
                 .eval();
 
         OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
@@ -95,7 +95,7 @@ public class TotoConsoleHandler extends Handler {
                 .withErrorMessage("Could not parse '%s' as an array")
                 .withCondition(outcomes -> outcomes.length == 14)
                 .withBadMessage("Outcomes count should be 14!")
-                .withFilter(OutcomeSet::new)
+                .withMapper(OutcomeSet::new)
                 .eval();
 
         BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));

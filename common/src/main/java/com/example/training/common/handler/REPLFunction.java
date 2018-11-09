@@ -21,7 +21,7 @@ public class REPLFunction<R, T> {
 
     private Function<String, R> parser = (String s) -> (R) s;
 
-    private Function<R, T> filter = (R r) -> (T) r;
+    private Function<R, T> mapper = (R r) -> (T) r;
 
     private Predicate<R> condition = (R r) -> true;
 
@@ -54,8 +54,8 @@ public class REPLFunction<R, T> {
         return this;
     }
 
-    public REPLFunction<R, T> withFilter(Function<R, T> filter) {
-        this.filter = filter;
+    public REPLFunction<R, T> withMapper(Function<R, T> mapper) {
+        this.mapper = mapper;
         return this;
     }
 
@@ -98,6 +98,6 @@ public class REPLFunction<R, T> {
 
         } while (looped);
 
-        return filter.apply(value);
+        return mapper.apply(value);
     }
 }

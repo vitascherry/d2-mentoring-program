@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.example.training.common.util.CurrencyUtils.parseCurrencyCode;
-import static com.example.training.common.util.ExceptionUtils.unchecked;
+import static com.example.training.common.util.FunctionUtils.unchecked;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Currency.getInstance;
@@ -79,7 +79,7 @@ public class SportsBettingConsoleHandler extends Handler {
         SportEvent sportEvent = new REPLFunction<String, SportEvent>(printer, reader)
                 .withLoop()
                 .withMessage("Please, choose the sport's event name: ")
-                .withFilter(title -> possibleSportEvents.stream()
+                .withMapper(title -> possibleSportEvents.stream()
                         .filter(event -> event.getTitle().equals(title))
                         .findFirst()
                         .orElse(null))
@@ -95,7 +95,7 @@ public class SportsBettingConsoleHandler extends Handler {
                 .withMessage("Please, choose bet type: ")
                 .withParser(BetType::valueOf)
                 .withErrorMessage("Please specify bet type in proper format!")
-                .withFilter(type -> possibleBets.stream()
+                .withMapper(type -> possibleBets.stream()
                         .filter(bet1 -> bet1.getType().equals(type))
                         .findFirst()
                         .orElse(null))
@@ -109,7 +109,7 @@ public class SportsBettingConsoleHandler extends Handler {
         Outcome outcome = new REPLFunction<String, Outcome>(printer, reader)
                 .withLoop()
                 .withMessage("Please, choose outcome: ")
-                .withFilter(value -> possibleOutcomes.stream()
+                .withMapper(value -> possibleOutcomes.stream()
                         .filter(outcome1 -> outcome1.getValue().equals(value))
                         .findFirst()
                         .orElse(null))
