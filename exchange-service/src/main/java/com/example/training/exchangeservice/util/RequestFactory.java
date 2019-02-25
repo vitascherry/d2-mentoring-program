@@ -11,11 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static javax.ws.rs.HttpMethod.DELETE;
-import static javax.ws.rs.HttpMethod.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import static javax.ws.rs.HttpMethod.PUT;
-import static org.apache.http.HttpHeaders.ACCEPT;
+import static javax.ws.rs.HttpMethod.*;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 
 @Log4j2
@@ -61,7 +57,7 @@ public class RequestFactory {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported http method '%s'", httpMethod)))
                 .apply(path);
 
-        request.addHeader(ACCEPT, requestEntity.getContentType().getMimeType());
+        requestEntity.getHeaderParams().forEach(request::addHeader);
 
         final String body = requestEntity.getBody();
         final ContentType contentType = requestEntity.getContentType();

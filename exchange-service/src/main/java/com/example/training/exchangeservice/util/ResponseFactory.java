@@ -1,6 +1,6 @@
 package com.example.training.exchangeservice.util;
 
-import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Singular;
@@ -19,22 +19,17 @@ public class ResponseFactory<T> {
     @Singular("mapper")
     private final Map<String, ObjectMapper> mappers;
 
-    public T createResponse(HttpResponse httpResponse, Class<T> clazz) throws IOException {
+    public T createResponse(HttpResponse httpResponse, TypeReference<T> type) throws IOException {
         String body = toString(httpResponse);
         logResponse(httpResponse.getStatusLine().getStatusCode(), body);
 
-        return mappers
-                .get(ContentType.getOrDefault(httpResponse.getEntity()).getMimeType())
-                .readValue(body, clazz);
-    }
+        final String mimeType = ContentType.getOrDefault(httpResponse.getEntity()).getMimeType();
+        ObjectMapper mapper = mappers.get(mimeType);
+        if (mapper == null) {
+            throw new IllegalArgumentException(String.format("Not found ObjectMapper for mimeType %s", mimeType));
+        }
 
-    public T createResponse(HttpResponse httpResponse, JavaType type) throws IOException {
-        String body = toString(httpResponse);
-        logResponse(httpResponse.getStatusLine().getStatusCode(), body);
-
-        return mappers
-                .get(ContentType.getOrDefault(httpResponse.getEntity()).getMimeType())
-                .readValue(body, type);
+        return mapper.readValue(body, type);
     }
 
     private String toString(HttpResponse httpResponse) throws IOException {
