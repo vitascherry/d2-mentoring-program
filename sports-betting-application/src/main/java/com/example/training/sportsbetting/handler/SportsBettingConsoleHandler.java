@@ -19,7 +19,6 @@ import static com.example.training.common.util.CurrencyUtils.parseCurrencyCode;
 import static com.example.training.common.util.FunctionUtils.unchecked;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
-import static java.util.Currency.getInstance;
 
 public class SportsBettingConsoleHandler extends Handler {
 
@@ -131,7 +130,6 @@ public class SportsBettingConsoleHandler extends Handler {
                 .withMessage("How much do you want to bet? ")
                 .withParser(unchecked((String text) -> {
                     String currencyCode = parseCurrencyCode(text);
-                    decimalFormatter.setCurrency(getInstance(currencyCode));
                     decimalFormatter.applyPattern("###,###.## " + currencyCode);
                     return text;
                 }).andThen(unchecked((String text) -> (BigDecimal) decimalFormatter.parse(text))))
