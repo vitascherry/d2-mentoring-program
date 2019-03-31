@@ -1,6 +1,10 @@
 package com.example.training.exchangeservice.guice;
 
-import com.example.training.common.guice.*;
+import com.example.training.common.guice.DecimalModule;
+import com.example.training.common.guice.ObjectMapperModule;
+import com.example.training.common.guice.PrinterModule;
+import com.example.training.common.guice.ReaderModule;
+import com.example.training.common.guice.XmlMapperModule;
 import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
@@ -20,13 +24,18 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.fluent.Executor;
+import org.apache.http.client.fluent.RetryableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-import static com.example.training.exchangeservice.constant.ExchangeConstants.CONNECTION_TIMEOUT_MILLIS;
+import static com.example.training.common.constant.CommonConstants.CONNECTION_TIME_TO_LIVE_MILLIS;
+import static com.example.training.common.constant.CommonConstants.SOCKET_TIMEOUT_MILLIS;
+import static com.example.training.exchangeservice.constant.ExchangeConstants.EXCHANGE_RATE_CLIENT_MAX_WAIT_TIMEOUT_MILLIS;
+import static com.example.training.exchangeservice.constant.ExchangeConstants.EXCHANGE_RATE_CLIENT_RETRY_LIMIT;
 import static com.example.training.exchangeservice.constant.ExchangeConstants.NBU_API_URL;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -88,10 +97,21 @@ public class ExchangeModule extends AbstractModule {
     @Singleton
     @Provides
     public HttpClient httpClientProvider() {
-        return HttpClientBuilder
-                .create()
-                .setConnectionTimeToLive(CONNECTION_TIMEOUT_MILLIS, MILLISECONDS)
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(CONNECTION_TIME_TO_LIVE_MILLIS)
+                .setConnectionRequestTimeout(CONNECTION_TIME_TO_LIVE_MILLIS)
+                .setSocketTimeout(SOCKET_TIMEOUT_MILLIS)
                 .build();
+
+        return new RetryableHttpClient(
+                HttpClientBuilder
+                        .create()
+                        .setConnectionTimeToLive(CONNECTION_TIME_TO_LIVE_MILLIS, MILLISECONDS)
+                        .setDefaultRequestConfig(requestConfig)
+                        .build(),
+                EXCHANGE_RATE_CLIENT_MAX_WAIT_TIMEOUT_MILLIS,
+                EXCHANGE_RATE_CLIENT_RETRY_LIMIT
+        );
     }
 
     @Singleton
