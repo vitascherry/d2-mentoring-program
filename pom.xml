@@ -13,6 +13,7 @@
         <module>common</module>
         <module>exchange-service</module>
         <module>password-cracker</module>
+        <module>config</module>
     </modules>
 
     <packaging>pom</packaging>
