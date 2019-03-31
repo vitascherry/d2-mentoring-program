@@ -1,6 +1,13 @@
 package com.example.training.toto.service.impl;
 
-import com.example.training.toto.domain.*;
+import com.example.training.toto.domain.BetResult;
+import com.example.training.toto.domain.Distribution;
+import com.example.training.toto.domain.Hit;
+import com.example.training.toto.domain.Outcome;
+import com.example.training.toto.domain.OutcomeSet;
+import com.example.training.toto.domain.Price;
+import com.example.training.toto.domain.Round;
+import com.example.training.toto.domain.Wager;
 import com.example.training.toto.exception.RoundNotFoundException;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.service.TotoService;
@@ -9,9 +16,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +29,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static com.example.training.toto.domain.Outcome.*;
+import static com.example.training.toto.domain.Outcome.DRAW;
+import static com.example.training.toto.domain.Outcome.FIRST;
+import static com.example.training.toto.domain.Outcome.SECOND;
+import static com.example.training.toto.service.util.PriceUtils.extractCurrencyOrDefault;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.comparing;
 import static java.util.function.Function.identity;
@@ -33,12 +43,15 @@ import static java.util.stream.Collector.Characteristics.UNORDERED;
 public class TotoServiceImpl implements TotoService {
 
     private final TotoRepository totoRepository;
-    private final DecimalFormat decimalFormatter;
 
     @Override
     public Price getLargestPrice() {
         final List<Round> rounds = totoRepository.getAllRounds();
-        final Price zeroPrice = new Price(ZERO, decimalFormatter.getCurrency());
+        final Currency currency = rounds.stream()
+                .map(round -> extractCurrencyOrDefault(round, null))
+                .findFirst()
+                .get();
+        final Price zeroPrice = new Price(ZERO, currency);
 
         return Stream.of(
                 rounds.stream()
@@ -86,8 +99,8 @@ public class TotoServiceImpl implements TotoService {
 
     @Override
     public BetResult calculateWager(final Wager wager) {
-        final Price zeroPrice = new Price(ZERO, decimalFormatter.getCurrency());
         final Round round = wager.getRound();
+        final Price zeroPrice = new Price(ZERO, extractCurrencyOrDefault(round, null));
         List<Outcome> realOutcomes = round.getOutcomes().toList();
         List<Outcome> wagerOutcomes = wager.getOutcomes().toList();
 

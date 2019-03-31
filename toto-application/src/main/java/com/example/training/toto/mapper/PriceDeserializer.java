@@ -21,20 +21,16 @@ import static java.math.BigDecimal.ZERO;
 public class PriceDeserializer extends JsonDeserializer<Price> {
 
     private final DecimalFormat decimalFormatter;
-    private Price zeroPrice = null;
+    private Price zeroPrice;
 
     @Override
     public Price deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
         String text = parser.getText();
 
         try {
-            String currencyCode = parseCurrencyCode(text);
-            Currency currency = Currency.getInstance(currencyCode);
-            init(currency);
-            check(currency);
-            decimalFormatter.applyPattern("###,### " + currencyCode);
+            initZeroPrice(text);
             BigDecimal amount = (BigDecimal) decimalFormatter.parse(text);
-            return new Price(amount, currency);
+            return new Price(amount, zeroPrice.getCurrency());
 
         } catch (ParseException e) {
             log.error("Error occurred while parsing Price from text '{}'. ErrorMessage: ", text, e);
@@ -42,15 +38,18 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
         }
     }
 
-    private void init(Currency currency) {
+    private void initZeroPrice(String text) throws ParseException {
+        String currencyCode = parseCurrencyCode(text);
+        Currency currency = Currency.getInstance(currencyCode);
         if (zeroPrice == null) {
             zeroPrice = new Price(ZERO, currency);
-            decimalFormatter.setCurrency(currency);
+            decimalFormatter.applyPattern("###,### " + currencyCode);
         }
+        check(currency);
     }
 
     private void check(Currency currency) {
-        if (!decimalFormatter.getCurrency().equals(currency)) {
+        if (!zeroPrice.getCurrency().equals(currency)) {
             log.error("Invalid currency passed '{}'", currency);
             throw new IllegalArgumentException("Currencies should match!");
         }

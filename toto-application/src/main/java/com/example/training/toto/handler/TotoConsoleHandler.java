@@ -12,30 +12,34 @@ import com.example.training.toto.domain.OutcomeSet;
 import com.example.training.toto.domain.Price;
 import com.example.training.toto.domain.Round;
 import com.example.training.toto.domain.Wager;
+import com.example.training.toto.guice.provider.OutcomeSetMapper;
 import com.example.training.toto.service.TotoService;
 import lombok.Builder;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
-import static java.util.Arrays.stream;
 
 public class TotoConsoleHandler extends Handler {
 
     private final DecimalFormat decimalFormatter;
     private final DateTimeService dateTimeService;
     private final TotoService totoService;
+    private final OutcomeSetMapper outcomeSetMapper;
 
     @Builder
     public TotoConsoleHandler(Printer printer, Reader reader, DecimalFormat decimalFormatter,
-                              DateTimeService dateTimeService, TotoService totoService) {
+                              DateTimeService dateTimeService, TotoService totoService,
+                              OutcomeSetMapper outcomeSetMapper) {
         super(printer, reader);
         this.decimalFormatter = decimalFormatter;
         this.dateTimeService = dateTimeService;
         this.totoService = totoService;
+        this.outcomeSetMapper = outcomeSetMapper;
     }
 
     private void printGreetings() {
@@ -88,14 +92,14 @@ public class TotoConsoleHandler extends Handler {
         OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
                 .withLoop()
                 .withMessage("Enter outcomes (%s): ", join("|", Outcome.values(), Outcome::getValue))
-                .withParser(text -> stream(text.split(""))
+                .withParser(text -> Arrays.stream(text.split(""))
                         .map(Outcome::fromValue)
                         .filter(Objects::nonNull)
                         .toArray(Outcome[]::new))
                 .withErrorMessage("Could not parse '%s' as an array")
                 .withCondition(outcomes -> outcomes.length == 14)
                 .withBadMessage("Outcomes count should be 14!")
-                .withMapper(OutcomeSet::new)
+                .withMapper(outcomeSetMapper::toOutcomeSet)
                 .eval();
 
         BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));
