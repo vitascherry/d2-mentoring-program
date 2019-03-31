@@ -5,7 +5,7 @@ import com.google.inject.AbstractModule;
 
 import java.time.format.DateTimeFormatter;
 
-import static com.example.training.common.constant.ServiceConstants.DEFAULT_DATE_FORMAT;
+import static com.example.training.common.constant.CommonConstants.DEFAULT_DATE_FORMAT;
 
 public class DateTimeModule extends AbstractModule {
 
