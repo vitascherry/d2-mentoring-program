@@ -6,8 +6,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 public class SportsBettingCsvSchemaModule extends CsvSchemaModule {
 
     @Override
-    protected void bindCsvSchema() {
-        csvSchema = CsvSchema.builder()
+    protected CsvSchema createCsvSchema() {
+        return CsvSchema.builder()
                 .setColumnSeparator(',')
                 .setLineSeparator(System.getProperty("line.separator"))
                 .setNullValue("-")
@@ -15,7 +15,5 @@ public class SportsBettingCsvSchemaModule extends CsvSchemaModule {
                 .setSkipFirstDataRow(false)
                 .setStrictHeaders(true)
                 .build();
-
-        bind(CsvSchema.class).toInstance(csvSchema);
     }
 }

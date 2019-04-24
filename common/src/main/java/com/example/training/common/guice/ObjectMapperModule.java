@@ -10,20 +10,17 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 
 public class ObjectMapperModule extends AbstractModule {
 
-    protected ObjectMapper objectMapper;
-
     @Override
     protected void configure() {
-        bindObjectMapper();
+        ObjectMapper objectMapper = createObjectMapper();
+        bind(ObjectMapper.class).toInstance(objectMapper);
     }
 
-    protected void bindObjectMapper() {
-        objectMapper = new ObjectMapper()
+    protected ObjectMapper createObjectMapper() {
+        return new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .enable(INDENT_OUTPUT)
                 .disable(FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(WRITE_DATES_AS_TIMESTAMPS);
-
-        bind(ObjectMapper.class).toInstance(objectMapper);
     }
 }

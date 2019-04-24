@@ -9,9 +9,7 @@ import static com.example.training.passwordcracker.constant.HashCalculatorConsta
 public class HashCalculatorDateTimeModule extends DateTimeModule {
 
     @Override
-    protected void bindDateTimeFormatter() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-
-        bind(DateTimeFormatter.class).toInstance(dateTimeFormatter);
+    protected DateTimeFormatter createDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
     }
 }

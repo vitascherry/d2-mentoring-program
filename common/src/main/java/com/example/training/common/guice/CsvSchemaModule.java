@@ -7,16 +7,13 @@ import static com.fasterxml.jackson.dataformat.csv.CsvSchema.emptySchema;
 
 public class CsvSchemaModule extends AbstractModule {
 
-    protected CsvSchema csvSchema;
-
     @Override
     protected void configure() {
-        bindCsvSchema();
+        CsvSchema csvSchema = createCsvSchema();
+        bind(CsvSchema.class).toInstance(csvSchema);
     }
 
-    protected void bindCsvSchema() {
-        csvSchema = emptySchema();
-
-        bind(CsvSchema.class).toInstance(csvSchema);
+    protected CsvSchema createCsvSchema() {
+        return emptySchema();
     }
 }

@@ -9,8 +9,8 @@ import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.STRING;
 public class TotoCsvSchemaModule extends CsvSchemaModule {
 
     @Override
-    protected void bindCsvSchema() {
-        csvSchema = CsvSchema
+    protected CsvSchema createCsvSchema() {
+        return CsvSchema
                 .builder()
                 .addColumn("year", NUMBER)
                 .addColumn("week", NUMBER)
@@ -44,7 +44,5 @@ public class TotoCsvSchemaModule extends CsvSchemaModule {
                 .setLineSeparator(System.getProperty("line.separator"))
                 .setNullValue("-")
                 .build();
-
-        bind(CsvSchema.class).toInstance(csvSchema);
     }
 }

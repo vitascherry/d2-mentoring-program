@@ -9,9 +9,7 @@ import static com.example.training.exchangeservice.constant.ExchangeConstants.DA
 public class ExchangeDateTimeModule extends DateTimeModule {
 
     @Override
-    protected void bindDateTimeFormatter() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
-        bind(DateTimeFormatter.class).toInstance(dateTimeFormatter);
+    protected DateTimeFormatter createDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern(DATE_FORMAT);
     }
 }

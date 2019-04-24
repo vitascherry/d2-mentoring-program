@@ -1,11 +1,19 @@
 package com.example.training.sportsbetting.guice;
 
-import com.example.training.common.guice.*;
+import com.example.training.common.guice.CsvMapperModule;
+import com.example.training.common.guice.CsvReaderModule;
+import com.example.training.common.guice.DecimalModule;
+import com.example.training.common.guice.PrinterModule;
+import com.example.training.common.guice.ReaderModule;
 import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.sportsbetting.handler.SportsBettingConsoleHandler;
-import com.example.training.sportsbetting.provider.*;
+import com.example.training.sportsbetting.provider.MockBetProvider;
+import com.example.training.sportsbetting.provider.MockOutcomeOddProvider;
+import com.example.training.sportsbetting.provider.MockOutcomeProvider;
+import com.example.training.sportsbetting.provider.MockSportEventProvider;
+import com.example.training.sportsbetting.provider.MockSportEventResultsProvider;
 import com.example.training.sportsbetting.repository.SportsBettingRepository;
 import com.example.training.sportsbetting.repository.impl.MockSportsBettingRepository;
 import com.example.training.sportsbetting.service.SportsBettingService;
@@ -20,20 +28,15 @@ public class SportsBettingModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(SportsBettingService.class).to(MockSportsBettingService.class);
+        bind(SportsBettingRepository.class).to(MockSportsBettingRepository.class);
+
         install(new DecimalModule());
         install(new PrinterModule());
         install(new ReaderModule());
-
-        CsvSchemaModule csvSchemaModule = new SportsBettingCsvSchemaModule();
-        install(csvSchemaModule);
-
-        CsvMapperModule csvMapperModule = new CsvMapperModule();
-        install(csvMapperModule);
-
-        install(new CsvReaderModule(csvSchemaModule, csvMapperModule));
-
-        bind(SportsBettingService.class).to(MockSportsBettingService.class);
-        bind(SportsBettingRepository.class).to(MockSportsBettingRepository.class);
+        install(new SportsBettingCsvSchemaModule());
+        install(new CsvMapperModule());
+        install(new CsvReaderModule());
     }
 
     @Singleton

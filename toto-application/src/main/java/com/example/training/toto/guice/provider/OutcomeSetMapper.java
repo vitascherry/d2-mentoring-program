@@ -29,6 +29,6 @@ public class OutcomeSetMapper implements Provider<OutcomeSet> {
 
     @Override
     public OutcomeSet get() {
-        throw new UnsupportedOperationException("Is not implemented");
+        throw new UnsupportedOperationException("Not implemented!");
     }
 }

@@ -5,16 +5,13 @@ import com.google.inject.AbstractModule;
 
 public class PrinterModule extends AbstractModule {
 
-    protected Printer printer;
-
     @Override
     protected void configure() {
-        bindPrinter();
+        Printer printer = createPrinter();
+        bind(Printer.class).toInstance(printer);
     }
 
-    protected void bindPrinter() {
-        printer = new Printer(System.out);
-
-        bind(Printer.class).toInstance(printer);
+    protected Printer createPrinter() {
+        return new Printer(System.out);
     }
 }

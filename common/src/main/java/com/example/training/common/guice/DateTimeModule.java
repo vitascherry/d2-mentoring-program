@@ -5,28 +5,26 @@ import com.google.inject.AbstractModule;
 
 import java.time.format.DateTimeFormatter;
 
-import static com.example.training.common.constant.CommonConstants.DEFAULT_DATE_FORMAT;
+import static com.example.training.common.constant.DefaultConstants.DEFAULT_DATE_FORMAT;
 
 public class DateTimeModule extends AbstractModule {
 
     protected DateTimeFormatter dateTimeFormatter;
-    protected DateTimeService dateTimeService;
 
     @Override
     protected void configure() {
-        bindDateTimeFormatter();
-        bindDateTimeService();
-    }
-
-    protected void bindDateTimeFormatter() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-
+        dateTimeFormatter = createDateTimeFormatter();
         bind(DateTimeFormatter.class).toInstance(dateTimeFormatter);
+
+        DateTimeService dateTimeService = createDateTimeService();
+        bind(DateTimeService.class).toInstance(dateTimeService);
     }
 
-    protected void bindDateTimeService() {
-        dateTimeService = new DateTimeService(dateTimeFormatter);
+    protected DateTimeFormatter createDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
+    }
 
-        bind(DateTimeService.class).toInstance(dateTimeService);
+    protected DateTimeService createDateTimeService() {
+        return new DateTimeService(dateTimeFormatter);
     }
 }

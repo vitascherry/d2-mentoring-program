@@ -17,11 +17,11 @@ public class HashCalculatorModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new HashCalculatorDateTimeModule());
-        install(new PrinterModule());
-        install(new ReaderModule());
-
         bind(Handler.class).to(HashCalculatorConsoleHandler.class);
+
+        install(new ReaderModule());
+        install(new PrinterModule());
+        install(new HashCalculatorDateTimeModule());
     }
 
     @Singleton

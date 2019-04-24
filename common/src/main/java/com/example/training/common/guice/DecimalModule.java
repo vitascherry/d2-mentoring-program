@@ -12,28 +12,28 @@ import static java.math.RoundingMode.HALF_EVEN;
 public class DecimalModule extends AbstractModule {
 
     protected DecimalFormatSymbols decimalFormatSymbols;
-    protected DecimalFormat decimalFormat;
 
     @Override
     protected void configure() {
-        bindDecimalFormatSymbols();
-        bindDecimalFormat();
+        decimalFormatSymbols = createDecimalFormatSymbols();
+        bind(DecimalFormatSymbols.class).toInstance(decimalFormatSymbols);
+
+        DecimalFormat decimalFormat = createDecimalFormat();
+        bind(DecimalFormat.class).toInstance(decimalFormat);
     }
 
-    protected void bindDecimalFormatSymbols() {
-        decimalFormatSymbols = new DecimalFormatSymbols();
+    protected DecimalFormatSymbols createDecimalFormatSymbols() {
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator('.');
         decimalFormatSymbols.setMonetaryDecimalSeparator('.');
         decimalFormatSymbols.setGroupingSeparator(' ');
-
-        bind(DecimalFormatSymbols.class).toInstance(decimalFormatSymbols);
+        return decimalFormatSymbols;
     }
 
-    protected void bindDecimalFormat() {
-        decimalFormat = new DecimalFormat("###,###.##", decimalFormatSymbols);
+    protected DecimalFormat createDecimalFormat() {
+        DecimalFormat decimalFormat = new DecimalFormat("###,###.##", decimalFormatSymbols);
         decimalFormat.setRoundingMode(HALF_EVEN);
         decimalFormat.setParseBigDecimal(true);
-
-        bind(DecimalFormat.class).toInstance(decimalFormat);
+        return decimalFormat;
     }
 }

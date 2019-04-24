@@ -9,19 +9,16 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 
 public class CsvMapperModule extends AbstractModule {
 
-    protected CsvMapper csvMapper;
-
     @Override
     protected void configure() {
-        bindCsvMapper();
+        CsvMapper csvMapper = createCsvMapper();
+        bind(CsvMapper.class).toInstance(csvMapper);
     }
 
-    protected void bindCsvMapper() {
-        csvMapper = (CsvMapper) new CsvMapper()
+    protected CsvMapper createCsvMapper() {
+        return (CsvMapper) new CsvMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(WRITE_DATES_AS_TIMESTAMPS);
-
-        bind(CsvMapper.class).toInstance(csvMapper);
     }
 }

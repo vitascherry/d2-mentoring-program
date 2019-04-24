@@ -1,21 +1,21 @@
 package com.example.training.common.guice;
 
 import com.example.training.common.reader.CsvReader;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.inject.AbstractModule;
-import lombok.AllArgsConstructor;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
-@AllArgsConstructor
 public class CsvReaderModule extends AbstractModule {
-
-    private final CsvSchemaModule csvSchemaModule;
-    private final CsvMapperModule csvMapperModule;
 
     @Override
     protected void configure() {
-        bindCsvReader();
     }
 
-    protected void bindCsvReader() {
-        bind(CsvReader.class).toInstance(new CsvReader(csvMapperModule.csvMapper, csvSchemaModule.csvSchema));
+    @Singleton
+    @Provides
+    public CsvReader csvReaderProvider(CsvMapper csvMapper, CsvSchema csvSchema) {
+        return new CsvReader(csvMapper, csvSchema);
     }
 }

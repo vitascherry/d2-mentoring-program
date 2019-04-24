@@ -9,19 +9,16 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 
 public class XmlMapperModule extends AbstractModule {
 
-    protected XmlMapper xmlMapper;
-
     @Override
     protected void configure() {
-        bindXmlMapper();
+        XmlMapper xmlMapper = createXmlMapper();
+        bind(XmlMapper.class).toInstance(xmlMapper);
     }
 
-    private void bindXmlMapper() {
-        xmlMapper = (XmlMapper) new XmlMapper()
+    protected XmlMapper createXmlMapper() {
+        return (XmlMapper) new XmlMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(WRITE_DATES_AS_TIMESTAMPS);
-
-        bind(XmlMapper.class).toInstance(xmlMapper);
     }
 }

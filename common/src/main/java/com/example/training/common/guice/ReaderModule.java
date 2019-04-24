@@ -5,16 +5,13 @@ import com.google.inject.AbstractModule;
 
 public class ReaderModule extends AbstractModule {
 
-    protected Reader reader;
-
     @Override
     protected void configure() {
-        bindReader();
+        Reader reader = createReader();
+        bind(Reader.class).toInstance(reader);
     }
 
-    protected void bindReader() {
-        reader = new Reader(System.in);
-
-        bind(Reader.class).toInstance(reader);
+    protected Reader createReader() {
+        return new Reader(System.in);
     }
 }
