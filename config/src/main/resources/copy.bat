@@ -1,3 +1,5 @@
-xcopy env.properties %CATALINA_HOME%\bin
-xcopy setenv.sh %CATALINA_HOME%\bin
-xcopy setenv.bat %CATALINA_HOME%\bin
+set PROJECT_DIR=%1
+
+xcopy %PROJECT_DIR%\env.properties %CATALINA_HOME%\bin
+xcopy %PROJECT_DIR%\setenv.sh %CATALINA_HOME%\bin
+xcopy %PROJECT_DIR%\setenv.bat %CATALINA_HOME%\bin

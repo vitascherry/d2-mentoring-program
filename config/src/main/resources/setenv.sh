@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 
 set -o allexport
-source ./env.properties
+source env.properties
 set +o allexport
