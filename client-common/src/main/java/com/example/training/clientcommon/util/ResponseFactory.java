@@ -1,4 +1,4 @@
-package com.example.training.exchangeservice.util;
+package com.example.training.clientcommon.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,12 +14,12 @@ import java.util.Map;
 
 @Log4j2
 @Builder
-public class ResponseFactory<T> {
+public class ResponseFactory {
 
     @Singular("mapper")
     private final Map<String, ObjectMapper> mappers;
 
-    public T createResponse(HttpResponse httpResponse, TypeReference<T> type) throws IOException {
+    public <T> T createResponse(HttpResponse httpResponse, TypeReference<T> type) throws IOException {
         String body = toString(httpResponse);
         logResponse(httpResponse.getStatusLine().getStatusCode(), body);
 

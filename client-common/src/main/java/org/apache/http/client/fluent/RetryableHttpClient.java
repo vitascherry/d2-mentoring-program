@@ -30,7 +30,8 @@ public class RetryableHttpClient implements HttpClient {
     private final int maxWaitTimeout;
     private final int retryLimit;
 
-    <T> T executeWithRetry(HttpRequest request, HttpHost target, HttpContext context, ResponseHandler<? extends T> responseHandler) throws IOException {
+    private <T> T executeWithRetry(HttpRequest request, HttpHost target, HttpContext context,
+                                   ResponseHandler<? extends T> responseHandler) throws IOException {
         int numOfRetry = 0;
 
         while (numOfRetry <= retryLimit) {
@@ -41,7 +42,8 @@ public class RetryableHttpClient implements HttpClient {
                     try {
                         T response = executeWithClient(httpClient, currentRequest, target, context, responseHandler);
                         if (retryAttempt > 0) {
-                            log.info("Successfully retried request [{}] after {} attempt(s).", request.getRequestLine().getUri(), retryAttempt);
+                            log.info("Successfully retried request {} after {} attempt(s).",
+                                    request.getRequestLine().getUri(), retryAttempt);
                         }
                         return response;
                     } catch (IOException ex) {
@@ -66,7 +68,9 @@ public class RetryableHttpClient implements HttpClient {
         }
 
         log.error("Failed to numOfRetry http request after {} times.", retryLimit);
-        throw new HttpRequestRetryFailureRuntimeException(String.format("Failed to numOfRetry http request after %d times.", retryLimit));
+        throw new HttpRequestRetryFailureRuntimeException(
+                String.format("Failed to numOfRetry http request after %d times.", retryLimit)
+        );
     }
 
     private HttpRequest cloneRequest(HttpUriRequest request) {
@@ -84,9 +88,11 @@ public class RetryableHttpClient implements HttpClient {
     private void logHttpRequestAttempt(Exception ex, HttpRequest request, int retryNum) {
         log.warn("Caught exception: {}. Message: {}.", ex.getClass(), Objects.toString(ex.getMessage(), ""));
         if (retryNum == 0) {
-            log.warn("Http request [{}] failed and will be retried {} times.", request.getRequestLine().getUri(), retryLimit);
+            log.warn("Http request {} failed and will be retried {} times.",
+                    request.getRequestLine().getUri(), retryLimit);
         } else {
-            log.warn("Retrying http request [{}]: {} out of {}.", request.getRequestLine().getUri(), retryNum, retryLimit);
+            log.warn("Retrying http request {}: {} out of {}.",
+                    request.getRequestLine().getUri(), retryNum, retryLimit);
         }
     }
 

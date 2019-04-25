@@ -1,4 +1,4 @@
-package com.example.training.exchangeservice.domain;
+package com.example.training.clientcommon.domain;
 
 import lombok.Builder;
 import lombok.Getter;

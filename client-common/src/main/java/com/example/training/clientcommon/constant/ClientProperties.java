@@ -1,10 +1,10 @@
-package com.example.training.common.constant;
+package com.example.training.clientcommon.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CommonProperties {
+public final class ClientProperties {
 
     public static final String CONNECTION_TIME_TO_LIVE_MILLIS = "connectionTimeToLiveMillis";
 

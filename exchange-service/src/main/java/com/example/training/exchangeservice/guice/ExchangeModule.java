@@ -1,41 +1,36 @@
 package com.example.training.exchangeservice.guice;
 
+import com.example.training.clientcommon.guice.ClientCommonModule;
+import com.example.training.clientcommon.guice.RetryableHttpClientModule;
+import com.example.training.clientcommon.util.RequestFactory;
+import com.example.training.clientcommon.util.ResponseFactory;
 import com.example.training.common.guice.CombinedPropertyProviderModule;
 import com.example.training.common.guice.DecimalModule;
 import com.example.training.common.guice.EnvironmentPropertyProviderModule;
-import com.example.training.common.guice.FilePropertyProviderModule;
 import com.example.training.common.guice.ObjectMapperModule;
 import com.example.training.common.guice.PrinterModule;
 import com.example.training.common.guice.ReaderModule;
-import com.example.training.common.guice.RetryableHttpClientModule;
 import com.example.training.common.guice.XmlMapperModule;
 import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
 import com.example.training.exchangeservice.client.ExchangeRateClient;
-import com.example.training.exchangeservice.domain.ExchangeRate;
 import com.example.training.exchangeservice.handler.ExchangeHandler;
 import com.example.training.exchangeservice.provider.RemoteExchangeRateEntityProvider;
 import com.example.training.exchangeservice.repository.ExchangeRateRepository;
 import com.example.training.exchangeservice.repository.impl.RemoteExchangeRateRepository;
 import com.example.training.exchangeservice.service.ExchangeRateService;
 import com.example.training.exchangeservice.service.impl.RemoteExchangeRateService;
-import com.example.training.exchangeservice.util.RequestFactory;
-import com.example.training.exchangeservice.util.ResponseFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.util.Modules;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Executor;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import static com.example.training.exchangeservice.constant.ExchangeConstants.NBU_API_URL;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-import static org.apache.http.entity.ContentType.TEXT_XML;
 
 public class ExchangeModule extends AbstractModule {
 
@@ -51,9 +46,8 @@ public class ExchangeModule extends AbstractModule {
         install(new ExchangeDateTimeModule());
         install(new DecimalModule());
         install(new EnvironmentPropertyProviderModule());
-        install(new FilePropertyProviderModule());
         install(new CombinedPropertyProviderModule());
-        install(new RetryableHttpClientModule());
+        install(Modules.override(new ClientCommonModule()).with(new RetryableHttpClientModule()));
     }
 
     @Singleton
@@ -85,27 +79,12 @@ public class ExchangeModule extends AbstractModule {
     @Singleton
     @Provides
     public ExchangeRateClient exchangeRateClientProvider(HttpClient httpClient, RequestFactory requestFactory,
-                                                         ResponseFactory<List<ExchangeRate>> responseFactory) {
+                                                         ResponseFactory responseFactory) {
         return ExchangeRateClient.builder()
                 .path(NBU_API_URL)
                 .executor(Executor.newInstance(httpClient))
                 .requestFactory(requestFactory)
                 .responseFactory(responseFactory)
-                .build();
-    }
-
-    @Singleton
-    @Provides
-    public RequestFactory requestFactoryProvider() {
-        return new RequestFactory();
-    }
-
-    @Singleton
-    @Provides
-    public ResponseFactory<List<ExchangeRate>> responseFactoryProvider(ObjectMapper jsonMapper, XmlMapper xmlMapper) {
-        return ResponseFactory.<List<ExchangeRate>>builder()
-                .mapper(APPLICATION_JSON.getMimeType(), jsonMapper)
-                .mapper(TEXT_XML.getMimeType(), xmlMapper)
                 .build();
     }
 

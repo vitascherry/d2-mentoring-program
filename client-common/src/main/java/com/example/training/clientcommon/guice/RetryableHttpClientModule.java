@@ -1,4 +1,4 @@
-package com.example.training.common.guice;
+package com.example.training.clientcommon.guice;
 
 import com.example.training.common.provider.PropertyProvider;
 import com.google.inject.AbstractModule;
@@ -10,16 +10,16 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.fluent.RetryableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import static com.example.training.common.constant.CommonProperties.CONNECTION_TIMEOUT_MILLIS;
-import static com.example.training.common.constant.CommonProperties.CONNECTION_TIME_TO_LIVE_MILLIS;
-import static com.example.training.common.constant.CommonProperties.MAX_WAIT_TIMEOUT_MILLIS;
-import static com.example.training.common.constant.CommonProperties.RETRY_LIMIT;
-import static com.example.training.common.constant.CommonProperties.SOCKET_TIMEOUT_MILLIS;
-import static com.example.training.common.constant.DefaultConstants.CONNECTION_TIMEOUT_MILLIS_DEFAULT;
-import static com.example.training.common.constant.DefaultConstants.CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT;
-import static com.example.training.common.constant.DefaultConstants.MAX_WAIT_TIMEOUT_MILLIS_DEFAULT;
-import static com.example.training.common.constant.DefaultConstants.RETRY_LIMIT_DEFAULT;
-import static com.example.training.common.constant.DefaultConstants.SOCKET_TIMEOUT_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.CONNECTION_TIMEOUT_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.MAX_WAIT_TIMEOUT_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.RETRY_LIMIT_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.SOCKET_TIMEOUT_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientProperties.CONNECTION_TIMEOUT_MILLIS;
+import static com.example.training.clientcommon.constant.ClientProperties.CONNECTION_TIME_TO_LIVE_MILLIS;
+import static com.example.training.clientcommon.constant.ClientProperties.MAX_WAIT_TIMEOUT_MILLIS;
+import static com.example.training.clientcommon.constant.ClientProperties.RETRY_LIMIT;
+import static com.example.training.clientcommon.constant.ClientProperties.SOCKET_TIMEOUT_MILLIS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class RetryableHttpClientModule extends AbstractModule {

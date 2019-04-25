@@ -1,6 +1,6 @@
-package com.example.training.exchangeservice.util;
+package com.example.training.clientcommon.util;
 
-import com.example.training.exchangeservice.domain.RequestEntity;
+import com.example.training.clientcommon.domain.RequestEntity;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;

@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.example.training</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>client-common</artifactId>
         </dependency>
     </dependencies>
 

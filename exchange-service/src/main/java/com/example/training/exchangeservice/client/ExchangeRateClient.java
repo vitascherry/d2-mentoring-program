@@ -1,10 +1,10 @@
 package com.example.training.exchangeservice.client;
 
+import com.example.training.clientcommon.domain.RequestEntity;
+import com.example.training.clientcommon.util.RequestFactory;
+import com.example.training.clientcommon.util.ResponseFactory;
 import com.example.training.common.client.HttpStatusCodeEnhancedRuntimeException;
 import com.example.training.exchangeservice.domain.ExchangeRate;
-import com.example.training.exchangeservice.domain.RequestEntity;
-import com.example.training.exchangeservice.util.RequestFactory;
-import com.example.training.exchangeservice.util.ResponseFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.Builder;
 import lombok.SneakyThrows;
@@ -23,12 +23,12 @@ import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 @Builder
 public class ExchangeRateClient {
 
-    private static final TypeReference<List<ExchangeRate>> EXCHANGE_RATE_TYPE = new TypeReference<List<ExchangeRate>>() {};
+    private static final TypeReference<List<ExchangeRate>> EXCHANGE_RATE_TYPE = new TypeReference<List<ExchangeRate>>(){};
 
     private final String path;
     private final Executor executor;
     private final RequestFactory requestFactory;
-    private final ResponseFactory<List<ExchangeRate>> responseFactory;
+    private final ResponseFactory responseFactory;
 
     @SneakyThrows
     public List<ExchangeRate> getExchangeRates() {
@@ -46,7 +46,7 @@ public class ExchangeRateClient {
         try {
             return executor.execute(request).returnResponse();
         } catch (IOException e) {
-            log.error("Error occurred while requesting '{}'. ErrorMessage: ", request.toString(), e);
+            log.error("Error occurred while requesting {}. ErrorMessage: ", request.toString(), e);
             throw new HttpStatusCodeEnhancedRuntimeException(SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }

@@ -1,4 +1,4 @@
-package com.example.training.common.guice;
+package com.example.training.clientcommon.guice;
 
 import com.example.training.common.provider.PropertyProvider;
 import com.google.inject.AbstractModule;
@@ -8,8 +8,8 @@ import com.google.inject.name.Named;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import static com.example.training.common.constant.CommonProperties.CONNECTION_TIME_TO_LIVE_MILLIS;
-import static com.example.training.common.constant.DefaultConstants.CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientConstants.CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT;
+import static com.example.training.clientcommon.constant.ClientProperties.CONNECTION_TIME_TO_LIVE_MILLIS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class HttpClientModule extends AbstractModule {
