@@ -17,4 +17,4 @@ for /F "tokens=1* delims==" %%A in ("%PROJECT_DIR%\%PROPERTIES%") do (
 )
 
 echo "Printing merged env.properties"
-type "%TARGET_DIR%"\"%PROPERTIES%"
+type "%TARGET_DIR%\%PROPERTIES%"
