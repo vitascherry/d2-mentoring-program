@@ -15,7 +15,6 @@ public class ClientCommonModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new ClientFilePropertyProviderModule());
         install(new HttpClientModule());
     }
 
