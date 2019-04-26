@@ -13,5 +13,4 @@ then
   \awk -F= '!a[$1]++' "$PROJECT_DIR/$PROPERTIES" "$PROJECT_DIR/$DEFAULT_PROPERTIES" > "$TARGET_DIR/$PROPERTIES"
 fi
 
-echo "Printing merged env.properties"
 cat "$TARGET_DIR/$PROPERTIES"
