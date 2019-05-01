@@ -8,6 +8,7 @@ import com.example.training.sportsbetting.domain.helper.DecimalDomainEntityIdent
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -22,7 +23,7 @@ public class MockSportEventProvider extends CachedEntityProvider<DecimalDomainEn
     private final CsvReader csvReader;
 
     @Override
-    protected void initCache() {
+    protected Map<DecimalDomainEntityIdentifier, SportEvent> initCache() {
         List<SportEvent> sportEvents = csvReader.getData(FILE_NAME, SportEvent.class);
 
         sportEvents.forEach(sportEvent -> {
@@ -33,7 +34,7 @@ public class MockSportEventProvider extends CachedEntityProvider<DecimalDomainEn
             sportEvent.getBets().sort(comparing(bet -> bet.getIdentifier().getId()));
         });
 
-        cache = sportEvents.stream()
+        return sportEvents.stream()
                 .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
     }
 }

@@ -8,6 +8,7 @@ import com.example.training.sportsbetting.domain.helper.BetCompositeKey;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -22,7 +23,7 @@ public class MockBetProvider extends CachedEntityProvider<BetCompositeKey, Bet> 
     private final CsvReader csvReader;
 
     @Override
-    protected void initCache() {
+    protected Map<BetCompositeKey, Bet> initCache() {
         List<Bet> bets = csvReader.getData(FILE_NAME, Bet.class);
 
         bets.forEach(bet -> {
@@ -34,7 +35,7 @@ public class MockBetProvider extends CachedEntityProvider<BetCompositeKey, Bet> 
             bet.getOutcomes().sort(comparing(outcome -> outcome.getIdentifier().getId()));
         });
 
-        cache = bets.stream()
+        return bets.stream()
                 .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
     }
 }

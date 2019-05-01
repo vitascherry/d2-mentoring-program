@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -25,13 +26,15 @@ public class RemoteExchangeRateEntityProvider extends CachedEntityProvider<Curre
     }
 
     @Override
-    protected void initCache() {
+    protected Map<Currency, ExchangeRate> initCache() {
         List<ExchangeRate> exchangeRates = client.getExchangeRates();
-        cache = exchangeRates.stream()
-                .collect(toMap(ExchangeRate::getCurrency, x -> x));
+
         timestamp = exchangeRates.stream()
                 .map(ExchangeRate::getExchangeDate)
                 .findFirst()
                 .orElse(null);
+
+        return exchangeRates.stream()
+                .collect(toMap(ExchangeRate::getCurrency, x -> x));
     }
 }

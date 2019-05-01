@@ -8,6 +8,7 @@ import com.example.training.sportsbetting.domain.helper.OutcomeOddCompositeKey;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -19,10 +20,10 @@ public class MockOutcomeOddProvider extends CachedEntityProvider<OutcomeOddCompo
     private final CsvReader csvReader;
 
     @Override
-    protected void initCache() {
+    protected Map<OutcomeOddCompositeKey, OutcomeOdd> initCache() {
         List<OutcomeOdd> odds = csvReader.getData(FILE_NAME, OutcomeOdd.class);
 
-        cache = odds.stream()
+        return odds.stream()
                 .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
     }
 }

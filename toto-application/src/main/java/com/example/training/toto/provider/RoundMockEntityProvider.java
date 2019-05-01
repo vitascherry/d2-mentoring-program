@@ -6,6 +6,7 @@ import com.example.training.toto.domain.Round;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -17,8 +18,8 @@ public class RoundMockEntityProvider extends CachedEntityProvider<LocalDate, Rou
     private final CsvReader reader;
 
     @Override
-    protected void initCache() {
-        this.cache = reader.getData(TOTO_DATA, Round.class)
+    protected Map<LocalDate, Round> initCache() {
+        return reader.getData(TOTO_DATA, Round.class)
                 .stream()
                 .collect(toMap(Round::getDate, x -> x));
     }
