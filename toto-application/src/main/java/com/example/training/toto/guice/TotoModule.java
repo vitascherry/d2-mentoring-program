@@ -11,30 +11,20 @@ import com.example.training.common.reader.CsvReader;
 import com.example.training.common.service.DateTimeService;
 import com.example.training.toto.aop.ValidateOutcomesInterceptor;
 import com.example.training.toto.aop.annotation.ValidateOutcomes;
-import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.toto.domain.Price;
 import com.example.training.toto.guice.provider.OutcomeSetMapper;
 import com.example.training.toto.handler.TotoConsoleHandler;
-import com.example.training.toto.mapper.OutcomeDeserializer;
-import com.example.training.toto.mapper.PriceDeserializer;
 import com.example.training.toto.provider.RoundMockEntityProvider;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.repository.impl.MockTotoRepository;
 import com.example.training.toto.service.TotoService;
 import com.example.training.toto.service.impl.TotoServiceImpl;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.matcher.Matchers;
 
 import java.text.DecimalFormat;
-
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 
 public class TotoModule extends AbstractModule {
 
@@ -52,6 +42,7 @@ public class TotoModule extends AbstractModule {
         install(new ReaderModule());
         install(new DecimalModule());
         install(new TotoCsvSchemaModule());
+        install(new TotoCsvMapperModule());
         install(new CsvReaderModule());
     }
 
@@ -86,17 +77,5 @@ public class TotoModule extends AbstractModule {
     @Provides
     public RoundMockEntityProvider roundMockProvider(CsvReader csvReader) {
         return new RoundMockEntityProvider(csvReader);
-    }
-
-    @Singleton
-    @Provides
-    public CsvMapper totoCsvMapperProvider(DecimalFormat decimalFormat) {
-        return (CsvMapper) new CsvMapper()
-                .registerModule(new JavaTimeModule())
-                .registerModule(new SimpleModule()
-                        .addDeserializer(Price.class, new PriceDeserializer(decimalFormat))
-                        .addDeserializer(Outcome.class, new OutcomeDeserializer()))
-                .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 }

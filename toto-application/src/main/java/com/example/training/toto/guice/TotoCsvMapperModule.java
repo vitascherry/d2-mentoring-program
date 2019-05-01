@@ -14,6 +14,11 @@ import java.text.DecimalFormat;
 
 public class TotoCsvMapperModule extends CsvMapperModule {
 
+    @Override
+    protected void configure() {
+        // not calling super.configure() because of using @Provides instead of explicit binding
+    }
+
     @Singleton
     @Provides
     public CsvMapper CsvMapperProvider(DecimalFormat decimalFormat) {
