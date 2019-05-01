@@ -21,7 +21,7 @@ public class RemoteExchangeRateEntityProvider extends CachedEntityProvider<Curre
     @Override
     protected void initCacheIfNeeded() {
         if (!LocalDate.now().equals(timestamp)) {
-            initCache();
+            cache = initCache();
         }
     }
 
