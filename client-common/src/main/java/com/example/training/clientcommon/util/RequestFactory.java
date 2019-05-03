@@ -11,7 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static javax.ws.rs.HttpMethod.*;
+import static java.util.Objects.requireNonNull;
+import static javax.ws.rs.HttpMethod.DELETE;
+import static javax.ws.rs.HttpMethod.GET;
+import static javax.ws.rs.HttpMethod.POST;
+import static javax.ws.rs.HttpMethod.PUT;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 
 @Log4j2
@@ -27,6 +31,8 @@ public class RequestFactory {
     }
 
     public Request createRequest(RequestEntity requestEntity) {
+        requireNonNull(requestEntity, "requestEntity must not be null");
+
         final StringBuilder url = new StringBuilder(requestEntity.getPath());
 
         requestEntity.getPathParams().forEach((key, value) -> {
@@ -54,7 +60,7 @@ public class RequestFactory {
         final String httpMethod = requestEntity.getHttpMethod();
         final String path = url.toString();
         Request request = Optional.ofNullable(SUPPORTED.get(httpMethod))
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported http method '%s'", httpMethod)))
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported http method %s", httpMethod)))
                 .apply(path);
 
         requestEntity.getHeaderParams().forEach(request::addHeader);
