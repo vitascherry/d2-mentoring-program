@@ -85,7 +85,7 @@ public class TotoConsoleHandler extends Handler {
                 .withParser(dateTimeService::parse)
                 .withErrorMessage("The date should be in proper format!")
                 .withCondition(totoService::hasRound)
-                .withBadMessage("Not found any round on '%s'")
+                .withBadMessage("Not found any round on %s")
                 .withMapper(totoService::getRound)
                 .eval();
 
@@ -96,7 +96,7 @@ public class TotoConsoleHandler extends Handler {
                         .map(Outcome::fromValue)
                         .filter(Objects::nonNull)
                         .toArray(Outcome[]::new))
-                .withErrorMessage("Could not parse '%s' as an array")
+                .withErrorMessage("Could not parse %s as an array")
                 .withCondition(outcomes -> outcomes.length == 14)
                 .withBadMessage("Outcomes count should be 14!")
                 .withMapper(outcomeSetMapper::toOutcomeSet)

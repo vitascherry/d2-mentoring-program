@@ -85,7 +85,7 @@ public class SportsBettingConsoleHandler extends Handler {
                 .withCondition(title -> possibleSportEvents.stream()
                         .map(SportEvent::getTitle)
                         .anyMatch(title1 -> title1.equals(title)))
-                .withBadMessage("Not found any sport events with title '%s'")
+                .withBadMessage("Not found any sport events with title %s")
                 .eval();
 
         final List<Bet> possibleBets = sportEvent.getBets();
@@ -101,7 +101,7 @@ public class SportsBettingConsoleHandler extends Handler {
                 .withCondition(type -> possibleBets.stream()
                         .map(Bet::getType)
                         .anyMatch(type1 -> type1.equals(type)))
-                .withBadMessage("Not found any bets with bet type '%s'")
+                .withBadMessage("Not found any bets with bet type %s")
                 .eval();
 
         final List<Outcome> possibleOutcomes = bet.getOutcomes();
@@ -115,7 +115,7 @@ public class SportsBettingConsoleHandler extends Handler {
                 .withCondition(value -> possibleOutcomes.stream()
                         .map(Outcome::getValue)
                         .anyMatch(value1 -> value1.equals(value)))
-                .withBadMessage("Not found any outcomes with value '%s'")
+                .withBadMessage("Not found any outcomes with value %s")
                 .eval();
 
         BigDecimal odd = getLatestOdd(outcome.getOdds())

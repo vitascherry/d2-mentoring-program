@@ -47,13 +47,13 @@ public class HashCalculatorConsoleHandler extends Handler {
                 .withErrorMessage("Please enter MD5 hash in proper format ([a-zA-Z0-9]{32} string)")
                 .eval();
 
-        printer.printf("Cracking '%s' started at %s", hash, dateTimeService.format(LocalDateTime.now()));
+        printer.printf("Cracking %s started at %s", hash, dateTimeService.format(LocalDateTime.now()));
         printer.println();
 
         try {
             String password = passwordCracker.crack(hash);
 
-            printer.printf("Cracking finished at %s. Your password was '%s'",
+            printer.printf("Cracking finished at %s. Your password was %s",
                     dateTimeService.format(LocalDateTime.now()), password);
             printer.println();
 

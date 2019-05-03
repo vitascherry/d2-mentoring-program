@@ -18,6 +18,6 @@ public class RemoteExchangeRateService implements ExchangeRateService {
         return exchangeRateRepository.getCurrentExchangeRate(currency)
                 .map(ExchangeRate::getRate)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Unknown exchange rate for currency '%s'", currency)));
+                        String.format("Unknown exchange rate for currency %s", currency)));
     }
 }
