@@ -1,6 +1,6 @@
 package com.example.training.sportsbetting.domain;
 
-import com.example.training.sportsbetting.domain.helper.DomainEntityIdentifier;
+import com.example.training.sportsbetting.domain.identifier.DomainEntityIdentifier;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;

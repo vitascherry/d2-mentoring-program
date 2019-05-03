@@ -4,7 +4,7 @@ import com.example.training.common.provider.CachedEntityProvider;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.sportsbetting.domain.IdentifiableDomainEntity;
 import com.example.training.sportsbetting.domain.SportEvent;
-import com.example.training.sportsbetting.domain.helper.DecimalDomainEntityIdentifier;
+import com.example.training.sportsbetting.domain.identifier.DecimalDomainEntityIdentifier;
 import lombok.AllArgsConstructor;
 
 import java.util.List;

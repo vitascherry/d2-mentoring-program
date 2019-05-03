@@ -1,17 +1,19 @@
-package com.example.training.sportsbetting.domain.helper;
+package com.example.training.sportsbetting.domain.identifier;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"id"})
-public class DecimalDomainEntityIdentifier implements DomainEntityIdentifier {
+@EqualsAndHashCode(callSuper = true)
+@JsonPropertyOrder({"eventId", "id"})
+public class BetCompositeKey extends DecimalDomainEntityIdentifier {
 
     @JsonProperty
-    private Long id;
+    private Long eventId;
 }

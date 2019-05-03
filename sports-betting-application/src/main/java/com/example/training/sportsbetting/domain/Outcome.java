@@ -1,6 +1,6 @@
 package com.example.training.sportsbetting.domain;
 
-import com.example.training.sportsbetting.domain.helper.OutcomeCompositeKey;
+import com.example.training.sportsbetting.domain.identifier.OutcomeCompositeKey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

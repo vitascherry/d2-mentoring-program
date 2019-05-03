@@ -1,6 +1,6 @@
 package com.example.training.sportsbetting.domain;
 
-import com.example.training.sportsbetting.domain.helper.OutcomeOddCompositeKey;
+import com.example.training.sportsbetting.domain.identifier.OutcomeOddCompositeKey;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

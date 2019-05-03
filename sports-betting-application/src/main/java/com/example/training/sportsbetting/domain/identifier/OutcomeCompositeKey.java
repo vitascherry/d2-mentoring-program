@@ -1,4 +1,4 @@
-package com.example.training.sportsbetting.domain.helper;
+package com.example.training.sportsbetting.domain.identifier;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@JsonPropertyOrder({"eventId", "betId", "outcomeId", "id"})
-public class OutcomeOddCompositeKey extends OutcomeCompositeKey {
+@JsonPropertyOrder({"eventId", "betId", "id"})
+public class OutcomeCompositeKey extends BetCompositeKey {
 
     @JsonProperty
-    private Long outcomeId;
+    private Long betId;
 }

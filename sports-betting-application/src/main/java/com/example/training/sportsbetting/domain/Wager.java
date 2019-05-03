@@ -1,6 +1,6 @@
 package com.example.training.sportsbetting.domain;
 
-import com.example.training.sportsbetting.domain.helper.DecimalDomainEntityIdentifier;
+import com.example.training.sportsbetting.domain.identifier.DecimalDomainEntityIdentifier;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,7 @@ package com.example.training.sportsbetting.provider;
 import com.example.training.common.provider.CachedEntityProvider;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.sportsbetting.domain.Outcome;
-import com.example.training.sportsbetting.domain.helper.DecimalDomainEntityIdentifier;
+import com.example.training.sportsbetting.domain.identifier.DecimalDomainEntityIdentifier;
 import lombok.AllArgsConstructor;
 
 import java.util.List;

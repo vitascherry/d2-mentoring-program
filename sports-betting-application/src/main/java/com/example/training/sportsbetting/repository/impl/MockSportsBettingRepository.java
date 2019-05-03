@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
+import static java.util.Objects.requireNonNull;
 
 @AllArgsConstructor
 public class MockSportsBettingRepository implements SportsBettingRepository {
@@ -25,6 +26,8 @@ public class MockSportsBettingRepository implements SportsBettingRepository {
 
     @Override
     public List<Outcome> findSportEventResults(SportEvent sportEvent) {
+        requireNonNull(sportEvent, "sportEvent must not be null");
+
         return Optional.ofNullable(resultsProvider.getEntity(sportEvent.getIdentifier())).orElse(emptyList());
     }
 }
