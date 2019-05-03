@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 @Log4j2
 @AllArgsConstructor
 public class CsvReader {
@@ -33,13 +35,16 @@ public class CsvReader {
     }
 
     private <T> List<T> read(String fileName, ObjectReader reader) {
+        requireNonNull(fileName, "fileName must not be null");
+        requireNonNull(reader, "reader must not be null");
+
         try (InputStream csvFile = getClass().getClassLoader().getResourceAsStream(fileName)) {
             MappingIterator<T> it = reader
                     .with(csvSchema)
                     .readValues(csvFile);
             return it.readAll();
         } catch (IOException e) {
-            log.error("Error occurred while reading from file '{}'. ErrorMassage: ", fileName, e);
+            log.error("Error occurred while reading from file {}. ErrorMassage: ", fileName, e);
             throw new RuntimeException(e);
         }
     }
