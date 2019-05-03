@@ -33,7 +33,7 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
             return new Price(amount, zeroPrice.getCurrency());
 
         } catch (ParseException e) {
-            log.error("Error occurred while parsing Price from text '{}'. ErrorMessage: ", text, e);
+            log.error("Error occurred while parsing Price from text {}. ErrorMessage: ", text, e);
             return zeroPrice;
         }
     }
@@ -50,7 +50,7 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
 
     private void check(Currency currency) {
         if (!zeroPrice.getCurrency().equals(currency)) {
-            log.error("Invalid currency passed '{}'", currency);
+            log.error("Invalid currency passed {}", currency);
             throw new IllegalArgumentException("Currencies should match!");
         }
     }

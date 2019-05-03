@@ -58,7 +58,7 @@ public class HashCalculatorConsoleHandler extends Handler {
             printer.println();
 
         } catch (InterruptedException e) {
-            log.error("An error occurred while cracking password hash '{}'. ErrorMessage: ", hash, e);
+            log.error("An error occurred while cracking password hash {}. ErrorMessage: ", hash, e);
             printer.println(e.getMessage());
 
         } catch (ExecutionException e) {
