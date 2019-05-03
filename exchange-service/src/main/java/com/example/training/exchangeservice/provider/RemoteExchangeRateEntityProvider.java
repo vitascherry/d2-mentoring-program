@@ -1,6 +1,7 @@
 package com.example.training.exchangeservice.provider;
 
 import com.example.training.common.provider.CachedEntityProvider;
+import com.example.training.common.wrappers.DateTimeWrapper;
 import com.example.training.exchangeservice.client.ExchangeRateClient;
 import com.example.training.exchangeservice.domain.ExchangeRate;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class RemoteExchangeRateEntityProvider extends CachedEntityProvider<Currency, ExchangeRate> {
 
+    private final DateTimeWrapper dateTimeWrapper;
     private final ExchangeRateClient client;
     private LocalDate timestamp;
 
     @Override
     protected void initCacheIfNeeded() {
-        if (!LocalDate.now().equals(timestamp)) {
+        if (!dateTimeWrapper.currentDate().equals(timestamp)) {
             cache = initCache();
         }
     }

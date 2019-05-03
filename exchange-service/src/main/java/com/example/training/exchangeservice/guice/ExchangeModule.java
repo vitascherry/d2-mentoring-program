@@ -14,6 +14,7 @@ import com.example.training.common.guice.XmlMapperModule;
 import com.example.training.common.handler.Printer;
 import com.example.training.common.handler.Reader;
 import com.example.training.common.service.DateTimeService;
+import com.example.training.common.wrappers.DateTimeWrapper;
 import com.example.training.exchangeservice.client.ExchangeRateClient;
 import com.example.training.exchangeservice.handler.ExchangeHandler;
 import com.example.training.exchangeservice.provider.RemoteExchangeRateEntityProvider;
@@ -72,8 +73,9 @@ public class ExchangeModule extends AbstractModule {
 
     @Singleton
     @Provides
-    public RemoteExchangeRateEntityProvider remoteExchangeRateProvider(ExchangeRateClient client) {
-        return new RemoteExchangeRateEntityProvider(client);
+    public RemoteExchangeRateEntityProvider remoteExchangeRateProvider(DateTimeWrapper dateTimeWrapper,
+                                                                       ExchangeRateClient client) {
+        return new RemoteExchangeRateEntityProvider(dateTimeWrapper, client);
     }
 
     @Singleton

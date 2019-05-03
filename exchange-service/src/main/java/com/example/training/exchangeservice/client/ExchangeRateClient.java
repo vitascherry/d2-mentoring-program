@@ -23,7 +23,7 @@ import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 @Builder
 public class ExchangeRateClient {
 
-    private static final TypeReference<List<ExchangeRate>> EXCHANGE_RATE_TYPE = new TypeReference<List<ExchangeRate>>(){};
+    private static final TypeReference<List<ExchangeRate>> EXCHANGE_RATE_TYPE = new TypeReference<List<ExchangeRate>>() {};
 
     private final String path;
     private final Executor executor;

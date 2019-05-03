@@ -14,7 +14,7 @@ public class RemoteExchangeRateService implements ExchangeRateService {
     private final ExchangeRateRepository exchangeRateRepository;
 
     @Override
-    public BigDecimal getCurrentRate(Currency currency) {
+    public BigDecimal getCurrentRate(final Currency currency) {
         return exchangeRateRepository.getCurrentExchangeRate(currency)
                 .map(ExchangeRate::getRate)
                 .orElseThrow(() -> new IllegalArgumentException(
