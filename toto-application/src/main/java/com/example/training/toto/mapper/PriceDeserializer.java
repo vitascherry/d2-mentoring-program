@@ -28,7 +28,7 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
         String text = parser.getText();
 
         try {
-            initZeroPrice(text);
+            prepareFormatter(text);
             BigDecimal amount = (BigDecimal) decimalFormatter.parse(text);
             return new Price(amount, zeroPrice.getCurrency());
 
@@ -38,7 +38,7 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
         }
     }
 
-    private void initZeroPrice(String text) throws ParseException {
+    private void prepareFormatter(String text) throws ParseException {
         String currencyCode = parseCurrencyCode(text);
         Currency currency = Currency.getInstance(currencyCode);
         if (zeroPrice == null) {
