@@ -1,6 +1,7 @@
 package org.apache.http.client.fluent;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -20,7 +21,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Log4j2
@@ -31,10 +31,8 @@ public class RetryableHttpClient implements HttpClient {
     private final int maxWaitTimeout;
     private final int retryLimit;
 
-    private <T> T executeWithRetry(HttpRequest request, final HttpHost target, final HttpContext context,
+    private <T> T executeWithRetry(@NonNull HttpRequest request, final HttpHost target, final HttpContext context,
                                    final ResponseHandler<? extends T> responseHandler) throws IOException {
-        requireNonNull(request, "request must not be null");
-
         int numOfRetry = 0;
 
         while (numOfRetry <= retryLimit) {

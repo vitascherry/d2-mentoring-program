@@ -2,10 +2,9 @@ package com.example.training.common.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.function.Function;
-
-import static java.util.Objects.requireNonNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FunctionUtils {
@@ -14,9 +13,7 @@ public final class FunctionUtils {
         return foo;
     }
 
-    public static <T, R> Function<T, R> unchecked(final ThrowingFunction<T, R> foo) {
-        requireNonNull(foo, "foo must not be null");
-
+    public static <T, R> Function<T, R> unchecked(final @NonNull ThrowingFunction<T, R> foo) {
         return arg -> {
             try {
                 return foo.apply(arg);

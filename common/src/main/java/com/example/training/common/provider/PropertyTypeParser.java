@@ -2,19 +2,17 @@ package com.example.training.common.provider;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.function.Function;
-
-import static java.util.Objects.requireNonNull;
 
 @Log4j2
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class PropertyTypeParser {
 
-    static <T> T parsePropertyWithDefaultValue(String propertyValue, T defaultValue, Function<String, T> foo, Class<T> clazz) {
-        requireNonNull(foo, "foo must not be null");
-
+    static <T> T parsePropertyWithDefaultValue(String propertyValue, T defaultValue,
+                                               @NonNull Function<String, T> foo, Class<T> clazz) {
         try {
             return foo.apply(propertyValue);
         } catch (Exception e) {

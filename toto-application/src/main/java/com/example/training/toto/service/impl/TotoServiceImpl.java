@@ -14,6 +14,7 @@ import com.example.training.toto.service.TotoService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,7 +36,6 @@ import static com.example.training.toto.domain.Outcome.SECOND;
 import static com.example.training.toto.util.PriceUtils.extractCurrencyOrDefault;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.comparing;
-import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collector.Characteristics.IDENTITY_FINISH;
 import static java.util.stream.Collector.Characteristics.UNORDERED;
@@ -99,9 +99,7 @@ public class TotoServiceImpl implements TotoService {
     }
 
     @Override
-    public BetResult calculateWager(final Wager wager) {
-        requireNonNull(wager, "wager must not be null");
-
+    public BetResult calculateWager(@NonNull Wager wager) {
         final Round round = wager.getRound();
         final Price zeroPrice = new Price(ZERO, extractCurrencyOrDefault(round, null));
         List<Outcome> realOutcomes = round.getOutcomes().toList();

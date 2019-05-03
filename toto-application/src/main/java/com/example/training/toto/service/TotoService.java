@@ -1,7 +1,6 @@
 package com.example.training.toto.service;
 
 import com.example.training.toto.domain.*;
-import com.example.training.toto.exception.RoundNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;

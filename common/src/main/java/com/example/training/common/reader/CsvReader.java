@@ -7,13 +7,12 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import static java.util.Objects.requireNonNull;
 
 @Log4j2
 @AllArgsConstructor
@@ -34,10 +33,7 @@ public class CsvReader {
         return read(fileName, csvMapper.readerFor(typeReference));
     }
 
-    private <T> List<T> read(String fileName, ObjectReader reader) {
-        requireNonNull(fileName, "fileName must not be null");
-        requireNonNull(reader, "reader must not be null");
-
+    private <T> List<T> read(@NonNull String fileName, @NonNull ObjectReader reader) {
         try (InputStream csvFile = getClass().getClassLoader().getResourceAsStream(fileName)) {
             MappingIterator<T> it = reader
                     .with(csvSchema)

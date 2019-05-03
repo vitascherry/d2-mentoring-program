@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
+@SuppressWarnings("unchecked")
 public class REPLFunction<R, T> {
 
     private final Printer printer;

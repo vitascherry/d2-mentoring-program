@@ -1,6 +1,7 @@
 package com.example.training.clientcommon.util;
 
 import com.example.training.clientcommon.domain.RequestEntity;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static java.util.Objects.requireNonNull;
 import static javax.ws.rs.HttpMethod.DELETE;
 import static javax.ws.rs.HttpMethod.GET;
 import static javax.ws.rs.HttpMethod.POST;
@@ -30,9 +30,7 @@ public class RequestFactory {
         SUPPORTED.put(DELETE, Request::Delete);
     }
 
-    public Request createRequest(RequestEntity requestEntity) {
-        requireNonNull(requestEntity, "requestEntity must not be null");
-
+    public Request createRequest(@NonNull RequestEntity requestEntity) {
         final StringBuilder url = new StringBuilder(requestEntity.getPath());
 
         requestEntity.getPathParams().forEach((key, value) -> {
