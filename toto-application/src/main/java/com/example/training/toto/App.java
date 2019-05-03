@@ -9,7 +9,7 @@ import com.google.inject.Injector;
 @WithModules(TotoModule.class)
 public class App implements Guicified {
 
-    private Handler consoleHandler;
+    private final Handler consoleHandler;
 
     private App() {
         final Injector injector = getInjector();
