@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>d2-mentoring-program</artifactId>
+        <groupId>com.example.training</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>exchange-application-demo</artifactId>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <mainClass>com.example.training.exchangeservicedemo.App</mainClass>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.example.training</groupId>
+            <artifactId>console-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example.training</groupId>
+            <artifactId>exchange-service</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

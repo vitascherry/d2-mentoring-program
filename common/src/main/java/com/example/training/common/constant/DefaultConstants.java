@@ -10,7 +10,5 @@ public final class DefaultConstants {
 
     public static final String COMMON_PROPERTY_FILE = "common";
 
-    public static final String PROPERTY_FILE = "override";
-
     public static final String TEST_PROPERTY_FILE = "test-override";
 }

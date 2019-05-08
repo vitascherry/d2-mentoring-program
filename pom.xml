@@ -8,13 +8,16 @@
     <artifactId>d2-mentoring-program</artifactId>
     <version>1.0</version>
     <modules>
-        <module>toto-application</module>
-        <module>sports-betting-application</module>
+        <module>toto-service</module>
+        <module>sports-betting-service</module>
         <module>common</module>
         <module>exchange-service</module>
-        <module>password-cracker</module>
         <module>config</module>
         <module>client-common</module>
+        <module>console-common</module>
+        <module>sports-betting-application-demo</module>
+        <module>toto-application-demo</module>
+        <module>exchange-application-demo</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -132,13 +135,13 @@
             </dependency>
             <dependency>
                 <groupId>com.example.training</groupId>
-                <artifactId>client-common</artifactId>
+                <artifactId>console-common</artifactId>
                 <version>1.0</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.example.training</groupId>
-                <artifactId>exchange-service</artifactId>
+                <artifactId>client-common</artifactId>
                 <version>1.0</version>
                 <scope>compile</scope>
             </dependency>

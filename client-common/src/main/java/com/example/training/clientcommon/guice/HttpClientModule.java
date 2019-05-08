@@ -16,7 +16,6 @@ public class HttpClientModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new ClientFilePropertyProviderModule());
     }
 
     @Singleton

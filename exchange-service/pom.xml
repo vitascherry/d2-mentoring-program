@@ -13,23 +13,10 @@
 
     <packaging>jar</packaging>
 
-    <properties>
-        <mainClass>com.example.training.exchangeservice.App</mainClass>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.example.training</groupId>
             <artifactId>client-common</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

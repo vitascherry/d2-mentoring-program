@@ -1,5 +1,7 @@
 package com.example.training.clientcommon.domain;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
@@ -7,24 +9,25 @@ import org.apache.http.entity.ContentType;
 
 import java.util.Map;
 
-@Builder
 @Getter
+@Builder(builderClassName = "Builder")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RequestEntity {
 
-    private String httpMethod;
+    private final String httpMethod;
 
-    private String path;
+    private final String path;
 
-    private String body;
+    private final String body;
 
-    private ContentType contentType;
+    private final ContentType contentType;
 
     @Singular("headerParam")
-    private Map<String, String> headerParams;
+    private final Map<String, String> headerParams;
 
     @Singular("queryParam")
-    private Map<String, String> queryParams;
+    private final Map<String, String> queryParams;
 
     @Singular("pathParam")
-    private Map<String, String> pathParams;
+    private final Map<String, String> pathParams;
 }
