@@ -1,11 +1,13 @@
 #!/usr/bin/env sh
 
-export PROJECT_DIR=$1
-export DEFAULT_PROPERTIES=default.env.properties
-export PROPERTIES=env.properties
-export TARGET_DIR="$CATALINA_HOME/bin"
+BASEDIR=$(dirname "$0")
 
-\cp setenv.sh setenv.bat "$TARGET_DIR"
+PROJECT_DIR="$BASEDIR/$1"
+DEFAULT_PROPERTIES=default.env.properties
+PROPERTIES=env.properties
+TARGET_DIR="$CATALINA_HOME/bin"
+
+\cp "$BASEDIR/setenv.sh" "$BASEDIR/setenv.bat" "$TARGET_DIR"
 
 if [ -f "$PROJECT_DIR/$PROPERTIES" ]
 then
