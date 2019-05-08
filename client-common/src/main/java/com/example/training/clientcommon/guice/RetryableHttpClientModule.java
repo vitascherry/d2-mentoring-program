@@ -31,8 +31,8 @@ public class RetryableHttpClientModule extends AbstractModule {
     @Singleton
     @Provides
     public HttpClient retryableHttpClientProvider(@Named("combinedPropertyProvider") PropertyProvider propertyProvider) {
-        int connectionTimeToLive =
-                propertyProvider.getIntProperty(CONNECTION_TIME_TO_LIVE_MILLIS, CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT);
+        long connectionTimeToLive =
+                propertyProvider.getLongProperty(CONNECTION_TIME_TO_LIVE_MILLIS, CONNECTION_TIME_TO_LIVE_MILLIS_DEFAULT);
         int connectionTimeout =
                 propertyProvider.getIntProperty(CONNECTION_TIMEOUT_MILLIS, CONNECTION_TIMEOUT_MILLIS_DEFAULT);
         int socketTimeout = propertyProvider.getIntProperty(SOCKET_TIMEOUT_MILLIS, SOCKET_TIMEOUT_MILLIS_DEFAULT);
