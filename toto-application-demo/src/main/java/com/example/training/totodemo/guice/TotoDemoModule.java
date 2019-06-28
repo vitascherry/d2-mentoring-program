@@ -4,12 +4,11 @@ import com.example.training.consolecommon.guice.ConsoleCommonModule;
 import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.Reader;
-import com.example.training.toto.domain.OutcomeSet;
 import com.example.training.toto.guice.TotoAggregateModule;
 import com.example.training.toto.service.TotoService;
 import com.example.training.totodemo.aop.ValidateOutcomesInterceptor;
 import com.example.training.totodemo.aop.annotation.ValidateOutcomes;
-import com.example.training.totodemo.guice.provider.OutcomeSetMapper;
+import com.example.training.totodemo.guice.mapper.OutcomeSetMapper;
 import com.example.training.totodemo.handler.TotoConsoleHandler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -27,7 +26,6 @@ public class TotoDemoModule extends AbstractModule {
         bind(Handler.class).to(TotoConsoleHandler.class);
 
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(ValidateOutcomes.class), new ValidateOutcomesInterceptor());
-        bind(OutcomeSet.class).toProvider(OutcomeSetMapper.class);
 
         install(new ConsoleCommonModule());
         install(new TotoDemoDateTimeModule());

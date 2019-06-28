@@ -12,7 +12,7 @@ import com.example.training.toto.domain.Price;
 import com.example.training.toto.domain.Round;
 import com.example.training.toto.domain.Wager;
 import com.example.training.toto.service.TotoService;
-import com.example.training.totodemo.guice.provider.OutcomeSetMapper;
+import com.example.training.totodemo.guice.mapper.OutcomeSetMapper;
 import lombok.Builder;
 
 import java.text.DecimalFormat;
@@ -91,7 +91,7 @@ public class TotoConsoleHandler extends Handler {
 
         OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
                 .withLoop()
-                .withMessage("Enter outcomes (%s): ", join("|", Outcome.values(), Outcome::getValue))
+                .withMessage("Enter outcomes (%s): ", join("|", Outcome.values()))
                 .withParser(text -> Arrays.stream(text.split(""))
                         .map(Outcome::fromValue)
                         .filter(Objects::nonNull)
@@ -99,7 +99,7 @@ public class TotoConsoleHandler extends Handler {
                 .withErrorMessage("Could not parse %s as an array")
                 .withCondition(outcomes -> outcomes.length == 14)
                 .withBadMessage("Outcomes count should be 14!")
-                .withMapper(outcomeSetMapper::toOutcomeSet)
+                .withMapper(outcomeSetMapper::map)
                 .eval();
 
         BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));
