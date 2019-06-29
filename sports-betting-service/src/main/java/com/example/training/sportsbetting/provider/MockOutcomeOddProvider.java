@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 @AllArgsConstructor
@@ -24,6 +25,6 @@ public class MockOutcomeOddProvider extends CachedEntityProvider<OutcomeOddCompo
         List<OutcomeOdd> odds = csvReader.getData(FILE_NAME, OutcomeOdd.class);
 
         return odds.stream()
-                .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
+                .collect(toMap(IdentifiableDomainEntity::getIdentifier, identity()));
     }
 }

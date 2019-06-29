@@ -4,6 +4,7 @@ import com.example.training.common.provider.CachedEntityProvider;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.sportsbetting.domain.IdentifiableDomainEntity;
 import com.example.training.sportsbetting.domain.Outcome;
+import com.example.training.sportsbetting.domain.OutcomeOdd;
 import com.example.training.sportsbetting.domain.identifier.OutcomeCompositeKey;
 import lombok.AllArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Comparator.comparing;
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -25,18 +27,16 @@ public class MockOutcomeProvider extends CachedEntityProvider<OutcomeCompositeKe
     @Override
     protected Map<OutcomeCompositeKey, Outcome> initCache() {
         List<Outcome> outcomes = csvReader.getData(FILE_NAME, Outcome.class);
+        final List<OutcomeOdd> outcomeOdds = outcomeOddProvider.getEntities();
 
-        outcomes.forEach(outcome -> {
-            outcome.setOdds(outcomeOddProvider.getEntities()
-                    .stream()
-                    .filter(outcomeOdd -> outcome.getIdentifier().getEventId().equals(outcomeOdd.getIdentifier().getEventId()))
-                    .filter(outcomeOdd -> outcome.getIdentifier().getBetId().equals(outcomeOdd.getIdentifier().getBetId()))
-                    .filter(outcomeOdd -> outcome.getIdentifier().getId().equals(outcomeOdd.getIdentifier().getOutcomeId()))
-                    .collect(toList()));
-            outcome.getOdds().sort(comparing(odd -> odd.getIdentifier().getId()));
-        });
+        outcomes.forEach(outcome -> outcome.setOdds(outcomeOdds.stream()
+                .filter(odd -> outcome.getIdentifier().getEventId().equals(odd.getIdentifier().getEventId()))
+                .filter(odd -> outcome.getIdentifier().getBetId().equals(odd.getIdentifier().getBetId()))
+                .filter(odd -> outcome.getIdentifier().getId().equals(odd.getIdentifier().getOutcomeId()))
+                .sorted(comparing(odd -> odd.getIdentifier().getId()))
+                .collect(toList())));
 
         return outcomes.stream()
-                .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
+                .collect(toMap(IdentifiableDomainEntity::getIdentifier, identity()));
     }
 }

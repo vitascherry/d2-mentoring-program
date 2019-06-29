@@ -4,6 +4,7 @@ import com.example.training.common.provider.CachedEntityProvider;
 import com.example.training.common.reader.CsvReader;
 import com.example.training.sportsbetting.domain.Bet;
 import com.example.training.sportsbetting.domain.IdentifiableDomainEntity;
+import com.example.training.sportsbetting.domain.Outcome;
 import com.example.training.sportsbetting.domain.identifier.BetCompositeKey;
 import lombok.AllArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Comparator.comparing;
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -25,17 +27,15 @@ public class MockBetProvider extends CachedEntityProvider<BetCompositeKey, Bet> 
     @Override
     protected Map<BetCompositeKey, Bet> initCache() {
         List<Bet> bets = csvReader.getData(FILE_NAME, Bet.class);
+        final List<Outcome> outcomes = outcomeProvider.getEntities();
 
-        bets.forEach(bet -> {
-            bet.setOutcomes(outcomeProvider.getEntities()
-                    .stream()
-                    .filter(outcome -> bet.getIdentifier().getEventId().equals(outcome.getIdentifier().getEventId()))
-                    .filter(outcome -> bet.getIdentifier().getId().equals(outcome.getIdentifier().getBetId()))
-                    .collect(toList()));
-            bet.getOutcomes().sort(comparing(outcome -> outcome.getIdentifier().getId()));
-        });
+        bets.forEach(bet -> bet.setOutcomes(outcomes.stream()
+                .filter(outcome -> bet.getIdentifier().getEventId().equals(outcome.getIdentifier().getEventId()))
+                .filter(outcome -> bet.getIdentifier().getId().equals(outcome.getIdentifier().getBetId()))
+                .sorted(comparing(outcome -> outcome.getIdentifier().getId()))
+                .collect(toList())));
 
         return bets.stream()
-                .collect(toMap(IdentifiableDomainEntity::getIdentifier, x -> x));
+                .collect(toMap(IdentifiableDomainEntity::getIdentifier, identity()));
     }
 }

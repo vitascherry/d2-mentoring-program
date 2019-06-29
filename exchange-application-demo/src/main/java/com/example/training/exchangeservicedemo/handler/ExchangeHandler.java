@@ -3,8 +3,10 @@ package com.example.training.exchangeservicedemo.handler;
 import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.Reader;
+import com.example.training.exchange.exception.MissingExchangeRateException;
 import com.example.training.exchange.service.ExchangeRateService;
 import lombok.Builder;
+import lombok.SneakyThrows;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -33,6 +35,7 @@ public class ExchangeHandler extends Handler {
         printer.println();
     }
 
+    @SneakyThrows(MissingExchangeRateException.class)
     private void printCurrentExchangeRates() {
         printer.println("Testing NBU API...");
 

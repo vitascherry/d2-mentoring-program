@@ -9,7 +9,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public abstract class CachedEntityProvider<K, V> implements EntityProvider<K, V> {
 
-    protected Map<K, V> cache;
+    private Map<K, V> cache;
 
     @Override
     public List<V> getEntities() {
@@ -23,10 +23,14 @@ public abstract class CachedEntityProvider<K, V> implements EntityProvider<K, V>
         return cache.get(key);
     }
 
-    protected void initCacheIfNeeded() {
-        if (cache == null) {
+    private void initCacheIfNeeded() {
+        if (shouldInit()) {
             cache = initCache();
         }
+    }
+
+    protected boolean shouldInit() {
+        return cache == null;
     }
 
     protected abstract Map<K, V> initCache();

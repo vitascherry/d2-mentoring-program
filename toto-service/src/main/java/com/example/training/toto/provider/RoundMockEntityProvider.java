@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDate;
 import java.util.Map;
 
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 @AllArgsConstructor
@@ -21,6 +22,6 @@ public class RoundMockEntityProvider extends CachedEntityProvider<LocalDate, Rou
     protected Map<LocalDate, Round> initCache() {
         return reader.getData(TOTO_DATA, Round.class)
                 .stream()
-                .collect(toMap(Round::getDate, x -> x));
+                .collect(toMap(Round::getDate, identity()));
     }
 }

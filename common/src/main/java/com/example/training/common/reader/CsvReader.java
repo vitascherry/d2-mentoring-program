@@ -33,7 +33,7 @@ public class CsvReader {
         return read(fileName, csvMapper.readerFor(typeReference));
     }
 
-    private <T> List<T> read(@NonNull String fileName, @NonNull ObjectReader reader) {
+    private <T> List<T> read(@NonNull String fileName, ObjectReader reader) {
         try (InputStream csvFile = getClass().getClassLoader().getResourceAsStream(fileName)) {
             MappingIterator<T> it = reader
                     .with(csvSchema)

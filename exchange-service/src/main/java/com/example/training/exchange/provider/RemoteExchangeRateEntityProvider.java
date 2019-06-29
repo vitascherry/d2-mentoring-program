@@ -11,6 +11,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 @RequiredArgsConstructor
@@ -21,10 +22,8 @@ public class RemoteExchangeRateEntityProvider extends CachedEntityProvider<Curre
     private LocalDate timestamp;
 
     @Override
-    protected void initCacheIfNeeded() {
-        if (!dateTimeWrapper.currentDate().equals(timestamp)) {
-            cache = initCache();
-        }
+    protected boolean shouldInit() {
+        return !dateTimeWrapper.currentDate().equals(timestamp);
     }
 
     @Override
@@ -37,6 +36,6 @@ public class RemoteExchangeRateEntityProvider extends CachedEntityProvider<Curre
                 .orElse(null);
 
         return exchangeRates.stream()
-                .collect(toMap(ExchangeRate::getCurrency, x -> x));
+                .collect(toMap(ExchangeRate::getCurrency, identity()));
     }
 }

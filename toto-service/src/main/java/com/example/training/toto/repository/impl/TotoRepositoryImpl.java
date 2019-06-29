@@ -1,7 +1,7 @@
 package com.example.training.toto.repository.impl;
 
+import com.example.training.common.provider.EntityProvider;
 import com.example.training.toto.domain.Round;
-import com.example.training.toto.provider.RoundMockEntityProvider;
 import com.example.training.toto.repository.TotoRepository;
 import lombok.AllArgsConstructor;
 
@@ -13,9 +13,9 @@ import static com.example.training.common.util.DateUtils.isBetween;
 import static java.util.stream.Collectors.toList;
 
 @AllArgsConstructor
-public class MockTotoRepository implements TotoRepository {
+public class TotoRepositoryImpl implements TotoRepository {
 
-    private final RoundMockEntityProvider provider;
+    private final EntityProvider<LocalDate, Round> provider;
 
     @Override
     public List<Round> getAllRounds() {

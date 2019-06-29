@@ -1,6 +1,7 @@
 package com.example.training.exchange.service.impl;
 
 import com.example.training.exchange.domain.ExchangeRate;
+import com.example.training.exchange.exception.MissingExchangeRateException;
 import com.example.training.exchange.repository.ExchangeRateRepository;
 import com.example.training.exchange.service.ExchangeRateService;
 import lombok.AllArgsConstructor;
@@ -14,10 +15,9 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     private final ExchangeRateRepository exchangeRateRepository;
 
     @Override
-    public BigDecimal getCurrentRate(final Currency currency) {
+    public BigDecimal getCurrentRate(final Currency currency) throws MissingExchangeRateException {
         return exchangeRateRepository.getCurrentExchangeRate(currency)
                 .map(ExchangeRate::getRate)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Unknown exchange rate for currency %s", currency)));
+                .orElseThrow(() -> new MissingExchangeRateException(currency));
     }
 }
