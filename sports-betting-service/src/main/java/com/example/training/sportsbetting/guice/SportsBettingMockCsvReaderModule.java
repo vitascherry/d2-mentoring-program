@@ -12,6 +12,7 @@ public class SportsBettingMockCsvReaderModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        // Unnecessary, using @Provides method for binding instead
     }
 
     @Singleton
