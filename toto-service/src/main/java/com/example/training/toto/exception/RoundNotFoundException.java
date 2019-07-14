@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class RoundNotFoundException extends RuntimeException {
+public class RoundNotFoundException extends Exception {
 
     private final LocalDate date;
 }

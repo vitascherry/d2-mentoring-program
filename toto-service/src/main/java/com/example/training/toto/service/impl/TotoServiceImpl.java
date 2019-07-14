@@ -11,34 +11,20 @@ import com.example.training.toto.domain.Wager;
 import com.example.training.toto.exception.RoundNotFoundException;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.service.TotoService;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static com.example.training.toto.domain.Outcome.DRAW;
-import static com.example.training.toto.domain.Outcome.FIRST;
-import static com.example.training.toto.domain.Outcome.SECOND;
+import static com.example.training.toto.service.impl.DistributionCollector.toDistributions;
 import static com.example.training.toto.util.PriceUtils.extractCurrencyOrDefault;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.comparing;
-import static java.util.function.Function.identity;
-import static java.util.stream.Collector.Characteristics.IDENTITY_FINISH;
-import static java.util.stream.Collector.Characteristics.UNORDERED;
 
 @AllArgsConstructor
 public class TotoServiceImpl implements TotoService {
@@ -81,14 +67,15 @@ public class TotoServiceImpl implements TotoService {
 
     @Override
     public List<Distribution> getDistributions() {
-        return totoRepository.getAllRounds().stream()
+        return totoRepository.getAllRounds()
+                .stream()
                 .map(Round::getOutcomes)
                 .map(OutcomeSet::toList)
-                .collect(DistributionCollector.toDistributions());
+                .collect(toDistributions());
     }
 
     @Override
-    public Round getRound(final LocalDate date) {
+    public Round getRound(final LocalDate date) throws RoundNotFoundException {
         return totoRepository.getRoundByDate(date)
                 .orElseThrow(() -> new RoundNotFoundException(date));
     }
@@ -107,7 +94,7 @@ public class TotoServiceImpl implements TotoService {
 
         BetResult betResult = new BetResult(new ArrayList<>(), zeroPrice);
         Outcome real;
-        for (int i = 0; i < 14 && (real = realOutcomes.get(i)).equals(wagerOutcomes.get(i)); i++) {
+        for (int i = 0; i < 14 && (real = realOutcomes.get(i)) == wagerOutcomes.get(i); i++) {
             betResult.getHits().add(Hit.builder()
                     .date(round.getDate())
                     .game(i + 1)
@@ -127,48 +114,5 @@ public class TotoServiceImpl implements TotoService {
                                         betResult.getHits().size() == 14 ? round.getPriceOf14Hits() : zeroPrice);
 
         return betResult;
-    }
-
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    private static class DistributionCollector implements
-            Collector<List<Outcome>, List<Distribution>, List<Distribution>> {
-
-        static DistributionCollector toDistributions() {
-            return new DistributionCollector();
-        }
-
-        @Override
-        public Supplier<List<Distribution>> supplier() {
-            return ArrayList::new;
-        }
-
-        @Override
-        public BiConsumer<List<Distribution>, List<Outcome>> accumulator() {
-            return (distributions, outcomes) -> {
-                Distribution item = new Distribution();
-                item.setFirst(((double) outcomes.stream().filter(FIRST::equals).count()) / outcomes.size());
-                item.setSecond(((double) outcomes.stream().filter(SECOND::equals).count()) / outcomes.size());
-                item.setDraw(((double) outcomes.stream().filter(DRAW::equals).count()) / outcomes.size());
-                distributions.add(item);
-            };
-        }
-
-        @Override
-        public BinaryOperator<List<Distribution>> combiner() {
-            return (distributions, distributions2) -> {
-                distributions.addAll(distributions2);
-                return distributions;
-            };
-        }
-
-        @Override
-        public Function<List<Distribution>, List<Distribution>> finisher() {
-            return identity();
-        }
-
-        @Override
-        public Set<Characteristics> characteristics() {
-            return EnumSet.of(IDENTITY_FINISH, UNORDERED);
-        }
     }
 }

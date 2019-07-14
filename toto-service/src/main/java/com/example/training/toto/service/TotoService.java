@@ -1,6 +1,7 @@
 package com.example.training.toto.service;
 
 import com.example.training.toto.domain.*;
+import com.example.training.toto.exception.RoundNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ public interface TotoService {
 
     List<Distribution> getDistributions();
 
-    Round getRound(LocalDate date);
+    Round getRound(LocalDate date) throws RoundNotFoundException;
 
     boolean hasRound(LocalDate date);
 
