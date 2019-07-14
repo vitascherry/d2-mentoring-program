@@ -35,10 +35,9 @@ public class RequestFactory {
 
         requestEntity.getPathParams().forEach((key, value) -> {
             String pattern = String.format("{%s}", key);
-            String replacement = String.format("{%s}", value);
             int start = url.indexOf(pattern);
             int end = start + pattern.length();
-            url.replace(start, end, replacement);
+            url.replace(start, end, value);
         });
 
         if (!requestEntity.getQueryParams().isEmpty()) {
