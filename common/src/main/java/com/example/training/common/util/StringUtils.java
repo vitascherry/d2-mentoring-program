@@ -21,10 +21,10 @@ public final class StringUtils {
     }
 
     public static <T> String join(String delimiter, T[] values) {
-        return Arrays.stream(values).map(T::toString).collect(joining(delimiter));
+        return join(delimiter, values, T::toString);
     }
 
     public static <T> String join(String delimiter, List<T> values) {
-        return values.stream().map(T::toString).collect(joining(delimiter));
+        return join(delimiter, values, T::toString);
     }
 }
