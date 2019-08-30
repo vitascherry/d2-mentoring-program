@@ -1,6 +1,7 @@
 package com.example.training.consolecommon.guice;
 
 import com.example.training.consolecommon.handler.Reader;
+import com.example.training.consolecommon.handler.impl.ReaderImpl;
 import com.google.inject.AbstractModule;
 
 public class ReaderModule extends AbstractModule {
@@ -12,6 +13,6 @@ public class ReaderModule extends AbstractModule {
     }
 
     protected Reader createReader() {
-        return new Reader(System.in);
+        return new ReaderImpl(System.in);
     }
 }

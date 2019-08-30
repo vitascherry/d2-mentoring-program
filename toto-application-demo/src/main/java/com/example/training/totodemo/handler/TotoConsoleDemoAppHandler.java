@@ -25,23 +25,15 @@ import static com.example.training.common.util.FunctionUtils.unchecked;
 import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
-public class TotoConsoleHandler extends Handler {
+@Builder
+public class TotoConsoleDemoAppHandler implements Handler {
 
     private final DecimalFormat decimalFormat;
     private final DateTimeFormatter dateTimeFormatter;
     private final TotoService totoService;
     private final OutcomeSetMapper outcomeSetMapper;
-
-    @Builder
-    public TotoConsoleHandler(Printer printer, Reader reader, DecimalFormat decimalFormat,
-                              DateTimeFormatter dateTimeFormatter, TotoService totoService,
-                              OutcomeSetMapper outcomeSetMapper) {
-        super(printer, reader);
-        this.decimalFormat = decimalFormat;
-        this.dateTimeFormatter = dateTimeFormatter;
-        this.totoService = totoService;
-        this.outcomeSetMapper = outcomeSetMapper;
-    }
+    private final Printer printer;
+    private final Reader reader;
 
     private void printGreetings() {
         printer.println("Hi, user!");

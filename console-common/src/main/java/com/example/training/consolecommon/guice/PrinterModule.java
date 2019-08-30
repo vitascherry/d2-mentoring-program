@@ -1,6 +1,7 @@
 package com.example.training.consolecommon.guice;
 
 import com.example.training.consolecommon.handler.Printer;
+import com.example.training.consolecommon.handler.impl.PrinterImpl;
 import com.google.inject.AbstractModule;
 
 public class PrinterModule extends AbstractModule {
@@ -12,6 +13,6 @@ public class PrinterModule extends AbstractModule {
     }
 
     protected Printer createPrinter() {
-        return new Printer(System.out);
+        return new PrinterImpl(System.out);
     }
 }

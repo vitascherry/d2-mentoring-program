@@ -7,17 +7,17 @@ import com.example.training.totodemo.guice.TotoDemoModule;
 import com.google.inject.Injector;
 
 @WithModules(TotoDemoModule.class)
-public class App implements Guicified {
+public class Bootstrap implements Guicified {
 
-    private final Handler consoleHandler;
+    private final Handler handler;
 
-    private App() {
+    private Bootstrap() {
         final Injector injector = getInjector();
-        this.consoleHandler = injector.getInstance(Handler.class);
+        this.handler = injector.getInstance(Handler.class);
     }
 
     public static void main(String[] args) {
-        App app = new App();
-        app.consoleHandler.handle(args);
+        Bootstrap app = new Bootstrap();
+        app.handler.handle(args);
     }
 }

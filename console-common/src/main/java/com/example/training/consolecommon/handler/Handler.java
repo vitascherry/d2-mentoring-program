@@ -1,12 +1,6 @@
 package com.example.training.consolecommon.handler;
 
-import lombok.AllArgsConstructor;
+public interface Handler {
 
-@AllArgsConstructor
-public abstract class Handler {
-
-    protected final Printer printer;
-    protected final Reader reader;
-
-    public abstract void handle(String[] args);
+    void handle(String[] args);
 }

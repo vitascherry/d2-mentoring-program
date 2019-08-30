@@ -2,20 +2,20 @@ package com.example.training.sportsbettingdemo;
 
 import com.example.training.common.guice.Guicified;
 import com.example.training.common.guice.annotation.WithModules;
+import com.example.training.consolecommon.handler.Handler;
 import com.example.training.sportsbettingdemo.guice.SportsBettingDemoModule;
-import com.example.training.sportsbettingdemo.handler.SportsBettingConsoleHandler;
 
 @WithModules(SportsBettingDemoModule.class)
-public class App implements Guicified {
+public class Bootstrap implements Guicified {
 
-    private final SportsBettingConsoleHandler consoleHandler;
+    private final Handler consoleHandler;
 
-    private App() {
-        consoleHandler = getInjector().getInstance(SportsBettingConsoleHandler.class);
+    private Bootstrap() {
+        consoleHandler = getInjector().getInstance(Handler.class);
     }
 
     public static void main(String[] args) {
-        App app = new App();
+        Bootstrap app = new Bootstrap();
         app.consoleHandler.handle(args);
     }
 }

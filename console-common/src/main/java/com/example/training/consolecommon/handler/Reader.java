@@ -1,30 +1,14 @@
 package com.example.training.consolecommon.handler;
 
-import java.io.InputStream;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Reader {
+public interface Reader {
 
-    private final Scanner scanner;
+    String read(Pattern pattern);
 
-    public Reader(InputStream in) {
-        this.scanner = new Scanner(in);
-    }
+    String read(String regex);
 
-    public String read(Pattern pattern) {
-        return pattern != null ? scanner.next(pattern) : read();
-    }
+    String read();
 
-    public String read(String regex) {
-        return regex != null ? scanner.next(regex) : read();
-    }
-
-    public String read() {
-        return scanner.nextLine();
-    }
-
-    public void flush() {
-        scanner.nextLine();
-    }
+    void flush();
 }

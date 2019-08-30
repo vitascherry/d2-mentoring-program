@@ -15,20 +15,14 @@ import java.time.format.DateTimeFormatter;
 import static com.example.training.exchange.constant.ExchangeConstants.SYSTEM_CURRENCY_CODE;
 import static java.util.Currency.getInstance;
 
-public class ExchangeHandler extends Handler {
+@Builder
+public class ExchangeDemoAppHandler implements Handler {
 
     private final ExchangeRateService exchangeRateService;
     private final DateTimeFormatter dateTimeFormatter;
     private final DecimalFormat decimalFormat;
-
-    @Builder
-    public ExchangeHandler(Printer printer, Reader reader, ExchangeRateService exchangeRateService,
-                           DateTimeFormatter dateTimeFormatter, DecimalFormat decimalFormat) {
-        super(printer, reader);
-        this.exchangeRateService = exchangeRateService;
-        this.dateTimeFormatter = dateTimeFormatter;
-        this.decimalFormat = decimalFormat;
-    }
+    private final Printer printer;
+    private final Reader reader;
 
     private void printGreeting() {
         printer.println("Welcome to our Exchange Service");

@@ -2,20 +2,20 @@ package com.example.training.exchangeservicedemo;
 
 import com.example.training.common.guice.Guicified;
 import com.example.training.common.guice.annotation.WithModules;
+import com.example.training.consolecommon.handler.Handler;
 import com.example.training.exchangeservicedemo.guice.ExchangeDemoModule;
-import com.example.training.exchangeservicedemo.handler.ExchangeHandler;
 
 @WithModules(ExchangeDemoModule.class)
-public class App implements Guicified {
+public class Bootstrap implements Guicified {
 
-    private final ExchangeHandler exchangeConsoleHandler;
+    private final Handler exchangeConsoleHandler;
 
-    private App() {
-        this.exchangeConsoleHandler = getInjector().getInstance(ExchangeHandler.class);
+    private Bootstrap() {
+        this.exchangeConsoleHandler = getInjector().getInstance(Handler.class);
     }
 
     public static void main(String[] args) {
-        App app = new App();
+        Bootstrap app = new Bootstrap();
 
         app.exchangeConsoleHandler.handle(args);
     }

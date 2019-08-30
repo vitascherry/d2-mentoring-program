@@ -20,18 +20,13 @@ import static com.example.training.common.util.FunctionUtils.unchecked;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
 
-public class SportsBettingConsoleHandler extends Handler {
+@Builder
+public class SportsBettingDemoAppHandler implements Handler {
 
     private final SportsBettingService sportsBettingService;
     private final DecimalFormat decimalFormat;
-
-    @Builder
-    public SportsBettingConsoleHandler(Printer printer, Reader reader,
-                                       SportsBettingService sportsBettingService, DecimalFormat decimalFormat) {
-        super(printer, reader);
-        this.sportsBettingService = sportsBettingService;
-        this.decimalFormat = decimalFormat;
-    }
+    private final Printer printer;
+    private final Reader reader;
 
     private void printGreetings() {
         printer.println("Welcome, dear Player!");

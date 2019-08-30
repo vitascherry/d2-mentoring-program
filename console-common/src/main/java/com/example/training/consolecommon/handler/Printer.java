@@ -1,27 +1,12 @@
 package com.example.training.consolecommon.handler;
 
-import lombok.AllArgsConstructor;
+public interface Printer {
 
-import java.io.PrintStream;
+    void println(String message);
 
-@AllArgsConstructor
-public class Printer {
+    void println();
 
-    private final PrintStream out;
+    void printf(String message, Object... params);
 
-    public void println(String message) {
-        out.println(message);
-    }
-
-    public void println() {
-        out.println();
-    }
-
-    public void printf(String message, Object... params) {
-        out.print(String.format(message, params));
-    }
-
-    public void print(String message) {
-        out.print(message);
-    }
+    void print(String message);
 }
