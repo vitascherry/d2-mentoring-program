@@ -11,11 +11,11 @@ import java.util.Currency;
 public final class PriceUtils {
 
     public static Currency extractCurrencyOrDefault(@NonNull Round round, Currency defaultValue) {
-        return round.getPriceOf10Hits() != null ?
-                round.getPriceOf10Hits().getCurrency() : round.getPriceOf11Hits() != null ?
-                round.getPriceOf11Hits().getCurrency() : round.getPriceOf12Hits() != null ?
-                round.getPriceOf12Hits().getCurrency() : round.getPriceOf13Hits() != null ?
-                round.getPriceOf13Hits().getCurrency() : round.getPriceOf14Hits() != null ?
-                round.getPriceOf14Hits().getCurrency() : defaultValue;
+        return round.getPriceOf10Hits() != null ? round.getPriceOf10Hits().getCurrency() :
+                round.getPriceOf11Hits() != null ? round.getPriceOf11Hits().getCurrency() :
+                        round.getPriceOf12Hits() != null ? round.getPriceOf12Hits().getCurrency() :
+                                round.getPriceOf13Hits() != null ? round.getPriceOf13Hits().getCurrency() :
+                                        round.getPriceOf14Hits() != null ? round.getPriceOf14Hits().getCurrency() :
+                                                defaultValue;
     }
 }

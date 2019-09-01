@@ -9,7 +9,7 @@ import com.example.training.toto.service.TotoService;
 import com.example.training.totodemo.aop.ValidateOutcomesInterceptor;
 import com.example.training.totodemo.aop.annotation.ValidateOutcomes;
 import com.example.training.totodemo.guice.mapper.OutcomeSetMapper;
-import com.example.training.totodemo.handler.TotoConsoleDemoAppHandler;
+import com.example.training.totodemo.handler.TotoDemoHandler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -23,10 +23,12 @@ public class TotoDemoModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        // Using AOP to verify outcomes array size
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(ValidateOutcomes.class), new ValidateOutcomesInterceptor());
 
         install(new ConsoleCommonModule());
         install(new TotoDemoDateTimeModule());
+        install(new TotoDemoDecimalModule());
         install(new TotoAggregateModule());
     }
 
@@ -34,9 +36,9 @@ public class TotoDemoModule extends AbstractModule {
     @Provides
     public Handler totoConsoleHandlerProvider(Printer printer, Reader reader, TotoService totoService,
                                               OutcomeSetMapper outcomeSetMapper,
-                                              @Named("totoDecimalFormat") DecimalFormat decimalFormat,
+                                              @Named("totoDemoDecimalFormat") DecimalFormat decimalFormat,
                                               @Named("totoDemoDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
-        return TotoConsoleDemoAppHandler.builder()
+        return TotoDemoHandler.builder()
                 .printer(printer)
                 .reader(reader)
                 .decimalFormat(decimalFormat)

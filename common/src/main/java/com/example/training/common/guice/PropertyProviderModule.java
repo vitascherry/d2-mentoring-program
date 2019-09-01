@@ -18,6 +18,8 @@ import static com.example.training.common.constant.DefaultConstants.COMMON_PROPE
 
 public abstract class PropertyProviderModule extends AbstractModule {
 
+    private static final TypeLiteral<List<PropertyProvider>> LIST_CLASS = new TypeLiteral<List<PropertyProvider>>(){};
+
     @Override
     protected void configure() {
         PropertyProvider env = createEnvironmentPropertyProvider();
@@ -27,7 +29,7 @@ public abstract class PropertyProviderModule extends AbstractModule {
         bind(PropertyProvider.class).annotatedWith(Names.named("commonFilePropertyProvider")).toInstance(commonFile);
 
         List<PropertyProvider> overrideFiles = createOverrideFilePropertyProviders();
-        bind(new TypeLiteral<List<PropertyProvider>>() {}).toInstance(overrideFiles);
+        bind(LIST_CLASS).annotatedWith(Names.named("overrideFilePropertyProviders")).toInstance(overrideFiles);
     }
 
     protected PropertyProvider createEnvironmentPropertyProvider() {
@@ -45,7 +47,7 @@ public abstract class PropertyProviderModule extends AbstractModule {
     @Named("combinedPropertyProvider")
     public PropertyProvider combinedPropertyProvider(@Named("environmentPropertyProvider") PropertyProvider env,
                                                      @Named("commonFilePropertyProvider") PropertyProvider commonFile,
-                                                     List<PropertyProvider> overrideFiles) {
+                                                     @Named("overrideFilePropertyProviders") List<PropertyProvider> overrideFiles) {
         return CombinedPropertyProvider.builder()
                 .provider(env)
                 .providers(overrideFiles)

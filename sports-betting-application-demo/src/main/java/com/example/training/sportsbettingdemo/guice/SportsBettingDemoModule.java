@@ -6,7 +6,7 @@ import com.example.training.consolecommon.handler.impl.PrinterImpl;
 import com.example.training.consolecommon.handler.impl.ReaderImpl;
 import com.example.training.sportsbetting.guice.SportsBettingAggregateModule;
 import com.example.training.sportsbetting.service.SportsBettingService;
-import com.example.training.sportsbettingdemo.handler.SportsBettingDemoAppHandler;
+import com.example.training.sportsbettingdemo.handler.SportsBettingDemoHandler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -28,7 +28,7 @@ public class SportsBettingDemoModule extends AbstractModule {
     public Handler sportsBettingConsoleHandlerProvider(PrinterImpl printer, ReaderImpl reader,
                                                        SportsBettingService sportsBettingService,
                                                        @Named("sportsBettingDemoDecimalFormat") DecimalFormat decimalFormat) {
-        return SportsBettingDemoAppHandler.builder()
+        return SportsBettingDemoHandler.builder()
                 .printer(printer)
                 .reader(reader)
                 .sportsBettingService(sportsBettingService)

@@ -13,7 +13,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,8 +32,7 @@ public class TotoMockCsvReaderTest implements Guicified {
     private CsvMapper csvMapper;
     private CsvSchema csvSchema;
 
-    @Before
-    public void setup() {
+    public TotoMockCsvReaderTest() {
         final Injector injector = getInjector();
         this.csvMapper = injector.getInstance(Key.get(CsvMapper.class, Names.named("totoMockCsvMapper")));
         this.csvSchema = injector.getInstance(Key.get(CsvSchema.class, Names.named("totoMockCsvSchema")));

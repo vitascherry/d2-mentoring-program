@@ -1,13 +1,6 @@
 package com.example.training.toto.service.impl;
 
-import com.example.training.toto.domain.BetResult;
-import com.example.training.toto.domain.Distribution;
-import com.example.training.toto.domain.Hit;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.toto.domain.Price;
-import com.example.training.toto.domain.Round;
-import com.example.training.toto.domain.Wager;
+import com.example.training.toto.domain.*;
 import com.example.training.toto.exception.RoundNotFoundException;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.service.TotoService;
@@ -107,11 +100,12 @@ public class TotoServiceImpl implements TotoService {
                     .outcome(real)
                     .build());
         }
-        betResult.setPrice(betResult.getHits().size() == 10 ? round.getPriceOf10Hits() :
-                betResult.getHits().size() == 11 ? round.getPriceOf11Hits() :
-                        betResult.getHits().size() == 12 ? round.getPriceOf12Hits() :
-                                betResult.getHits().size() == 13 ? round.getPriceOf13Hits() :
-                                        betResult.getHits().size() == 14 ? round.getPriceOf14Hits() : zeroPrice);
+        final int hits = betResult.getHits().size();
+        betResult.setPrice(hits == 10 ? round.getPriceOf10Hits() :
+                hits == 11 ? round.getPriceOf11Hits() :
+                        hits == 12 ? round.getPriceOf12Hits() :
+                                hits == 13 ? round.getPriceOf13Hits() :
+                                        hits == 14 ? round.getPriceOf14Hits() : zeroPrice);
 
         return betResult;
     }

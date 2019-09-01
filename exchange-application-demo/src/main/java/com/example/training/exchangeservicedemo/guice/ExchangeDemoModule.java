@@ -6,7 +6,7 @@ import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.Reader;
 import com.example.training.exchange.guice.ExchangeAggregateModule;
 import com.example.training.exchange.service.ExchangeRateService;
-import com.example.training.exchangeservicedemo.handler.ExchangeDemoAppHandler;
+import com.example.training.exchangeservicedemo.handler.ExchangeDemoHandler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -31,7 +31,7 @@ public class ExchangeDemoModule extends AbstractModule {
                                            ExchangeRateService exchangeRateService,
                                            @Named("exchangeDemoDecimalFormat") DecimalFormat decimalFormat,
                                            @Named("exchangeDemoDateTimeFormatter") DateTimeFormatter dateTimeFormatter) {
-        return ExchangeDemoAppHandler.builder()
+        return ExchangeDemoHandler.builder()
                 .printer(printer)
                 .reader(reader)
                 .exchangeRateService(exchangeRateService)

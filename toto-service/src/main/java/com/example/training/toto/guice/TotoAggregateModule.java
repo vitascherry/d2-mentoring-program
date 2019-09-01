@@ -20,8 +20,6 @@ public class TotoAggregateModule extends AbstractModule {
         bind(TotoService.class).to(TotoServiceImpl.class);
         bind(TotoRepository.class).to(TotoRepositoryImpl.class);
 
-        install(new TotoDecimalModule());
-
         // This allows to migrate from mock data to real data gradually, without changing the aggregation module
         install(Modules.override(new TotoMockModule()).with(new TotoModule()));
     }

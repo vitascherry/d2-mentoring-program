@@ -21,7 +21,7 @@ import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
 
 @Builder
-public class SportsBettingDemoAppHandler implements Handler {
+public class SportsBettingDemoHandler implements Handler {
 
     private final SportsBettingService sportsBettingService;
     private final DecimalFormat decimalFormat;

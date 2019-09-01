@@ -26,7 +26,7 @@ import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
 @Builder
-public class TotoConsoleDemoAppHandler implements Handler {
+public class TotoDemoHandler implements Handler {
 
     private final DecimalFormat decimalFormat;
     private final DateTimeFormatter dateTimeFormatter;

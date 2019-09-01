@@ -7,26 +7,21 @@ import com.example.training.toto.mapper.OutcomeDeserializer;
 import com.example.training.toto.mapper.PriceDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-
-import java.text.DecimalFormat;
+import com.google.inject.name.Names;
 
 public class TotoMockCsvMapperModule extends CsvMapperModule {
 
     @Override
     protected void configure() {
-        // not calling super.configure() because of using @Provides instead of explicit binding
+        CsvMapper csvMapper = createCsvMapper();
+        bind(CsvMapper.class).annotatedWith(Names.named("totoMockCsvMapper")).toInstance(csvMapper);
     }
 
-    @Singleton
-    @Provides
-    @Named("totoMockCsvMapper")
-    public CsvMapper totoCsvMapperProvider(@Named("totoDecimalFormat") DecimalFormat decimalFormat) {
-        return (CsvMapper) createCsvMapper()
+    @Override
+    protected CsvMapper createCsvMapper() {
+        return (CsvMapper) super.createCsvMapper()
                 .registerModule(new SimpleModule()
-                        .addDeserializer(Price.class, new PriceDeserializer(decimalFormat))
+                        .addDeserializer(Price.class, new PriceDeserializer())
                         .addDeserializer(Outcome.class, new OutcomeDeserializer()));
     }
 }

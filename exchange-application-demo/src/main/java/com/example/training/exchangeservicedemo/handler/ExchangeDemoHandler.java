@@ -16,7 +16,7 @@ import static com.example.training.exchange.constant.ExchangeConstants.SYSTEM_CU
 import static java.util.Currency.getInstance;
 
 @Builder
-public class ExchangeDemoAppHandler implements Handler {
+public class ExchangeDemoHandler implements Handler {
 
     private final ExchangeRateService exchangeRateService;
     private final DateTimeFormatter dateTimeFormatter;
