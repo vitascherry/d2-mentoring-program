@@ -1,62 +1,36 @@
 package com.example.training.clientcommon.util;
 
 import com.example.training.clientcommon.domain.RequestEntity;
+import lombok.Builder;
 import lombok.NonNull;
+import lombok.Singular;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static javax.ws.rs.HttpMethod.DELETE;
-import static javax.ws.rs.HttpMethod.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import static javax.ws.rs.HttpMethod.PUT;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 
 @Log4j2
+@Builder
 public class RequestFactory {
 
-    private static final Map<String, Function<String, Request>> SUPPORTED = new HashMap<>();
-
-    static {
-        SUPPORTED.put(POST, Request::Post);
-        SUPPORTED.put(GET, Request::Get);
-        SUPPORTED.put(PUT, Request::Put);
-        SUPPORTED.put(DELETE, Request::Delete);
-    }
+    @Singular("supports")
+    private final Map<String, Function<String, Request>> supported;
 
     public Request createRequest(@NonNull RequestEntity requestEntity) {
-        final StringBuilder url = new StringBuilder(requestEntity.getPath());
-
-        requestEntity.getPathParams().forEach((key, value) -> {
-            String pattern = String.format("{%s}", key);
-            int start = url.indexOf(pattern);
-            int end = start + pattern.length();
-            url.replace(start, end, value);
-        });
-
-        if (!requestEntity.getQueryParams().isEmpty()) {
-            url.append('?');
-        }
-        for (Iterator<Map.Entry<String, String>> it = requestEntity.getQueryParams().entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<String, String> param = it.next();
-            if (param.getKey() != null && !param.getKey().isEmpty()) {
-                url.append(param.getKey()).append('=');
-            }
-            url.append(param.getValue());
-            if (it.hasNext()) {
-                url.append('&');
-            }
-        }
 
         final String httpMethod = requestEntity.getHttpMethod();
-        final String path = url.toString();
-        Request request = Optional.ofNullable(SUPPORTED.get(httpMethod))
+        final String path = new PathFormatter()
+                .withPattern(requestEntity.getPath())
+                .withPathParams(requestEntity.getPathParams())
+                .withQueryParams(requestEntity.getQueryParams())
+                .format();
+
+        Request request = Optional.ofNullable(supported.get(httpMethod))
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported http method %s", httpMethod)))
                 .apply(path);
 

@@ -7,7 +7,9 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import org.apache.http.client.fluent.Request;
 
+import static javax.ws.rs.HttpMethod.*;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import static org.apache.http.entity.ContentType.TEXT_XML;
 
@@ -21,7 +23,12 @@ public class ClientAggregateModule extends AbstractModule {
     @Singleton
     @Provides
     public RequestFactory requestFactoryProvider() {
-        return new RequestFactory();
+        return RequestFactory.builder()
+                .supports(HEAD, Request::Head)
+                .supports(POST, Request::Post)
+                .supports(GET, Request::Get)
+                .supports(PUT, Request::Put)
+                .supports(DELETE, Request::Delete).build();
     }
 
     @Singleton
