@@ -4,35 +4,25 @@ import com.example.training.toto.domain.Price;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.Currency;
 
 import static com.example.training.common.util.CurrencyUtils.parseCurrencyCode;
 import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.HALF_EVEN;
 
 @Log4j2
+@RequiredArgsConstructor
 public class PriceDeserializer extends JsonDeserializer<Price> {
 
-    private DecimalFormat decimalFormat;
+    private final DecimalFormat decimalFormat;
     private Price zeroPrice;
-
-    public PriceDeserializer() {
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-        decimalFormatSymbols.setDecimalSeparator('.');
-        decimalFormatSymbols.setMonetaryDecimalSeparator('.');
-        decimalFormatSymbols.setGroupingSeparator(' ');
-        decimalFormat = new DecimalFormat("###,###.##", decimalFormatSymbols);
-        decimalFormat.setRoundingMode(HALF_EVEN);
-        decimalFormat.setParseBigDecimal(true);
-    }
 
     @Override
     @SneakyThrows(ParseException.class)

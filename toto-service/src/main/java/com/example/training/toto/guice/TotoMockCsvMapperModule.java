@@ -9,6 +9,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.google.inject.name.Names;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+import static java.math.RoundingMode.HALF_EVEN;
+
 public class TotoMockCsvMapperModule extends CsvMapperModule {
 
     @Override
@@ -19,9 +24,16 @@ public class TotoMockCsvMapperModule extends CsvMapperModule {
 
     @Override
     protected CsvMapper createCsvMapper() {
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setMonetaryDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(' ');
+        DecimalFormat decimalFormat = new DecimalFormat("###,###.##", decimalFormatSymbols);
+        decimalFormat.setRoundingMode(HALF_EVEN);
+        decimalFormat.setParseBigDecimal(true);
         return (CsvMapper) super.createCsvMapper()
                 .registerModule(new SimpleModule()
-                        .addDeserializer(Price.class, new PriceDeserializer())
+                        .addDeserializer(Price.class, new PriceDeserializer(decimalFormat))
                         .addDeserializer(Outcome.class, new OutcomeDeserializer()));
     }
 }
