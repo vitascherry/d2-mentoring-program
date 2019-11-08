@@ -16,6 +16,12 @@
     <dependencies>
         <dependency>
             <groupId>com.example.training</groupId>
+            <artifactId>graphy</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.example.training</groupId>
             <artifactId>common</artifactId>
             <version>1.0</version>
             <scope>compile</scope>

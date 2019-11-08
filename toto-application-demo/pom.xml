@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <mainClass>com.example.training.totodemo.Bootstrap</mainClass>
+        <mainClass>com.example.training.totodemo.GuiceBootstrap</mainClass>
     </properties>
 
     <dependencies>

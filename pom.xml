@@ -18,6 +18,7 @@
         <module>sports-betting-application-demo</module>
         <module>toto-application-demo</module>
         <module>exchange-application-demo</module>
+        <module>graphy</module>
     </modules>
 
     <packaging>pom</packaging>
