@@ -1,17 +1,17 @@
 package com.example.training.totoservice;
 
-import com.example.training.common.guice.Guicified;
-import com.example.training.common.guice.annotation.WithModules;
+import com.example.training.graphy.Graphied;
+import com.example.training.graphy.ObjectGraph;
+import com.example.training.graphy.annotation.WithModules;
 import com.example.training.toto.domain.Price;
 import com.example.training.toto.domain.Round;
-import com.example.training.totoservice.guice.TotoTestModule;
+import com.example.training.toto.graphy.TotoMockCsvMapperModule;
+import com.example.training.toto.graphy.TotoMockCsvSchemaModule;
+import com.example.training.totoservice.graphy.TotoTestModule;
 import com.example.training.totoservice.util.TotoTestUtils;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,18 +24,18 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @WithModules(TotoTestModule.class)
-public class TotoMockCsvReaderTest implements Guicified {
+public class TotoMockCsvReaderIT implements Graphied {
 
     private static final String TEST_FILE_NAME = "test.csv";
     private static final Currency TEST_CURRENCY = Currency.getInstance("UAH");
 
-    private CsvMapper csvMapper;
-    private CsvSchema csvSchema;
+    private final CsvMapper csvMapper;
+    private final CsvSchema csvSchema;
 
-    public TotoMockCsvReaderTest() {
-        final Injector injector = getInjector();
-        this.csvMapper = injector.getInstance(Key.get(CsvMapper.class, Names.named("totoMockCsvMapper")));
-        this.csvSchema = injector.getInstance(Key.get(CsvSchema.class, Names.named("totoMockCsvSchema")));
+    public TotoMockCsvReaderIT() {
+        final ObjectGraph graph = getObjectGraph();
+        this.csvMapper = graph.getInstance(TotoMockCsvMapperModule.CSV_MAPPER_KEY);
+        this.csvSchema = graph.getInstance(TotoMockCsvSchemaModule.CSV_SCHEMA_KEY);
     }
 
     @Test

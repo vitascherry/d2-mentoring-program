@@ -12,13 +12,13 @@ public final class Key<T> {
 
     private final Class<T> clazz;
 
-    private final TypeReference<T> typeLiteral;
+    private final TypeReference<T> typeReference;
 
     private final String name;
 
     private Key(Builder<T> builder) {
         this.clazz = builder.clazz;
-        this.typeLiteral = builder.typeReference;
+        this.typeReference = builder.typeReference;
         this.name = builder.name;
     }
 
@@ -39,8 +39,8 @@ public final class Key<T> {
             return this;
         }
 
-        public Builder<T> withTypeReference(TypeReference<T> typeLiteral) {
-            this.typeReference = typeLiteral;
+        public Builder<T> withTypeReference(TypeReference<T> typeReference) {
+            this.typeReference = typeReference;
             return this;
         }
 
