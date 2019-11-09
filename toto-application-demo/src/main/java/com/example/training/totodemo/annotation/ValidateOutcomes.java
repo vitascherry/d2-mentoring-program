@@ -1,4 +1,4 @@
-package com.example.training.totodemo.aop.annotation;
+package com.example.training.totodemo.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

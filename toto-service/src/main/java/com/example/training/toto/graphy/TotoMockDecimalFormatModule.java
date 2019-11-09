@@ -2,7 +2,7 @@ package com.example.training.toto.graphy;
 
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
-import com.example.training.common.graphy.module.DecimalFormatModule;
+import com.example.training.common.graphy.DecimalFormatModule;
 
 import java.text.DecimalFormat;
 

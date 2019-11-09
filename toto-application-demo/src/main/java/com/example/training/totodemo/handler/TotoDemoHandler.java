@@ -1,18 +1,12 @@
 package com.example.training.totodemo.handler;
 
+import com.example.training.common.mapper.EntityMapper;
 import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.REPLFunction;
 import com.example.training.consolecommon.handler.Reader;
-import com.example.training.toto.domain.BetResult;
-import com.example.training.toto.domain.Distribution;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.toto.domain.Price;
-import com.example.training.toto.domain.Round;
-import com.example.training.toto.domain.Wager;
+import com.example.training.toto.domain.*;
 import com.example.training.toto.service.TotoService;
-import com.example.training.totodemo.guice.mapper.OutcomeSetMapper;
 import lombok.Builder;
 
 import java.text.DecimalFormat;
@@ -31,7 +25,7 @@ public class TotoDemoHandler implements Handler {
     private final DecimalFormat decimalFormat;
     private final DateTimeFormatter dateTimeFormatter;
     private final TotoService totoService;
-    private final OutcomeSetMapper outcomeSetMapper;
+    private final EntityMapper<Outcome[], OutcomeSet> outcomeSetMapper;
     private final Printer printer;
     private final Reader reader;
 

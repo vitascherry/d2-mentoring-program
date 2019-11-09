@@ -1,4 +1,4 @@
-package com.example.training.totodemo.aop;
+package com.example.training.totodemo.guice.aop;
 
 import com.example.training.toto.domain.Outcome;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -6,7 +6,7 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Arrays;
 
-public class ValidateOutcomesInterceptor implements MethodInterceptor {
+public class ValidateOutcomesMethodInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

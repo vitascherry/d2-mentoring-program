@@ -1,4 +1,4 @@
-package com.example.training.common.graphy.module;
+package com.example.training.common.graphy;
 
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;

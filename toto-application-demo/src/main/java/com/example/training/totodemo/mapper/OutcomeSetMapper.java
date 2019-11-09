@@ -1,9 +1,9 @@
-package com.example.training.totodemo.guice.mapper;
+package com.example.training.totodemo.mapper;
 
 import com.example.training.common.mapper.EntityMapper;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.totodemo.aop.annotation.ValidateOutcomes;
+import com.example.training.totodemo.annotation.ValidateOutcomes;
 
 public class OutcomeSetMapper implements EntityMapper<Outcome[], OutcomeSet> {
 
