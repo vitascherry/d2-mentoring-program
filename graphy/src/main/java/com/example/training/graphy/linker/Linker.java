@@ -7,7 +7,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 public interface Linker {
 
-    void merge(Module one, Module second);
+    default void merge(Module one, Module second) {
+        one.configure(this);
+        // Override Factory<T> associated with same Key<T>
+        second.configure(this);
+    }
 
     <T> Factory<T> factoryFor(Key<T> key);
 

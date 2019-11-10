@@ -2,7 +2,6 @@ package com.example.training.graphy.linker;
 
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
-import com.example.training.graphy.module.Module;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.HashMap;
@@ -11,12 +10,6 @@ import java.util.Map;
 public class InMemoryLinker implements Linker {
 
     private final Map<Key<?>, Factory<?>> factories = new HashMap<>();
-
-    @Override
-    public void merge(Module one, Module second) {
-        one.configure(this);
-        second.configure(this);
-    }
 
     @Override
     @SuppressWarnings("unchecked")
