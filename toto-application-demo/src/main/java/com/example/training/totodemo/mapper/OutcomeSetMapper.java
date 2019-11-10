@@ -3,13 +3,12 @@ package com.example.training.totodemo.mapper;
 import com.example.training.common.mapper.EntityMapper;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
-import com.example.training.totodemo.annotation.ValidateOutcomes;
+import com.example.training.totodemo.annotation.ArraySize;
 
 public class OutcomeSetMapper implements EntityMapper<Outcome[], OutcomeSet> {
 
     @Override
-    @ValidateOutcomes
-    public OutcomeSet map(Outcome[] outcomes) {
+    public OutcomeSet map(@ArraySize(min = 14, max = 14, message = "Games count in outcomes should be 14") Outcome[] outcomes) {
         return OutcomeSet.builder()
                 .o1(outcomes[0])
                 .o2(outcomes[1])

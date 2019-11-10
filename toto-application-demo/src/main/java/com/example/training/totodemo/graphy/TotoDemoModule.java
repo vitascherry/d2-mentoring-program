@@ -13,7 +13,7 @@ import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
 import com.example.training.toto.graphy.TotoAggregateModule;
 import com.example.training.toto.service.TotoService;
-import com.example.training.totodemo.graphy.aop.ValidateOutcomesInvocationHandler;
+import com.example.training.totodemo.graphy.aop.ValidateArraySizeInvocationHandler;
 import com.example.training.totodemo.handler.TotoDemoHandler;
 import com.example.training.totodemo.mapper.OutcomeSetMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -30,7 +30,7 @@ public class TotoDemoModule implements Module {
     public void configure(Linker linker) {
         // Using AOP to verify outcomes array size
         linker.install(ENTITY_MAPPER_TYPE_REFERENCE, ProxyFactory.decorate(
-                new ValidateOutcomesInvocationHandler<>(new OutcomeSetMapper()),
+                new ValidateArraySizeInvocationHandler<>(new OutcomeSetMapper()),
                 EntityMapper.class.getClassLoader(),
                 EntityMapper.class));
         linker.install(Handler.class, this::totoConsoleHandlerProvider);
