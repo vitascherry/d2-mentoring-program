@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 import javax.inject.Singleton;
 import java.lang.reflect.Method;
 
-import static com.example.training.graphy.proxy.ReflectionUtils.getKey;
+import static com.example.training.graphy.key.ReflectionUtils.getKey;
 
 public abstract class AnnotationDrivenModule implements Module {
 

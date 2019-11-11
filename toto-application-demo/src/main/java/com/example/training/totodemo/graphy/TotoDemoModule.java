@@ -1,6 +1,7 @@
 package com.example.training.totodemo.graphy;
 
 import com.example.training.common.mapper.EntityMapper;
+import com.example.training.common.util.FunctionUtils;
 import com.example.training.consolecommon.graphy.ConsoleCommonModule;
 import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
@@ -9,18 +10,19 @@ import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
-import com.example.training.graphy.proxy.Proxy;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
 import com.example.training.toto.graphy.TotoAggregateModule;
 import com.example.training.toto.service.TotoService;
-import com.example.training.totodemo.graphy.aop.ValidateArraySizeInvocationHandler;
 import com.example.training.totodemo.handler.TotoDemoHandler;
 import com.example.training.totodemo.mapper.OutcomeSetMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+
+import static org.apache.logging.log4j.LogManager.getLogger;
 
 public class TotoDemoModule implements Module {
 
@@ -38,8 +40,14 @@ public class TotoDemoModule implements Module {
     }
 
     protected EntityMapper<Outcome[], OutcomeSet> createOutcomeSetMapper(Linker linker) {
-        // Using simple AOP to verify outcomes array size
-        return Proxy.of(new ValidateArraySizeInvocationHandler<>(new OutcomeSetMapper()), OutcomeSetMapper.class);
+        // Using plain java to intercept call to map method to log invocation and verify outcomes array size
+        return entity -> FunctionUtils.wrap((Outcome[] arg) -> {
+            getLogger(OutcomeSetMapper.class).info("Calling OutcomeSetMapper.map(Outcome[]) with args: {}", Arrays.toString(arg));
+            return arg;
+        }).andThen((Outcome[] arg) -> {
+            if (arg.length != 14) throw new IllegalArgumentException("Games count in outcomes should be 14");
+            return arg;
+        }).andThen(new OutcomeSetMapper()::map).apply(entity);
     }
 
     protected Handler createTotoConsoleHandler(Linker linker) {

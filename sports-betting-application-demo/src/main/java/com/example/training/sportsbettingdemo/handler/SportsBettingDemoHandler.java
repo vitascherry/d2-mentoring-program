@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.example.training.common.util.CurrencyUtils.parseCurrencyCode;
-import static com.example.training.common.util.FunctionUtils.unchecked;
+import static com.example.training.common.util.FunctionUtils.sneaky;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
 import static java.math.BigDecimal.ZERO;
 
@@ -123,11 +123,11 @@ public class SportsBettingDemoHandler implements Handler {
         BigDecimal betPrice = new REPLFunction<BigDecimal, BigDecimal>(printer, reader)
                 .withLoop()
                 .withMessage("How much do you want to bet? ")
-                .withParser(unchecked((String text) -> {
+                .withParser(sneaky((String text) -> {
                     String currencyCode = parseCurrencyCode(text);
                     decimalFormat.applyPattern("###,###.## " + currencyCode);
                     return text;
-                }).andThen(unchecked((String text) -> (BigDecimal) decimalFormat.parse(text))))
+                }).andThen(sneaky((String text) -> (BigDecimal) decimalFormat.parse(text))))
                 .withErrorMessage("Please, specify an amount with a 3-letter currency code!")
                 .eval();
 

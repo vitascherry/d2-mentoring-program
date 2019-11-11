@@ -9,11 +9,11 @@ import java.util.function.Function;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FunctionUtils {
 
-    public static <T, R> Function<T, R> extract(final Function<T, R> foo) {
+    public static <T, R> Function<T, R> wrap(final @NonNull Function<T, R> foo) {
         return foo;
     }
 
-    public static <T, R> Function<T, R> unchecked(final @NonNull ThrowingFunction<T, R> foo) {
+    public static <T, R> Function<T, R> sneaky(final @NonNull ThrowingFunction<T, R> foo) {
         return arg -> {
             try {
                 return foo.apply(arg);

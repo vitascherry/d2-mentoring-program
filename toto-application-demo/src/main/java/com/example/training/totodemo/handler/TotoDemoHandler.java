@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.example.training.common.util.FunctionUtils.unchecked;
+import static com.example.training.common.util.FunctionUtils.sneaky;
 import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
@@ -73,7 +73,7 @@ public class TotoDemoHandler implements Handler {
                 .withErrorMessage("The date should be in proper format!")
                 .withCondition(totoService::hasRound)
                 .withBadMessage("Not found any round on %s")
-                .withMapper(unchecked(totoService::getRound))
+                .withMapper(sneaky(totoService::getRound))
                 .eval();
 
         OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
