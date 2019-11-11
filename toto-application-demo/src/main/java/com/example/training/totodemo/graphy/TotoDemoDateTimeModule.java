@@ -1,6 +1,7 @@
 package com.example.training.totodemo.graphy;
 
 import com.example.training.common.graphy.DateTimeModule;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
 
@@ -17,7 +18,7 @@ public class TotoDemoDateTimeModule extends DateTimeModule {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(DATE_TIME_FORMATTER_KEY, this::createDateTimeFormatter);
+        linker.install(DATE_TIME_FORMATTER_KEY, SingletonFactory.of(this::createDateTimeFormatter));
     }
 
     @Override

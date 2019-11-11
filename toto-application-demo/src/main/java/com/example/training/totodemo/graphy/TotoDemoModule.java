@@ -6,9 +6,10 @@ import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.Reader;
 import com.example.training.graphy.factory.Factory;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
-import com.example.training.graphy.proxy.ProxyFactory;
+import com.example.training.graphy.proxy.Proxy;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
 import com.example.training.toto.graphy.TotoAggregateModule;
@@ -26,14 +27,9 @@ public class TotoDemoModule implements Module {
     private static final TypeReference<EntityMapper<Outcome[], OutcomeSet>> ENTITY_MAPPER_TYPE_REFERENCE = new TypeReference<EntityMapper<Outcome[], OutcomeSet>>() {};
 
     @Override
-    @SuppressWarnings("unchecked")
     public void configure(Linker linker) {
-        // Using AOP to verify outcomes array size
-        linker.install(ENTITY_MAPPER_TYPE_REFERENCE, ProxyFactory.decorate(
-                new ValidateArraySizeInvocationHandler<>(new OutcomeSetMapper()),
-                EntityMapper.class.getClassLoader(),
-                EntityMapper.class));
-        linker.install(Handler.class, this::totoConsoleHandlerProvider);
+        linker.install(ENTITY_MAPPER_TYPE_REFERENCE, SingletonFactory.of(this::createOutcomeSetMapper));
+        linker.install(Handler.class, SingletonFactory.of(this::createTotoConsoleHandler));
 
         new ConsoleCommonModule().configure(linker);
         new TotoDemoDateTimeModule().configure(linker);
@@ -41,7 +37,12 @@ public class TotoDemoModule implements Module {
         new TotoAggregateModule().configure(linker);
     }
 
-    protected Handler totoConsoleHandlerProvider(Linker linker) {
+    protected EntityMapper<Outcome[], OutcomeSet> createOutcomeSetMapper(Linker linker) {
+        // Using simple AOP to verify outcomes array size
+        return Proxy.of(new ValidateArraySizeInvocationHandler<>(new OutcomeSetMapper()), OutcomeSetMapper.class);
+    }
+
+    protected Handler createTotoConsoleHandler(Linker linker) {
         Factory<Printer> printerFactory = linker.factoryFor(Printer.class);
         Factory<Reader> readerFactory = linker.factoryFor(Reader.class);
         Factory<TotoService> totoServiceFactory = linker.factoryFor(TotoService.class);

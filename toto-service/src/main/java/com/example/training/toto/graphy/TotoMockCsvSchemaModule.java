@@ -1,8 +1,9 @@
 package com.example.training.toto.graphy;
 
+import com.example.training.common.graphy.CsvSchemaModule;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
-import com.example.training.common.graphy.CsvSchemaModule;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.NUMBER;
@@ -17,7 +18,7 @@ public class TotoMockCsvSchemaModule extends CsvSchemaModule {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(CSV_SCHEMA_KEY, this::createCsvSchema);
+        linker.install(CSV_SCHEMA_KEY, SingletonFactory.of(this::createCsvSchema));
     }
 
     @Override

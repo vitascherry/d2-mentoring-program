@@ -1,9 +1,10 @@
 package com.example.training.toto.graphy;
 
+import com.example.training.common.graphy.CsvMapperModule;
 import com.example.training.graphy.factory.Factory;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
-import com.example.training.common.graphy.CsvMapperModule;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.Price;
 import com.example.training.toto.mapper.OutcomeDeserializer;
@@ -24,7 +25,7 @@ public class TotoMockCsvMapperModule extends CsvMapperModule {
     public void configure(Linker linker) {
         new TotoMockDecimalFormatModule().configure(linker);
 
-        linker.install(CSV_MAPPER_KEY, this::createCsvMapper);
+        linker.install(CSV_MAPPER_KEY, SingletonFactory.of(this::createCsvMapper));
     }
 
     @Override

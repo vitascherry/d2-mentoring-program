@@ -1,6 +1,7 @@
 package com.example.training.toto.graphy;
 
 import com.example.training.graphy.factory.Factory;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 import com.example.training.common.provider.EntityProvider;
@@ -19,8 +20,8 @@ public class TotoAggregateModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(TotoService.class, this::createTotoService);
-        linker.install(TotoRepository.class, this::createTotoRepository);
+        linker.install(TotoService.class, SingletonFactory.of(this::createTotoService));
+        linker.install(TotoRepository.class, SingletonFactory.of(this::createTotoRepository));
 
         // This allows to migrate from mock data to real data gradually, without changing the aggregation module
         linker.merge(new TotoMockModule(), new TotoModule());
