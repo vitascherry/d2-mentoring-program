@@ -1,18 +1,18 @@
 package com.example.training.common.graphy;
 
-import com.example.training.graphy.factory.Factory;
-import com.example.training.graphy.key.Key;
-import com.example.training.graphy.linker.Linker;
 import com.example.training.common.provider.EnvironmentPropertyProvider;
 import com.example.training.common.provider.PropertyProvider;
 import com.example.training.common.wrappers.EnvironmentWrapper;
+import com.example.training.graphy.factory.Factory;
+import com.example.training.graphy.key.Key;
+import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 
 public class EnvironmentPropertyProviderModule implements Module {
 
-    static final Key<PropertyProvider> PROPERTY_PROVIDER_KEY = Key.<PropertyProvider>builder()
-            .withClass(PropertyProvider.class)
-            .withName("environmentPropertyProvider")
+    static final Key PROPERTY_PROVIDER_KEY = Key.builder()
+            .type(PropertyProvider.class)
+            .name("environmentPropertyProvider")
             .build();
 
     @Override

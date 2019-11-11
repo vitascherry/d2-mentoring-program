@@ -19,7 +19,7 @@ public class TotoMockModule implements Module {
     public void configure(Linker linker) {
         new TotoMockCsvReaderModule().configure(linker);
 
-        linker.install(ENTITY_PROVIDER_TYPE_REFERENCE, SingletonFactory.of(this::createRoundEntityProvider));
+        linker.install(ENTITY_PROVIDER_TYPE_REFERENCE.getType(), SingletonFactory.of(this::createRoundEntityProvider));
     }
 
     protected EntityProvider<LocalDate, Round> createRoundEntityProvider(Linker linker) {

@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
-import static com.example.training.common.util.ProxyUtils.getMethod;
+import static com.example.training.graphy.proxy.ReflectionUtils.getMethod;
 
 @RequiredArgsConstructor
 public class ValidateArraySizeInvocationHandler<T> implements InvocationHandler {

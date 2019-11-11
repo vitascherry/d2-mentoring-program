@@ -5,10 +5,11 @@ import com.example.training.consolecommon.graphy.ConsoleCommonModule;
 import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.Reader;
+import com.example.training.graphy.annotation.Import;
+import com.example.training.graphy.annotation.Provides;
 import com.example.training.graphy.factory.Factory;
-import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
-import com.example.training.graphy.module.Module;
+import com.example.training.graphy.module.AnnotationDrivenModule;
 import com.example.training.graphy.proxy.Proxy;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
@@ -17,32 +18,31 @@ import com.example.training.toto.service.TotoService;
 import com.example.training.totodemo.graphy.aop.ValidateArraySizeInvocationHandler;
 import com.example.training.totodemo.handler.TotoDemoHandler;
 import com.example.training.totodemo.mapper.OutcomeSetMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 
+import javax.inject.Singleton;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
-public class TotoDemoModule implements Module {
+import static com.example.training.totodemo.graphy.TotoDemoModule.ENTITY_MAPPER_TYPE_REFERENCE;
 
-    static final TypeReference<EntityMapper<Outcome[], OutcomeSet>> ENTITY_MAPPER_TYPE_REFERENCE = new TypeReference<EntityMapper<Outcome[], OutcomeSet>>() {};
+@Import({
+        ConsoleCommonModule.class,
+        TotoDemoDateTimeModule.class,
+        TotoDemoDecimalModule.class,
+        TotoAggregateModule.class
+})
+public class TotoDemoAnnotationDrivenModule extends AnnotationDrivenModule {
 
-    @Override
-    public void configure(Linker linker) {
-        linker.install(ENTITY_MAPPER_TYPE_REFERENCE.getType(), SingletonFactory.of(this::createOutcomeSetMapper));
-        linker.install(Handler.class, SingletonFactory.of(this::createTotoConsoleHandler));
-
-        new ConsoleCommonModule().configure(linker);
-        new TotoDemoDateTimeModule().configure(linker);
-        new TotoDemoDecimalModule().configure(linker);
-        new TotoAggregateModule().configure(linker);
-    }
-
-    protected EntityMapper<Outcome[], OutcomeSet> createOutcomeSetMapper(Linker linker) {
+    @Provides
+    @Singleton
+    public EntityMapper<Outcome[], OutcomeSet> createOutcomeSetMapper(Linker linker) {
         // Using simple AOP to verify outcomes array size
         return Proxy.of(new ValidateArraySizeInvocationHandler<>(new OutcomeSetMapper()), OutcomeSetMapper.class);
     }
 
-    protected Handler createTotoConsoleHandler(Linker linker) {
+    @Provides
+    @Singleton
+    public Handler createTotoConsoleHandler(Linker linker) {
         Factory<Printer> printerFactory = linker.factoryFor(Printer.class);
         Factory<Reader> readerFactory = linker.factoryFor(Reader.class);
         Factory<TotoService> totoServiceFactory = linker.factoryFor(TotoService.class);

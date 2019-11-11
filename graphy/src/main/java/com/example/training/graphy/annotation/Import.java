@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface WithModules {
+public @interface Import {
 
     Class<? extends Module>[] value();
 }

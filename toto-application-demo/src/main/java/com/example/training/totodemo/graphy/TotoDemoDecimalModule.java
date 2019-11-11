@@ -9,9 +9,9 @@ import java.text.DecimalFormat;
 
 public class TotoDemoDecimalModule extends DecimalFormatModule {
 
-    static final Key<DecimalFormat> DECIMAL_FORMAT_KEY = Key.<DecimalFormat>builder()
-            .withClass(DecimalFormat.class)
-            .withName("totoDemoDecimalFormat")
+    static final Key DECIMAL_FORMAT_KEY = Key.builder()
+            .type(DecimalFormat.class)
+            .name("totoDemoDecimalFormat")
             .build();
 
     @Override

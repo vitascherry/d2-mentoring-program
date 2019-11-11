@@ -3,25 +3,26 @@ package com.example.training.graphy.linker;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.module.Module;
-import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.lang.reflect.Type;
 
 public interface Linker {
 
     default void merge(Module one, Module second) {
         one.configure(this);
-        // Override Factory<T> associated with same Key<T>
+        // Override Factory<T> associated with same Key
         second.configure(this);
     }
 
-    <T> Factory<T> factoryFor(Key<T> key);
+    <T> Factory<T> factoryFor(Key key);
 
     <T> Factory<T> factoryFor(Class<T> clazz);
 
-    <T> Factory<T> factoryFor(TypeReference<T> typeReference);
+    <T> Factory<T> factoryFor(Type type);
 
-    <T> void install(Key<T> key, Factory<T> factory);
+    <T> void install(Key key, Factory<T> factory);
 
     <T> void install(Class<T> clazz, Factory<T> factory);
 
-    <T> void install(TypeReference<T> typeReference, Factory<T> factory);
+    <T> void install(Type type, Factory<T> factory);
 }

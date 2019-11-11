@@ -11,9 +11,9 @@ import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.STRING;
 
 public class TotoMockCsvSchemaModule extends CsvSchemaModule {
 
-    public static final Key<CsvSchema> CSV_SCHEMA_KEY = Key.<CsvSchema>builder()
-            .withClass(CsvSchema.class)
-            .withName("totoMockCsvSchema")
+    public static final Key CSV_SCHEMA_KEY = Key.builder()
+            .type(CsvSchema.class)
+            .name("totoMockCsvSchema")
             .build();
 
     @Override

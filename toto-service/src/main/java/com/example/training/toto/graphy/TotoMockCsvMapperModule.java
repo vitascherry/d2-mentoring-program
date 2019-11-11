@@ -16,9 +16,9 @@ import java.text.DecimalFormat;
 
 public class TotoMockCsvMapperModule extends CsvMapperModule {
 
-    public static final Key<CsvMapper> CSV_MAPPER_KEY = Key.<CsvMapper>builder()
-            .withClass(CsvMapper.class)
-            .withName("totoMockCsvMapper")
+    public static final Key CSV_MAPPER_KEY = Key.builder()
+            .type(CsvMapper.class)
+            .name("totoMockCsvMapper")
             .build();
 
     @Override

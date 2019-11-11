@@ -1,28 +1,26 @@
 package com.example.training.totodemo.graphy;
 
-import com.example.training.common.graphy.DateTimeModule;
-import com.example.training.graphy.factory.SingletonFactory;
+import com.example.training.graphy.annotation.Provides;
 import com.example.training.graphy.key.Key;
-import com.example.training.graphy.linker.Linker;
+import com.example.training.graphy.module.AnnotationDrivenModule;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.time.format.DateTimeFormatter;
 
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
-public class TotoDemoDateTimeModule extends DateTimeModule {
+public class TotoDemoDateTimeModule extends AnnotationDrivenModule {
 
-    static final Key<DateTimeFormatter> DATE_TIME_FORMATTER_KEY = Key.<DateTimeFormatter>builder()
-            .withClass(DateTimeFormatter.class)
-            .withName("totoDemoDateTimeFormatter")
+    static final Key DATE_TIME_FORMATTER_KEY = Key.builder()
+            .type(DateTimeFormatter.class)
+            .name("totoDemoDateTimeFormatter")
             .build();
 
-    @Override
-    public void configure(Linker linker) {
-        linker.install(DATE_TIME_FORMATTER_KEY, SingletonFactory.of(this::createDateTimeFormatter));
-    }
-
-    @Override
-    protected DateTimeFormatter createDateTimeFormatter(Linker linker) {
+    @Provides
+    @Singleton
+    @Named("totoDemoDateTimeFormatter")
+    public DateTimeFormatter createDateTimeFormatter() {
         return DateTimeFormatter.ofPattern(DATE_FORMAT);
     }
 }

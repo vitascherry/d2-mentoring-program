@@ -1,18 +1,18 @@
 package com.example.training.common.graphy;
 
-import com.example.training.graphy.key.Key;
-import com.example.training.graphy.linker.Linker;
 import com.example.training.common.provider.FilePropertyProvider;
 import com.example.training.common.provider.PropertyProvider;
+import com.example.training.graphy.key.Key;
+import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 
 import static com.example.training.common.constant.DefaultConstants.COMMON_PROPERTY_FILE;
 
 public class CommonFilePropertyProviderModule implements Module {
 
-    static final Key<PropertyProvider> PROPERTY_PROVIDER_KEY = Key.<PropertyProvider>builder()
-            .withClass(PropertyProvider.class)
-            .withName("commonFilePropertyProvider")
+    static final Key PROPERTY_PROVIDER_KEY = Key.builder()
+            .type(PropertyProvider.class)
+            .name("commonFilePropertyProvider")
             .build();
 
     @Override
