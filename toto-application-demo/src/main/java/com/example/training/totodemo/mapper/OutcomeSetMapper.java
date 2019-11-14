@@ -4,9 +4,12 @@ import com.example.training.common.mapper.EntityMapper;
 import com.example.training.toto.domain.Outcome;
 import com.example.training.toto.domain.OutcomeSet;
 
+import javax.validation.Valid;
+
 public class OutcomeSetMapper implements EntityMapper<Outcome[], OutcomeSet> {
 
     @Override
+    @Valid
     public OutcomeSet map(Outcome[] outcomes) {
         return OutcomeSet.builder()
                 .o1(outcomes[0])

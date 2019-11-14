@@ -5,6 +5,8 @@ import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
 import lombok.RequiredArgsConstructor;
 
+import java.lang.reflect.Type;
+
 @RequiredArgsConstructor
 public class ObjectGraph {
 
@@ -13,6 +15,10 @@ public class ObjectGraph {
     public <T> T getInstance(Key key) {
         Factory<T> factory = linker.factoryFor(key);
         return factory.get(linker);
+    }
+
+    public <T> T getInstance(Type type) {
+        return getInstance(Key.builder().type(type).build());
     }
 
     public <T> T getInstance(Class<T> clazz) {

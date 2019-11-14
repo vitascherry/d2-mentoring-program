@@ -13,10 +13,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Objects;
 
 import static com.example.training.common.util.FunctionUtils.sneaky;
-import static com.example.training.common.util.StringUtils.join;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
 @Builder
@@ -78,10 +76,9 @@ public class TotoDemoHandler implements Handler {
 
         OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
                 .withLoop()
-                .withMessage("Enter outcomes (%s): ", join("|", Outcome.values()))
-                .withParser(text -> Arrays.stream(text.split(""))
+                .withMessage("Enter outcomes (%s): ", "1|2|x")
+                .withParser(text -> Arrays.stream(text.replaceAll("[^\\dxX]", "").split(""))
                         .map(Outcome::fromValue)
-                        .filter(Objects::nonNull)
                         .toArray(Outcome[]::new))
                 .withErrorMessage("Could not parse %s as an array")
                 .withCondition(outcomes -> outcomes.length == 14)

@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -18,32 +19,46 @@ import static java.util.Arrays.asList;
 public class OutcomeSet {
 
     @JsonProperty
+    @NotNull
     private final Outcome o1;
     @JsonProperty
+    @NotNull
     private final Outcome o2;
     @JsonProperty
+    @NotNull
     private final Outcome o3;
     @JsonProperty
+    @NotNull
     private final Outcome o4;
     @JsonProperty
+    @NotNull
     private final Outcome o5;
     @JsonProperty
+    @NotNull
     private final Outcome o6;
     @JsonProperty
+    @NotNull
     private final Outcome o7;
     @JsonProperty
+    @NotNull
     private final Outcome o8;
     @JsonProperty
+    @NotNull
     private final Outcome o9;
     @JsonProperty
+    @NotNull
     private final Outcome o10;
     @JsonProperty
+    @NotNull
     private final Outcome o11;
     @JsonProperty
+    @NotNull
     private final Outcome o12;
     @JsonProperty
+    @NotNull
     private final Outcome o13;
     @JsonProperty
+    @NotNull
     private final Outcome o14;
 
     private OutcomeSet(Builder builder) {

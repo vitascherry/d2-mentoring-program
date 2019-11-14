@@ -31,6 +31,7 @@
         <aopalliance.version>1.0</aopalliance.version>
         <guice.version>4.1.0</guice.version>
         <guava.version>21.0</guava.version>
+        <org.hibernate.hibernate-validator>6.0.2.Final</org.hibernate.hibernate-validator>
         <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
         <apache.httpcomponents.version>4.5.3</apache.httpcomponents.version>
         <junit.version>4.12</junit.version>
@@ -66,6 +67,31 @@
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.0.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.web</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>2.2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${org.hibernate.hibernate-validator}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator-annotation-processor</artifactId>
+                <version>${org.hibernate.hibernate-validator}</version>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>
