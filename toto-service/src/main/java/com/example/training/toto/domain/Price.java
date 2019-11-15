@@ -1,18 +1,16 @@
 package com.example.training.toto.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
-@Data
+@Value
 @AllArgsConstructor
-@NoArgsConstructor
 public class Price {
 
-    private BigDecimal amount;
+    private final BigDecimal amount;
 
-    private Currency currency;
+    private final Currency currency;
 }

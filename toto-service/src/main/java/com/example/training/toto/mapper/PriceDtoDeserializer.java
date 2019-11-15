@@ -1,6 +1,6 @@
 package com.example.training.toto.mapper;
 
-import com.example.training.toto.domain.Price;
+import com.example.training.toto.dto.PriceDto;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -19,20 +19,20 @@ import static java.math.BigDecimal.ZERO;
 
 @Log4j2
 @RequiredArgsConstructor
-public class PriceDeserializer extends JsonDeserializer<Price> {
+public class PriceDtoDeserializer extends JsonDeserializer<PriceDto> {
 
     private final DecimalFormat decimalFormat;
-    private Price zeroPrice;
+    private PriceDto zeroPrice;
 
     @Override
     @SneakyThrows(ParseException.class)
-    public Price deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
+    public PriceDto deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
         String text = parser.getText();
 
         String currencyCode = parseCurrencyCode(text);
         Currency currency = Currency.getInstance(currencyCode);
         if (zeroPrice == null) {
-            zeroPrice = new Price(ZERO, currency);
+            zeroPrice = new PriceDto(ZERO, currency);
             decimalFormat.applyPattern("###,### " + currencyCode);
         }
         if (!zeroPrice.getCurrency().equals(currency)) {
@@ -41,6 +41,6 @@ public class PriceDeserializer extends JsonDeserializer<Price> {
                     currency, zeroPrice.getCurrency()));
         }
         BigDecimal amount = (BigDecimal) decimalFormat.parse(text);
-        return new Price(amount, zeroPrice.getCurrency());
+        return new PriceDto(amount, zeroPrice.getCurrency());
     }
 }

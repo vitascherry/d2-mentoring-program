@@ -1,69 +1,41 @@
 package com.example.training.toto.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 import java.time.LocalDate;
 
-import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
-
-@Data
+@Value
+@Builder
 public class Round {
 
-    @JsonProperty
-    private int year;
+    private final int year;
 
-    @JsonProperty
-    private int week;
+    private final int week;
 
-    @JsonProperty
-    private int round;
+    private final int round;
 
-    @JsonProperty
-    @JsonFormat(pattern = DATE_FORMAT)
-    private LocalDate date;
+    private final LocalDate date;
 
-    @JsonProperty
-    private int numOfGames14Hits;
+    private final int numOfGames14Hits;
 
-    @JsonProperty
-    private Price priceOf14Hits;
+    private final Price priceOf14Hits;
 
-    @JsonProperty
-    private int numOfGames13Hits;
+    private final int numOfGames13Hits;
 
-    @JsonProperty
-    private Price priceOf13Hits;
+    private final Price priceOf13Hits;
 
-    @JsonProperty
-    private int numOfGames12Hits;
+    private final int numOfGames12Hits;
 
-    @JsonProperty
-    private Price priceOf12Hits;
+    private final Price priceOf12Hits;
 
-    @JsonProperty
-    private int numOfGames11Hits;
+    private final int numOfGames11Hits;
 
-    @JsonProperty
-    private Price priceOf11Hits;
+    private final Price priceOf11Hits;
 
-    @JsonProperty
-    private int numOfGames10Hits;
+    private final int numOfGames10Hits;
 
-    @JsonProperty
-    private Price priceOf10Hits;
+    private final Price priceOf10Hits;
 
-    @JsonProperty
-    @JsonUnwrapped
-    private OutcomeSet outcomes;
-
-    public void setDate(LocalDate date) {
-        if (date != null) {
-            this.date = date;
-        } else {
-            this.date = LocalDate.of(year, 1, 1).plusWeeks((long) week);
-        }
-    }
+    private final OutcomeSet outcomes;
 }

@@ -15,9 +15,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import static com.example.training.toto.domain.Outcome.DRAW;
-import static com.example.training.toto.domain.Outcome.FIRST;
-import static com.example.training.toto.domain.Outcome.SECOND;
+import static com.example.training.toto.domain.Outcome.*;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collector.Characteristics.IDENTITY_FINISH;
 import static java.util.stream.Collector.Characteristics.UNORDERED;
@@ -25,7 +23,7 @@ import static java.util.stream.Collector.Characteristics.UNORDERED;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DistributionCollector implements Collector<List<Outcome>, List<Distribution>, List<Distribution>> {
 
-    public static DistributionCollector toDistributions() {
+    static DistributionCollector toDistributions() {
         return new DistributionCollector();
     }
 
@@ -36,13 +34,11 @@ public class DistributionCollector implements Collector<List<Outcome>, List<Dist
 
     @Override
     public BiConsumer<List<Distribution>, List<Outcome>> accumulator() {
-        return (distributions, outcomes) -> {
-            Distribution item = new Distribution();
-            item.setFirst(((double) outcomes.stream().filter(FIRST::equals).count()) / outcomes.size());
-            item.setSecond(((double) outcomes.stream().filter(SECOND::equals).count()) / outcomes.size());
-            item.setDraw(((double) outcomes.stream().filter(DRAW::equals).count()) / outcomes.size());
-            distributions.add(item);
-        };
+        return (distributions, outcomes) -> distributions.add(Distribution.builder()
+                .first(((double) outcomes.stream().filter(FIRST::equals).count()) / outcomes.size())
+                .second(((double) outcomes.stream().filter(SECOND::equals).count()) / outcomes.size())
+                .draw(((double) outcomes.stream().filter(DRAW::equals).count()) / outcomes.size())
+                .build());
     }
 
     @Override

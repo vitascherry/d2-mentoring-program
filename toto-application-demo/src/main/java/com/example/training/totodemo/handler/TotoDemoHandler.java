@@ -5,7 +5,7 @@ import com.example.training.consolecommon.handler.Handler;
 import com.example.training.consolecommon.handler.Printer;
 import com.example.training.consolecommon.handler.REPLFunction;
 import com.example.training.consolecommon.handler.Reader;
-import com.example.training.toto.domain.*;
+import com.example.training.toto.dto.*;
 import com.example.training.toto.service.TotoService;
 import lombok.Builder;
 
@@ -23,7 +23,7 @@ public class TotoDemoHandler implements Handler {
     private final DecimalFormat decimalFormat;
     private final DateTimeFormatter dateTimeFormatter;
     private final TotoService totoService;
-    private final EntityMapper<Outcome[], OutcomeSet> outcomeSetMapper;
+    private final EntityMapper<OutcomeDto[], OutcomeSetDto> outcomeSetMapper;
     private final Printer printer;
     private final Reader reader;
 
@@ -38,7 +38,7 @@ public class TotoDemoHandler implements Handler {
     private void printLargestPriceEver() {
         printer.println("Printing the largest price ever recorded...");
 
-        Price price = totoService.getLargestPrice();
+        PriceDto price = totoService.getLargestPrice();
         decimalFormat.applyPattern("###,###.## " + price.getCurrency());
         printer.printf("The largest price is: %s", decimalFormat.format(price.getAmount()));
         printer.println();
@@ -50,7 +50,7 @@ public class TotoDemoHandler implements Handler {
         printer.println("Printing the correct distribution of the results of each round...");
 
         decimalFormat.applyPattern("00.00 %");
-        for (Distribution distribution : totoService.getDistributions()) {
+        for (DistributionDto distribution : totoService.getDistributions()) {
             printer.printf("team #1 won: %s, team #2 won: %s, draw: %s",
                     decimalFormat.format(distribution.getFirst()),
                     decimalFormat.format(distribution.getSecond()),
@@ -64,7 +64,7 @@ public class TotoDemoHandler implements Handler {
     private void calculateAndPrintWager() {
         printer.println("Calculate and print the hits and amount for the specified wager...");
 
-        Round round = new REPLFunction<LocalDate, Round>(printer, reader)
+        RoundDto round = new REPLFunction<LocalDate, RoundDto>(printer, reader)
                 .withLoop()
                 .withMessage("Enter date (%s): ", DATE_FORMAT)
                 .withParser(date -> dateTimeFormatter.parse(date, LocalDate::from))
@@ -74,23 +74,23 @@ public class TotoDemoHandler implements Handler {
                 .withMapper(sneaky(totoService::getRound))
                 .eval();
 
-        OutcomeSet outcomeSet = new REPLFunction<Outcome[], OutcomeSet>(printer, reader)
+        OutcomeSetDto outcomeSet = new REPLFunction<OutcomeDto[], OutcomeSetDto>(printer, reader)
                 .withLoop()
                 .withMessage("Enter outcomes (%s): ", "1|2|x")
                 .withParser(text -> Arrays.stream(text.replaceAll("[^\\dxX]", "").split(""))
-                        .map(Outcome::fromValue)
-                        .toArray(Outcome[]::new))
+                        .map(OutcomeDto::fromValue)
+                        .toArray(OutcomeDto[]::new))
                 .withErrorMessage("Could not parse %s as an array")
                 .withCondition(outcomes -> outcomes.length == 14)
                 .withBadMessage("Outcomes count should be 14!")
                 .withMapper(outcomeSetMapper::map)
                 .eval();
 
-        BetResult betResult = totoService.calculateWager(new Wager(round, outcomeSet));
+        BetResultDto betResult = totoService.calculateWager(new WagerDto(round, outcomeSet));
 
-        decimalFormat.applyPattern("###,### " + betResult.getPrice().getCurrency());
-        printer.printf("Result: hits: %d, amount: %s", betResult.getHits().size(),
-                decimalFormat.format(betResult.getPrice().getAmount()));
+        decimalFormat.applyPattern("###,### " + betResult.getPriceDto().getCurrency());
+        printer.printf("Result: hits: %d, amount: %s", betResult.getHitDtos().size(),
+                decimalFormat.format(betResult.getPriceDto().getAmount()));
         printer.println();
 
         printer.println();

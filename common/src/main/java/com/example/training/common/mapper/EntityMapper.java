@@ -4,12 +4,17 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@FunctionalInterface
 public interface EntityMapper<I, O> {
 
     O map(I entity);
 
-    default List<O> map(List<I> entities) {
+    I reverse(O entity);
+
+    default List<O> mapAll(List<? extends I> entities) {
         return entities.stream().map(this::map).collect(toList());
+    }
+
+    default List<I> reverseAll(List<? extends O> entities) {
+        return entities.stream().map(this::reverse).collect(toList());
     }
 }

@@ -1,13 +1,15 @@
 package com.example.training.toto.domain;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public class Distribution {
 
-    private double first;
+    private final double first;
 
-    private double second;
+    private final double second;
 
-    private double draw;
+    private final double draw;
 }

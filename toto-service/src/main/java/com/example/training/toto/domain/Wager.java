@@ -1,13 +1,13 @@
 package com.example.training.toto.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @AllArgsConstructor
 public class Wager {
 
-    private Round round;
+    private final Round round;
 
-    private OutcomeSet outcomes;
+    private final OutcomeSet outcomes;
 }

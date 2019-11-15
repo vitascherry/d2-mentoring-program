@@ -1,21 +1,21 @@
 package com.example.training.toto.domain;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDate;
 
-@Data
+@Value
 @Builder
 public class Hit {
 
-    private int round;
+    private final int round;
 
-    private LocalDate date;
+    private final LocalDate date;
 
-    private int game;
+    private final int game;
 
-    private Price price;
+    private final Price price;
 
-    private Outcome outcome;
+    private final Outcome outcome;
 }

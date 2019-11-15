@@ -5,10 +5,10 @@ import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.linker.Linker;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.Price;
-import com.example.training.toto.mapper.OutcomeDeserializer;
-import com.example.training.toto.mapper.PriceDeserializer;
+import com.example.training.toto.dto.OutcomeDto;
+import com.example.training.toto.dto.PriceDto;
+import com.example.training.toto.mapper.OutcomeDtoDeserializer;
+import com.example.training.toto.mapper.PriceDtoDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 
@@ -35,7 +35,7 @@ public class TotoMockCsvMapperModule extends CsvMapperModule {
 
         return (CsvMapper) super.createCsvMapper(linker)
                 .registerModule(new SimpleModule()
-                        .addDeserializer(Price.class, new PriceDeserializer(decimalFormat))
-                        .addDeserializer(Outcome.class, new OutcomeDeserializer()));
+                        .addDeserializer(PriceDto.class, new PriceDtoDeserializer(decimalFormat))
+                        .addDeserializer(OutcomeDto.class, new OutcomeDtoDeserializer()));
     }
 }

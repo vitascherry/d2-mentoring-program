@@ -11,13 +11,13 @@ import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.AnnotationDrivenModule;
 import com.example.training.graphy.proxy.Proxy;
-import com.example.training.toto.domain.Outcome;
-import com.example.training.toto.domain.OutcomeSet;
+import com.example.training.toto.dto.OutcomeDto;
+import com.example.training.toto.dto.OutcomeSetDto;
 import com.example.training.toto.graphy.TotoAggregateModule;
 import com.example.training.toto.service.TotoService;
 import com.example.training.totodemo.graphy.interceptors.ReturnValueValidator;
 import com.example.training.totodemo.handler.TotoDemoHandler;
-import com.example.training.totodemo.mapper.OutcomeSetMapper;
+import com.example.training.totodemo.mapper.OutcomeSetDtoMapper;
 
 import javax.inject.Singleton;
 import java.text.DecimalFormat;
@@ -35,9 +35,9 @@ public class TotoDemoAnnotationDrivenModule extends AnnotationDrivenModule {
 
     @Provides
     @Singleton
-    public EntityMapper<Outcome[], OutcomeSet> createOutcomeSetMapper() {
-        // Using JDK proxy to intercept OutcomeSetMapper.map(Outcome[]) for return value validation
-        return Proxy.of(new ReturnValueValidator<>(new OutcomeSetMapper()), OutcomeSetMapper.class);
+    public EntityMapper<OutcomeDto[], OutcomeSetDto> createOutcomeSetMapper() {
+        // Using JDK proxy to intercept OutcomeSetDtoMapper.map(Outcome[]) for return value validation
+        return Proxy.of(new ReturnValueValidator<>(new OutcomeSetDtoMapper()), OutcomeSetDtoMapper.class);
     }
 
     @Provides
@@ -46,14 +46,14 @@ public class TotoDemoAnnotationDrivenModule extends AnnotationDrivenModule {
         Factory<Printer> printerFactory = linker.factoryFor(Printer.class);
         Factory<Reader> readerFactory = linker.factoryFor(Reader.class);
         Factory<TotoService> totoServiceFactory = linker.factoryFor(TotoService.class);
-        Factory<EntityMapper<Outcome[], OutcomeSet>> outcomeSetMapperFactory = linker.factoryFor(ENTITY_MAPPER_TYPE_REFERENCE.getType());
+        Factory<EntityMapper<OutcomeDto[], OutcomeSetDto>> outcomeSetMapperFactory = linker.factoryFor(ENTITY_MAPPER_TYPE_REFERENCE.getType());
         Factory<DecimalFormat> decimalFormatFactory = linker.factoryFor(TotoDemoDecimalModule.DECIMAL_FORMAT_KEY);
         Factory<DateTimeFormatter> dateTimeFormatterFactory = linker.factoryFor(TotoDemoDateTimeModule.DATE_TIME_FORMATTER_KEY);
 
         Printer printer = printerFactory.get(linker);
         Reader reader = readerFactory.get(linker);
         TotoService totoService = totoServiceFactory.get(linker);
-        EntityMapper<Outcome[], OutcomeSet> outcomeSetMapper = outcomeSetMapperFactory.get(linker);
+        EntityMapper<OutcomeDto[], OutcomeSetDto> outcomeSetMapper = outcomeSetMapperFactory.get(linker);
         DecimalFormat decimalFormat = decimalFormatFactory.get(linker);
         DateTimeFormatter dateTimeFormatter = dateTimeFormatterFactory.get(linker);
 
