@@ -7,7 +7,7 @@ import com.example.training.toto.domain.Price;
 import com.example.training.toto.domain.Round;
 import com.example.training.toto.graphy.TotoMockCsvMapperModule;
 import com.example.training.toto.graphy.TotoMockCsvSchemaModule;
-import com.example.training.totoservice.graphy.TotoTestModule;
+import com.example.training.totoservice.graphy.TotoMockCsvReaderTestModule;
 import com.example.training.totoservice.util.TotoTestUtils;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@WithModules(TotoTestModule.class)
+@WithModules(TotoMockCsvReaderTestModule.class)
 public class TotoMockCsvReaderIT implements Graphied {
 
     private static final String TEST_FILE_NAME = "test.csv";
