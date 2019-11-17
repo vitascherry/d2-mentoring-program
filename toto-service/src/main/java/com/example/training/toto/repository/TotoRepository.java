@@ -10,7 +10,5 @@ public interface TotoRepository {
 
     List<Round> getAllRounds();
 
-    List<Round> getRoundsBetween(LocalDate from, LocalDate to);
-
     Optional<Round> getRoundByDate(LocalDate date);
 }

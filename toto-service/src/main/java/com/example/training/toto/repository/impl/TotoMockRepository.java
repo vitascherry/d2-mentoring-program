@@ -9,24 +9,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.training.common.util.DateUtils.isBetween;
-import static java.util.stream.Collectors.toList;
-
 @AllArgsConstructor
-public class TotoRepositoryImpl implements TotoRepository {
+public class TotoMockRepository implements TotoRepository {
 
     private final EntityProvider<LocalDate, Round> provider;
 
     @Override
     public List<Round> getAllRounds() {
         return provider.getEntities();
-    }
-
-    @Override
-    public List<Round> getRoundsBetween(final LocalDate from, final LocalDate to) {
-        return provider.getEntities().stream()
-                .filter(round -> isBetween(round.getDate(), from, to))
-                .collect(toList());
     }
 
     @Override
