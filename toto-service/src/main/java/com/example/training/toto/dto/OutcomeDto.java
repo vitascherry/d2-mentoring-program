@@ -2,17 +2,14 @@ package com.example.training.toto.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
 
 import static java.util.Arrays.stream;
 
 @AllArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Getter
 public enum OutcomeDto {
 

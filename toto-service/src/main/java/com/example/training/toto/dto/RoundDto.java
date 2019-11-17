@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,9 +16,11 @@ import java.time.LocalDate;
 
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
-@Value
+@Data
 @Builder(builderClassName = "Builder")
 @JsonDeserialize(builder = RoundDto.Builder.class)
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoundDto {
 
     @JsonProperty

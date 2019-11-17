@@ -27,9 +27,7 @@ public class TotoAggregateModule implements Module {
         new TotoEntityMapperModule().configure(linker);
 
         linker.install(TotoService.class, SingletonFactory.of(this::createTotoService));
-
-        // This allows to migrate from mock data to real data gradually, without changing the aggregation module
-        linker.merge(new TotoMockModule(), new TotoModule());
+        new TotoModule().configure(linker);
     }
 
     protected TotoService createTotoService(Linker linker) {

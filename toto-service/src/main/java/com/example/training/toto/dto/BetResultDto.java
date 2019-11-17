@@ -1,16 +1,20 @@
 package com.example.training.toto.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BetResultDto {
 
     @NotNull
-    private final List<HitDto> hitDtos;
+    private List<HitDto> hitDtos;
 
     @NotNull
-    private final PriceDto priceDto;
+    private PriceDto priceDto;
 }

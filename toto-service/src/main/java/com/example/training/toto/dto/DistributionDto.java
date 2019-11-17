@@ -1,10 +1,14 @@
 package com.example.training.toto.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 
-@Value
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DistributionDto {
 
     @Min(value = 0)
