@@ -13,13 +13,13 @@ import java.util.Currency;
 @Embeddable
 public class Price {
 
-    @Column(name = "AMOUNT")
+    @Column(name = "AMOUNT", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "CURRENCY")
+    @Column(name = "CURRENCY", nullable = false)
     private Currency currency;
 
-    Price() {
+    private Price() {
         this.amount = null;
         this.currency = null;
     }

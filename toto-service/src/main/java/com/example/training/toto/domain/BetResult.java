@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BetResult {
 
-    private final List<Hit> hits;
+    private List<Hit> hits;
 
-    private final Price price;
+    private Price price;
 }

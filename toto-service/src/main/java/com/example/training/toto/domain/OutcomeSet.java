@@ -13,63 +13,63 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class OutcomeSet {
 
-    @Column(name = "O1")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O1", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o1;
 
-    @Column(name = "O2")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O2", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o2;
 
-    @Column(name = "O3")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O3", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o3;
 
-    @Column(name = "O4")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O4", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o4;
 
-    @Column(name = "O5")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O5", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o5;
 
-    @Column(name = "O6")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O6", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o6;
 
-    @Column(name = "O7")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O7", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o7;
 
-    @Column(name = "O8")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O8", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o8;
 
-    @Column(name = "O9")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O9", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o9;
 
-    @Column(name = "O10")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O10", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o10;
 
-    @Column(name = "O11")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O11", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o11;
 
-    @Column(name = "O12")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O12", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o12;
 
-    @Column(name = "O13")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O13", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o13;
 
-    @Column(name = "O14")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "O14", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private Outcome o14;
 
-    OutcomeSet() {
+    private OutcomeSet() {
         this.o1 = null;
         this.o2 = null;
         this.o3 = null;
@@ -86,7 +86,7 @@ public class OutcomeSet {
         this.o14 = null;
     }
 
-    OutcomeSet(Outcome o1, Outcome o2,
+    private OutcomeSet(Outcome o1, Outcome o2,
                Outcome o3, Outcome o4,
                Outcome o5, Outcome o6,
                Outcome o7, Outcome o8,

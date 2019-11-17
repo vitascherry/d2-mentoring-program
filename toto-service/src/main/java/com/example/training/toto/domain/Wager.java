@@ -7,7 +7,7 @@ import lombok.Value;
 @AllArgsConstructor
 public class Wager {
 
-    private final Round round;
+    private Round round;
 
-    private final OutcomeSet outcomes;
+    private OutcomeSet outcomes;
 }

@@ -9,13 +9,13 @@ import java.time.LocalDate;
 @Builder
 public class Hit {
 
-    private final int round;
+    private int round;
 
-    private final LocalDate date;
+    private LocalDate date;
 
-    private final int game;
+    private int game;
 
-    private final Price price;
+    private Price price;
 
-    private final Outcome outcome;
+    private Outcome outcome;
 }

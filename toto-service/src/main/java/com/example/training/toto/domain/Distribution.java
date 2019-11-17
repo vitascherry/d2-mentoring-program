@@ -7,9 +7,9 @@ import lombok.Value;
 @Builder
 public class Distribution {
 
-    private final double first;
+    private double first;
 
-    private final double second;
+    private double second;
 
-    private final double draw;
+    private double draw;
 }
