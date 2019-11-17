@@ -16,7 +16,7 @@ import com.example.training.toto.repository.impl.TotoMockRepository;
 import java.time.LocalDate;
 
 import static com.example.training.toto.graphy.TotoAggregateModule.ENTITY_PROVIDER_TYPE_REFERENCE;
-import static com.example.training.toto.graphy.TotoAggregateModule.ROUND_MAPPER_TYPE_REFERENCE;
+import static com.example.training.toto.graphy.TotoEntityMapperModule.ROUND_MAPPER_TYPE_REFERENCE;
 
 public class TotoMockModule implements Module {
 
