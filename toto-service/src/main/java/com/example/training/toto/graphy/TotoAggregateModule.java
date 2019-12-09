@@ -1,7 +1,6 @@
 package com.example.training.toto.graphy;
 
 import com.example.training.common.mapper.EntityMapper;
-import com.example.training.common.provider.EntityProvider;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
@@ -11,16 +10,12 @@ import com.example.training.toto.dto.*;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.service.TotoService;
 import com.example.training.toto.service.impl.TotoServiceImpl;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.training.toto.graphy.TotoEntityMapperModule.*;
 
 public class TotoAggregateModule implements Module {
-
-    static final TypeReference<EntityProvider<LocalDate, Round>> ENTITY_PROVIDER_TYPE_REFERENCE = new TypeReference<EntityProvider<LocalDate, Round>>() {};
 
     @Override
     public void configure(Linker linker) {
