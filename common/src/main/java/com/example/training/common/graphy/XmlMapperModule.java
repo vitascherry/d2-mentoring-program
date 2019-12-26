@@ -1,5 +1,6 @@
 package com.example.training.common.graphy;
 
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -12,9 +13,13 @@ public class XmlMapperModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(XmlMapper.class, linker1 -> (XmlMapper) new XmlMapper()
+        linker.install(XmlMapper.class, SingletonFactory.of(this::createXmlMapper));
+    }
+
+    protected XmlMapper createXmlMapper(Linker linker) {
+        return (XmlMapper) new XmlMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(WRITE_DATES_AS_TIMESTAMPS));
+                .disable(WRITE_DATES_AS_TIMESTAMPS);
     }
 }

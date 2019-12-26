@@ -27,7 +27,6 @@ public abstract class AnnotationDrivenModule implements Module {
                     importedModules.add(clazz.newInstance());
                 }
             }
-
             for (Method method : getClass().getDeclaredMethods()) {
                 if (method.isAnnotationPresent(Provides.class)) {
                     if (method.isAnnotationPresent(Singleton.class)) {
@@ -37,10 +36,8 @@ public abstract class AnnotationDrivenModule implements Module {
                     }
                 }
             }
-
             currentClass = currentClass.getSuperclass();
         }
-
         importedModules.forEach(module -> module.configure(linker));
     }
 

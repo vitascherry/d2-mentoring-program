@@ -2,6 +2,7 @@ package com.example.training.graphy;
 
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
+import com.example.training.graphy.key.Scope;
 import com.example.training.graphy.linker.Linker;
 import lombok.RequiredArgsConstructor;
 
@@ -18,10 +19,10 @@ public class ObjectGraph {
     }
 
     public <T> T getInstance(Type type) {
-        return getInstance(Key.builder().type(type).build());
+        return getInstance(Key.builder().type(type).scope(Scope.SINGLETON).build());
     }
 
     public <T> T getInstance(Class<T> clazz) {
-        return getInstance(Key.builder().type(clazz).build());
+        return getInstance(Key.builder().type(clazz).scope(Scope.SINGLETON).build());
     }
 }

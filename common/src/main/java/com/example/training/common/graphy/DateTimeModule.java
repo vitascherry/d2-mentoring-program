@@ -1,5 +1,6 @@
 package com.example.training.common.graphy;
 
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 
@@ -11,7 +12,7 @@ public class DateTimeModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(DateTimeFormatter.class, this::createDateTimeFormatter);
+        linker.install(DateTimeFormatter.class, SingletonFactory.of(this::createDateTimeFormatter));
     }
 
     protected DateTimeFormatter createDateTimeFormatter(Linker linker) {

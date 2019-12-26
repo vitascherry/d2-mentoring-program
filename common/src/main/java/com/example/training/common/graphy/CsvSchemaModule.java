@@ -1,5 +1,6 @@
 package com.example.training.common.graphy;
 
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -10,7 +11,7 @@ public class CsvSchemaModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(CsvSchema.class, this::createCsvSchema);
+        linker.install(CsvSchema.class, SingletonFactory.of(this::createCsvSchema));
     }
 
     protected CsvSchema createCsvSchema(Linker linker) {

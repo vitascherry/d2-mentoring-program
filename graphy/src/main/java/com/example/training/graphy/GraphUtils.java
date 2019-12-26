@@ -15,7 +15,11 @@ final class GraphUtils {
     static ObjectGraph graphy(@NonNull Set<Module> modules) {
         final Linker linker = new InMemoryLinker();
         modules.forEach(module -> module.configure(linker));
-        Runtime.getRuntime().addShutdownHook(new Thread(linker::closeAll));
+        onExit(linker::closeAll);
         return new ObjectGraph(linker);
+    }
+
+    private static void onExit(Runnable runnable) {
+        Runtime.getRuntime().addShutdownHook(new Thread(runnable));
     }
 }

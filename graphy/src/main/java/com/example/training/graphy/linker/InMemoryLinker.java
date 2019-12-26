@@ -2,8 +2,10 @@ package com.example.training.graphy.linker;
 
 import com.example.training.graphy.CloseableProvision;
 import com.example.training.graphy.exception.MissingFactoryException;
+import com.example.training.graphy.exception.UnsatisfiedScopeException;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
+import com.example.training.graphy.key.Scope;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,7 +16,10 @@ public class InMemoryLinker implements Linker {
     private final Map<Key, CloseableProvision<?>> provisions = new LinkedHashMap<>();
 
     @Override
-    public <T> void bindProvision(Key key, CloseableProvision<T> provision) {
+    public <T> void bindProvision(Key key, CloseableProvision<T> provision) throws UnsatisfiedScopeException {
+        if (key.getScope() != Scope.SINGLETON) {
+            throw new UnsatisfiedScopeException(key.getScope());
+        }
         provisions.put(key, provision);
     }
 

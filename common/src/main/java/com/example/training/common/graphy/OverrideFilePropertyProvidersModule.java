@@ -1,7 +1,9 @@
 package com.example.training.common.graphy;
 
 import com.example.training.common.provider.PropertyProvider;
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.key.Key;
+import com.example.training.graphy.key.Scope;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,12 +17,13 @@ public abstract class OverrideFilePropertyProvidersModule implements Module {
     static final Key PROPERTY_PROVIDERS_KEY = Key.builder()
             .type(LIST_TYPE_REFERENCE.getType())
             .name("overrideFilePropertyProviders")
+            .scope(Scope.SINGLETON)
             .build();
 
     @Override
     public void configure(Linker linker) {
-        linker.install(PROPERTY_PROVIDERS_KEY, linker1 -> createOverrideFilePropertyProviders());
+        linker.install(PROPERTY_PROVIDERS_KEY, SingletonFactory.of(this::createOverrideFilePropertyProviders));
     }
 
-    protected abstract List<PropertyProvider> createOverrideFilePropertyProviders();
+    protected abstract List<PropertyProvider> createOverrideFilePropertyProviders(Linker linker);
 }

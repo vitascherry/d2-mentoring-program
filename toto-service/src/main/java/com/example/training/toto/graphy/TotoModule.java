@@ -9,6 +9,7 @@ import com.example.training.toto.graphy.interceptors.EntityManagerHelper;
 import com.example.training.toto.graphy.interceptors.EntityManagerInvocationHandler;
 import com.example.training.toto.repository.TotoRepository;
 import com.example.training.toto.repository.impl.TotoRepositoryImpl;
+import lombok.SneakyThrows;
 
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import javax.persistence.Persistence;
 public class TotoModule implements Module {
 
     @Override
+    @SneakyThrows
     public void configure(Linker linker) {
         linker.install(EntityManagerFactory.class, SingletonFactory.of(this::createEntityManagerFactory));
         linker.install(EntityManagerHelper.class, SingletonFactory.of(this::createEntityManagerHelper));

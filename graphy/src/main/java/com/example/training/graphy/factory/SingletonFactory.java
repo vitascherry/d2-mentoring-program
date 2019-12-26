@@ -1,18 +1,15 @@
 package com.example.training.graphy.factory;
 
-import com.example.training.graphy.linker.Linker;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-
+@Log4j2
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SingletonFactory {
 
-    public static <T> Factory<T> of(Function<Linker, T> factory) {
-        final Map<Linker, T> lookup = new ConcurrentHashMap<>(1);
-        return linker -> lookup.computeIfAbsent(linker, factory);
+    public static <T> Factory<T> of(Factory<T> delegate) {
+        log.info("Memoizing {}", delegate);
+        return new MemoizingFactory<>(delegate);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.training.common.graphy;
 
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 
@@ -12,7 +13,7 @@ public class DecimalFormatModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(DecimalFormat.class, this::createDecimalFormat);
+        linker.install(DecimalFormat.class, SingletonFactory.of(this::createDecimalFormat));
     }
 
     private DecimalFormatSymbols createDecimalFormatSymbols() {

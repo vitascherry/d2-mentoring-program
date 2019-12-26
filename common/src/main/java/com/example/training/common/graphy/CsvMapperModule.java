@@ -1,5 +1,6 @@
 package com.example.training.common.graphy;
 
+import com.example.training.graphy.factory.SingletonFactory;
 import com.example.training.graphy.linker.Linker;
 import com.example.training.graphy.module.Module;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -12,7 +13,7 @@ public class CsvMapperModule implements Module {
 
     @Override
     public void configure(Linker linker) {
-        linker.install(CsvMapper.class, this::createCsvMapper);
+        linker.install(CsvMapper.class, SingletonFactory.of(this::createCsvMapper));
     }
 
     protected CsvMapper createCsvMapper(Linker linker) {

@@ -16,4 +16,6 @@ public final class Key {
     private final Type type;
 
     private final String name;
+
+    private final Scope scope;
 }

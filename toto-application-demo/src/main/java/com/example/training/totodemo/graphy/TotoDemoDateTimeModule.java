@@ -2,6 +2,7 @@ package com.example.training.totodemo.graphy;
 
 import com.example.training.graphy.annotation.Provides;
 import com.example.training.graphy.key.Key;
+import com.example.training.graphy.key.Scope;
 import com.example.training.graphy.module.AnnotationDrivenModule;
 
 import javax.inject.Named;
@@ -15,6 +16,7 @@ public class TotoDemoDateTimeModule extends AnnotationDrivenModule {
     static final Key DATE_TIME_FORMATTER_KEY = Key.builder()
             .type(DateTimeFormatter.class)
             .name("totoDemoDateTimeFormatter")
+            .scope(Scope.SINGLETON)
             .build();
 
     @Provides
