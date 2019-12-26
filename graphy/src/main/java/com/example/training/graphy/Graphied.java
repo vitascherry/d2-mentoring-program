@@ -11,7 +11,7 @@ import static com.example.training.graphy.GraphUtils.graphy;
 
 public interface Graphied {
 
-    @SneakyThrows
+    @SneakyThrows({InstantiationException.class, IllegalAccessException.class})
     default ObjectGraph getObjectGraph() {
         Class<?> currentClass = getClass();
         Set<Module> modules = new LinkedHashSet<>();

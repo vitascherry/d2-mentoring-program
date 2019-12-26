@@ -29,10 +29,6 @@ public class EntityManagerHelper {
         }
     }
 
-    public void closeEntityManagerFactory() {
-        entityManagerFactory.close();
-    }
-
     public void beginTransaction() {
         getEntityManager().getTransaction().begin();
     }

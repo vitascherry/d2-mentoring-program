@@ -21,6 +21,7 @@ import static java.math.BigDecimal.ZERO;
 @RequiredArgsConstructor
 public class PriceDtoDeserializer extends JsonDeserializer<PriceDto> {
 
+    private static final String MESSAGE_FORMAT = "Parsed currency %s should match %s!";
     private final DecimalFormat decimalFormat;
     private PriceDto zeroPrice;
 
@@ -37,8 +38,7 @@ public class PriceDtoDeserializer extends JsonDeserializer<PriceDto> {
         }
         if (!zeroPrice.getCurrency().equals(currency)) {
             log.error("Invalid currency passed {}", currency);
-            throw new IllegalStateException(String.format("Parsed currency %s should match %s!",
-                    currency, zeroPrice.getCurrency()));
+            throw new IllegalStateException(String.format(MESSAGE_FORMAT, currency, zeroPrice.getCurrency()));
         }
         BigDecimal amount = (BigDecimal) decimalFormat.parse(text);
         return new PriceDto(amount, zeroPrice.getCurrency());

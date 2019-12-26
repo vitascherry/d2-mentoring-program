@@ -1,16 +1,32 @@
 package com.example.training.graphy.linker;
 
+import com.example.training.graphy.CloseableProvision;
 import com.example.training.graphy.exception.MissingFactoryException;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InMemoryLinker implements Linker {
 
-    private final Map<Key, Factory<?>> factories = new HashMap<>();
+    private final Map<Key, Factory<?>> factories = new LinkedHashMap<>();
+    private final Map<Key, CloseableProvision<?>> provisions = new LinkedHashMap<>();
+
+    @Override
+    public <T> void bindProvision(Key key, CloseableProvision<T> provision) {
+        provisions.put(key, provision);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void closeAll() {
+        provisions.forEach((Key key, CloseableProvision provision) -> {
+            Factory<?> factory = factoryFor(key);
+            Object closeable = factory.get(this);
+            provision.close(closeable);
+        });
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -21,27 +37,7 @@ public class InMemoryLinker implements Linker {
     }
 
     @Override
-    public <T> Factory<T> factoryFor(Class<T> clazz) {
-        return factoryFor(Key.builder().type(clazz).build());
-    }
-
-    @Override
-    public <T> Factory<T> factoryFor(Type type) {
-        return factoryFor(Key.builder().type(type).build());
-    }
-
-    @Override
     public <T> void install(Key key, Factory<T> factory) {
         factories.put(key, factory);
-    }
-
-    @Override
-    public <T> void install(Class<T> clazz, Factory<T> factory) {
-        install(Key.builder().type(clazz).build(), factory);
-    }
-
-    @Override
-    public <T> void install(Type type, Factory<T> factory) {
-        install(Key.builder().type(type).build(), factory);
     }
 }

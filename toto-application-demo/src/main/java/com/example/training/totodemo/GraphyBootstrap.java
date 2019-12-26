@@ -11,7 +11,7 @@ public class GraphyBootstrap implements Graphied {
 
     private final Handler handler;
 
-    public GraphyBootstrap() {
+    private GraphyBootstrap() {
         final ObjectGraph graph = getObjectGraph();
         this.handler = graph.getInstance(Handler.class);
     }

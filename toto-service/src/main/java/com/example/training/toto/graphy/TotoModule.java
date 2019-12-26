@@ -21,6 +21,7 @@ public class TotoModule implements Module {
     public void configure(Linker linker) {
         linker.install(EntityManagerFactory.class, SingletonFactory.of(this::createEntityManagerFactory));
         linker.install(EntityManagerHelper.class, SingletonFactory.of(this::createEntityManagerHelper));
+        linker.bindProvision(EntityManagerFactory.class, EntityManagerFactory::close);
         linker.install(TotoRepository.class, SingletonFactory.of(this::createTotoRepository));
     }
 
