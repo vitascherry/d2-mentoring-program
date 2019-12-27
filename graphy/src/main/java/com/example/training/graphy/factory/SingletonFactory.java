@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 public final class SingletonFactory {
 
     public static <T> Factory<T> of(Factory<T> delegate) {
-        log.info("Memoizing {}", delegate);
+        log.debug("Memoizing {}", delegate);
         return new MemoizingFactory<>(delegate);
     }
 }
