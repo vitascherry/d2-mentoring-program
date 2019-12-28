@@ -10,22 +10,25 @@ public class OutcomeSetDtoMapper implements EntityMapper<OutcomeDto[], OutcomeSe
 
     @Override
     @Valid
-    public OutcomeSetDto map(OutcomeDto[] outcomes) {
+    public OutcomeSetDto map(OutcomeDto[] outcomeDtos) {
+        if (outcomeDtos.length != 14) {
+            throw new IllegalArgumentException("Outcomes array size must be 14!");
+        }
         return OutcomeSetDto.builder()
-                .outcome1Dto(outcomes[0])
-                .outcome2Dto(outcomes[1])
-                .outcome3Dto(outcomes[2])
-                .outcome4Dto(outcomes[3])
-                .outcome5Dto(outcomes[4])
-                .outcome6Dto(outcomes[5])
-                .outcome7Dto(outcomes[6])
-                .outcome8Dto(outcomes[7])
-                .outcome9Dto(outcomes[8])
-                .outcome10Dto(outcomes[9])
-                .outcome11Dto(outcomes[10])
-                .outcome12Dto(outcomes[11])
-                .outcome13Dto(outcomes[12])
-                .outcome14Dto(outcomes[13])
+                .outcome1Dto(outcomeDtos[0])
+                .outcome2Dto(outcomeDtos[1])
+                .outcome3Dto(outcomeDtos[2])
+                .outcome4Dto(outcomeDtos[3])
+                .outcome5Dto(outcomeDtos[4])
+                .outcome6Dto(outcomeDtos[5])
+                .outcome7Dto(outcomeDtos[6])
+                .outcome8Dto(outcomeDtos[7])
+                .outcome9Dto(outcomeDtos[8])
+                .outcome10Dto(outcomeDtos[9])
+                .outcome11Dto(outcomeDtos[10])
+                .outcome12Dto(outcomeDtos[11])
+                .outcome13Dto(outcomeDtos[12])
+                .outcome14Dto(outcomeDtos[13])
                 .build();
     }
 

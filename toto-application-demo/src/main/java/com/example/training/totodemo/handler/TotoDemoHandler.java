@@ -76,7 +76,7 @@ public class TotoDemoHandler implements Handler {
 
         OutcomeSetDto outcomeSet = new REPLFunction<OutcomeDto[], OutcomeSetDto>(printer, reader)
                 .withLoop()
-                .withMessage("Enter outcomes (%s): ", "1|2|x")
+                .withMessage("Enter outcomes (1|2|x)")
                 .withParser(text -> Arrays.stream(text.replaceAll("[^\\dxX]", "").split(""))
                         .map(OutcomeDto::fromValue)
                         .toArray(OutcomeDto[]::new))

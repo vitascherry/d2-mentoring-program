@@ -32,21 +32,6 @@ public class OutcomeDtosEntityMapper implements EntityMapper<OutcomeSetDto, List
 
     @Override
     public OutcomeSetDto reverse(List<OutcomeDto> entity) {
-        return OutcomeSetDto.builder()
-                .outcome1Dto(entity.get(0))
-                .outcome2Dto(entity.get(1))
-                .outcome3Dto(entity.get(2))
-                .outcome4Dto(entity.get(3))
-                .outcome5Dto(entity.get(4))
-                .outcome6Dto(entity.get(5))
-                .outcome7Dto(entity.get(6))
-                .outcome8Dto(entity.get(7))
-                .outcome9Dto(entity.get(8))
-                .outcome10Dto(entity.get(9))
-                .outcome11Dto(entity.get(10))
-                .outcome12Dto(entity.get(11))
-                .outcome13Dto(entity.get(12))
-                .outcome14Dto(entity.get(13))
-                .build();
+        throw new UnsupportedOperationException("Not Implemented");
     }
 }
