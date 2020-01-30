@@ -11,12 +11,14 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.example.training.toto.constant.TotoConstants.TOTO_CURRENCY;
 import static com.example.training.toto.service.impl.DistributionCollector.toDistributions;
-import static com.example.training.toto.util.CurrencyUtils.extractCurrencyOrDefault;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.comparing;
 
@@ -33,12 +35,7 @@ public class TotoServiceImpl implements TotoService {
     @Override
     public PriceDto getLargestPrice() {
         final List<Round> rounds = totoRepository.getAllRounds();
-        final Currency currency = rounds.stream()
-                .map(round -> extractCurrencyOrDefault(round, null))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
-        final PriceDto zeroPrice = new PriceDto(ZERO, currency);
+        final PriceDto zeroPrice = new PriceDto(ZERO, TOTO_CURRENCY);
 
         return Stream.of(
                 rounds.stream()
@@ -87,7 +84,7 @@ public class TotoServiceImpl implements TotoService {
     @Override
     public BetResultDto calculateWager(@NonNull WagerDto wager) {
         final RoundDto roundDto = wager.getRoundDto();
-        final PriceDto zeroPriceDto = new PriceDto(ZERO, extractCurrencyOrDefault(wager.getRoundDto(), null));
+        final PriceDto zeroPriceDto = new PriceDto(ZERO, TOTO_CURRENCY);
         final List<OutcomeDto> realOutcomes = outcomeDtosMapper.map(roundDto.getOutcomeSetDto());
         final List<OutcomeDto> wagerOutcomes = outcomeDtosMapper.map(wager.getOutcomeSetDto());
         final List<HitDto> hits = new ArrayList<>();
