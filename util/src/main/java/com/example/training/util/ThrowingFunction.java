@@ -1,4 +1,4 @@
-package com.example.training.common.util;
+package com.example.training.util;
 
 @FunctionalInterface
 public interface ThrowingFunction<T, R> {

@@ -1,5 +1,6 @@
-package com.example.training.toto.graphy.interceptors;
+package com.example.training.persistence.proxy;
 
+import com.example.training.persistence.EntityManagerHelper;
 import lombok.AllArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -15,13 +16,13 @@ public class EntityManagerInvocationHandler<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (object.getClass().isAnnotationPresent(Transactional.class) || method.isAnnotationPresent(Transactional.class)) {
-            entityManagerHelper.beginTransaction();
+            entityManagerHelper.getEntityManager().getTransaction().begin();
             try {
                 Object returnValue = method.invoke(object, args);
-                entityManagerHelper.commitTransaction();
+                entityManagerHelper.getEntityManager().getTransaction().commit();
                 return returnValue;
             } catch (Throwable e) {
-                entityManagerHelper.rollbackTransaction();
+                entityManagerHelper.getEntityManager().getTransaction().rollback();
                 throw e.getCause();
             } finally {
                 entityManagerHelper.closeEntityManager();

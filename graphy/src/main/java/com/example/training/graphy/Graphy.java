@@ -10,7 +10,7 @@ import lombok.NonNull;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-final class GraphUtils {
+final class Graphy {
 
     static ObjectGraph graphy(@NonNull Set<Module> modules) {
         final Linker linker = new InMemoryLinker();

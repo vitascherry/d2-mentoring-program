@@ -1,4 +1,4 @@
-package com.example.training.toto.graphy.interceptors;
+package com.example.training.persistence;
 
 import lombok.AllArgsConstructor;
 
@@ -27,17 +27,5 @@ public class EntityManagerHelper {
             entityManager.close();
             threadLocal.set(null);
         }
-    }
-
-    public void beginTransaction() {
-        getEntityManager().getTransaction().begin();
-    }
-
-    public void rollbackTransaction() {
-        getEntityManager().getTransaction().rollback();
-    }
-
-    public void commitTransaction() {
-        getEntityManager().getTransaction().commit();
     }
 }

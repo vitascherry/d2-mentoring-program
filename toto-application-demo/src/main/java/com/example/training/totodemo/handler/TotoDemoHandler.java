@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static com.example.training.common.util.FunctionUtils.sneaky;
+import static com.example.training.util.FunctionUtils.sneaky;
 import static com.example.training.toto.constant.TotoConstants.DATE_FORMAT;
 
 @Builder
@@ -76,7 +76,7 @@ public class TotoDemoHandler implements Handler {
 
         OutcomeSetDto outcomeSet = new REPLFunction<OutcomeDto[], OutcomeSetDto>(printer, reader)
                 .withLoop()
-                .withMessage("Enter outcomes (1|2|x)")
+                .withMessage("Enter outcomes (1|2|x): ")
                 .withParser(text -> Arrays.stream(text.replaceAll("[^\\dxX]", "").split(""))
                         .map(OutcomeDto::fromValue)
                         .toArray(OutcomeDto[]::new))

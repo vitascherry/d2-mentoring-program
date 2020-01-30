@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static com.example.training.graphy.GraphUtils.graphy;
+import static com.example.training.graphy.Graphy.graphy;
 
 public interface Graphied {
 

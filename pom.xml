@@ -19,6 +19,8 @@
         <module>toto-application-demo</module>
         <module>exchange-application-demo</module>
         <module>graphy</module>
+        <module>util</module>
+        <module>persistence</module>
     </modules>
 
     <packaging>pom</packaging>
