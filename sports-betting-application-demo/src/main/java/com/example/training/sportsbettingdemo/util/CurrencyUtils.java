@@ -1,4 +1,4 @@
-package com.example.training.util;
+package com.example.training.sportsbettingdemo.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package com.example.training.persistence;
 
-import com.example.training.persistence.EntityManagerHelper;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.*;

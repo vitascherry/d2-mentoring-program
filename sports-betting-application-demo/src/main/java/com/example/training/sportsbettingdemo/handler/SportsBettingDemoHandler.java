@@ -15,9 +15,9 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import static com.example.training.util.CurrencyUtils.parseCurrencyCode;
-import static com.example.training.util.FunctionUtils.sneaky;
 import static com.example.training.sportsbetting.util.OddUtils.getLatestOdd;
+import static com.example.training.sportsbettingdemo.util.CurrencyUtils.parseCurrencyCode;
+import static com.example.training.util.FunctionUtils.sneaky;
 import static java.math.BigDecimal.ZERO;
 
 @Builder
