@@ -11,7 +11,7 @@ import java.util.Set;
 import static javax.validation.Validation.buildDefaultValidatorFactory;
 
 @RequiredArgsConstructor
-public class ReturnValueValidator<T> implements InvocationHandler {
+public class ValidateReturnValueInvocationHandler<T> implements InvocationHandler {
 
     private final T object;
 

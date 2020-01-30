@@ -15,7 +15,7 @@ import com.example.training.toto.dto.OutcomeDto;
 import com.example.training.toto.dto.OutcomeSetDto;
 import com.example.training.toto.graphy.TotoAggregateModule;
 import com.example.training.toto.service.TotoService;
-import com.example.training.totodemo.graphy.interceptors.ReturnValueValidator;
+import com.example.training.totodemo.graphy.interceptors.ValidateReturnValueInvocationHandler;
 import com.example.training.totodemo.handler.TotoDemoHandler;
 import com.example.training.totodemo.mapper.OutcomeSetDtoMapper;
 
@@ -37,7 +37,7 @@ public class TotoDemoAnnotationDrivenModule extends AnnotationDrivenModule {
     @Singleton
     public EntityMapper<OutcomeDto[], OutcomeSetDto> createOutcomeSetMapper() {
         // Using JDK proxy to intercept OutcomeSetDtoMapper.map(Outcome[]) for return value validation
-        return Proxy.of(new ReturnValueValidator<>(new OutcomeSetDtoMapper()), OutcomeSetDtoMapper.class);
+        return Proxy.of(new ValidateReturnValueInvocationHandler<>(new OutcomeSetDtoMapper()), OutcomeSetDtoMapper.class);
     }
 
     @Provides
