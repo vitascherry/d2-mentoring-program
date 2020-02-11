@@ -22,7 +22,7 @@ public class PersistenceModule implements Module {
 
     protected EntityManagerFactory createEntityManagerFactory(Linker linker) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        linker.bindProvision(entityManagerFactory::close);
+        linker.bindProvision(EntityManagerFactory.class, entityManagerFactory::close);
         return entityManagerFactory;
     }
 

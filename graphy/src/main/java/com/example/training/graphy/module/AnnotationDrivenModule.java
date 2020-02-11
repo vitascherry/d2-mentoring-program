@@ -17,7 +17,7 @@ public abstract class AnnotationDrivenModule implements Module {
 
     @Override
     @SneakyThrows({InstantiationException.class, IllegalAccessException.class})
-    public void configure(Linker linker) {
+    public final void configure(Linker linker) {
         Class<?> currentClass = getClass();
         Set<Module> importedModules = new LinkedHashSet<>();
         while (currentClass != null) {

@@ -3,24 +3,21 @@ package com.example.training.graphy.linker;
 import com.example.training.graphy.exception.MissingFactoryException;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
-import lombok.NonNull;
-import lombok.SneakyThrows;
+import com.example.training.graphy.provision.Closeable;
+import lombok.extern.log4j.Log4j2;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
+@Log4j2
 public class InMemoryLinker implements Linker {
 
     private final Map<Key, Factory<?>> factories = new LinkedHashMap<>();
-    private final Set<Closeable> provisions = new LinkedHashSet<>();
+    private final Map<Key, Closeable> provisions = new LinkedHashMap<>();
 
     @Override
-    public <T> void bindProvision(@NonNull Closeable provision) {
-        provisions.add(provision);
+    public <T> void bindProvision(Key key, Closeable provision) {
+        provisions.put(key, provision);
     }
 
     @Override
@@ -28,8 +25,8 @@ public class InMemoryLinker implements Linker {
         provisions.forEach(InMemoryLinker::close);
     }
 
-    @SneakyThrows(IOException.class)
-    private static void close(Closeable closeable) {
+    private static void close(Key key, Closeable closeable) {
+        log.debug("Closing resources of {}", key);
         closeable.close();
     }
 

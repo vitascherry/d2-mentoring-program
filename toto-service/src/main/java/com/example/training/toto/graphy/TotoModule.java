@@ -27,7 +27,7 @@ public class TotoModule implements Module {
 
     protected EntityManagerFactory createEntityManagerFactory(Linker linker) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("com.example.training.toto");
-        linker.bindProvision(entityManagerFactory::close);
+        linker.bindProvision(EntityManagerFactory.class, entityManagerFactory::close);
         return entityManagerFactory;
     }
 

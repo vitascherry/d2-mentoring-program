@@ -3,15 +3,23 @@ package com.example.training.graphy.linker;
 import com.example.training.graphy.factory.Factory;
 import com.example.training.graphy.key.Key;
 import com.example.training.graphy.module.Module;
+import com.example.training.graphy.provision.Closeable;
 
-import java.io.Closeable;
 import java.lang.reflect.Type;
 
 import static com.example.training.graphy.key.Scope.SINGLETON;
 
 public interface Linker {
 
-    <T> void bindProvision(Closeable provision);
+    <T> void bindProvision(Key key, Closeable provision);
+
+    default <T> void bindProvision(Class<T> clazz, Closeable provision) {
+        bindProvision(Key.builder().type(clazz).scope(SINGLETON).build(), provision);
+    }
+
+    default <T> void bindProvision(Type type, Closeable provision) {
+        bindProvision(Key.builder().type(type).scope(SINGLETON).build(), provision);
+    }
 
     void closeAll();
 
