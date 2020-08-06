@@ -21,13 +21,13 @@ public abstract class AnnotationDrivenModule implements Module {
         Class<?> currentClass = getClass();
         Set<Module> importedModules = new LinkedHashSet<>();
         while (currentClass != null) {
-            Import imports = getClass().getAnnotation(Import.class);
+            Import imports = currentClass.getAnnotation(Import.class);
             if (imports != null) {
                 for (Class<? extends Module> clazz : imports.value()) {
                     importedModules.add(clazz.newInstance());
                 }
             }
-            for (Method method : getClass().getDeclaredMethods()) {
+            for (Method method : currentClass.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(Provides.class)) {
                     if (method.isAnnotationPresent(Singleton.class)) {
                         linker.install(getKey(method), SingletonFactory.of(linker1 -> invoke(linker1, method)));

@@ -15,7 +15,7 @@ public class EntityManagerInvocationHandler<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (object.getClass().isAnnotationPresent(Transactional.class) || method.isAnnotationPresent(Transactional.class)) {
+        if (method.isAnnotationPresent(Transactional.class) || method.getDeclaringClass().isAnnotationPresent(Transactional.class)) {
             entityManagerHelper.getEntityManager().getTransaction().begin();
             try {
                 Object returnValue = method.invoke(object, args);
