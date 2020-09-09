@@ -35,7 +35,7 @@
         <guava.version>21.0</guava.version>
         <org.hibernate.version>5.4.7.Final</org.hibernate.version>
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
-        <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
         <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
         <apache.httpcomponents.version>4.5.3</apache.httpcomponents.version>
         <junit.version>4.12</junit.version>
