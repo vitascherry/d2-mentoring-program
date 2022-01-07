@@ -31,7 +31,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <lombok.version>1.18.2</lombok.version>
         <guice.version>4.2.2</guice.version>
-        <h2.version>1.4.199</h2.version>
+        <h2.version>2.0.206</h2.version>
         <guava.version>21.0</guava.version>
         <org.hibernate.version>5.4.7.Final</org.hibernate.version>
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
