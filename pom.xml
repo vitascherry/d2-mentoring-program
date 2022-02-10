@@ -33,7 +33,7 @@
         <guice.version>4.2.2</guice.version>
         <h2.version>1.4.199</h2.version>
         <guava.version>21.0</guava.version>
-        <org.hibernate.version>5.4.7.Final</org.hibernate.version>
+        <org.hibernate.version>5.4.24.Final</org.hibernate.version>
         <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
         <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
